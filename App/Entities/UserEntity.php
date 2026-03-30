@@ -4,15 +4,15 @@ use DateTimeImmutable;
 
 class UserEntity{
 
-    protected readonly DateTimeImmutable $registerDate;
-    protected readonly string $email;
-    protected readonly string $firstname;
-    protected readonly string $lastname;
-    protected readonly string $username;
-    protected readonly string $password;
-    protected ?string $hash = null;
+    protected ?int $id = null; 
+    protected DateTimeImmutable $registerDate;
+    protected string $email;
+    protected string $firstname;
+    protected string $lastname;
+    protected string $username;
+    protected string $password;
 
-    public function __construct($registerDate,$email,$firstname,$lastname,$username,$password){
+    public function __construct($registerDate,$email,$firstname,$lastname,$username,$password,$id=null){
 
         $this->registerDate = $registerDate;
         $this->email=$email;
@@ -20,6 +20,13 @@ class UserEntity{
         $this->lastname=$lastname;
         $this->username=$username;
         $this->password=$password;
+        $this->id = $id;
+
+    }
+
+    public function getId(){
+
+        return $this->id;
 
     }
 
@@ -57,17 +64,11 @@ class UserEntity{
 
         return $this->password;
 
-    }    
-    
-    public function getHash(){
-
-        return $this->hash;
-
     }
 
     public function setHash($hash){
 
-        $this->hash = $hash;
+        $this->password = $hash;
 
     }
 
