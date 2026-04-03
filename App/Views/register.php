@@ -23,7 +23,7 @@
     }
 ?>
 
-<form action="/register" method="post">
+<form class="card" action="/register" method="post">
 
     <p><?php if(isset($validationErrors["firstname"])) echo $validationErrors["firstname"];?></p>
     <input name="firstname" type="text" placeholder="Votre prénom" <?= $val["firstname"] ?? null ?> required>

@@ -7,6 +7,13 @@ use PDOException;
 
 class UserController extends BaseController{
 
+    private UserService $userService;
+
+    public function __construct()
+    {
+        $this->userService = new UserService;
+    }
+
     /** createUser()
      * Make the first control on $_POST values and send it to the service to continue the creation process
      * Call the appropriate view in case of success or failed in the process
@@ -15,20 +22,19 @@ class UserController extends BaseController{
      */
 
     public function showGroupsPanel(){
+        echo "<br> UserController -> ShowGroupsPanel() <br>";
 
         try{
+            $userId = $_SESSION["userId"];    
+            $userTeamsId = $_SESSION["teamsId"];
 
-            if($this->isUserConnected()){
+            if(!$this->isUserConnected($userId)) throw new Exception("Vous devez être connecté pour accéder à cette page");
 
-                $userService = new UserService();
+            $data = $this->userService->showGroupsPanel($userId); // userGroups / userInvitations /
 
-                $data["userGroups"] = $userService->showGroupsPanel($_SESSION["userId"]); // userGroups / userInvitations /
+            if(!empty($_GET["connected"])) $data["successMessage"] = "Connexion réussie";
 
-                if(!empty($_GET["connected"])) $data["successMessage"] = "Connexion réussie";
-
-            }else throw new Exception("Vous devez être connecté pour voir cette page..."); //Faire un AuthException
-
-            $this->renderView("groupsPanel",$data);
+            $this->renderView("teamsPanel",$data);
 
         }catch(PDOException $e){
 

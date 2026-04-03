@@ -43,7 +43,7 @@ class Router{
         $uri = $_SERVER['REQUEST_URI'];
 
         //Récupération du chemon demandé
-        $requestedPath = parse_url($_SERVER['REQUEST_URI'],PHP_URL_PATH);
+        $requestedPath = parse_url($uri,PHP_URL_PATH);
         $requestedPath = explode("/",trim($requestedPath,"/"));
         var_dump($requestedPath);
         echo "<br><br>=================<br>";
@@ -53,6 +53,8 @@ class Router{
 
         foreach($AVAILABLES_ROUTES as $pattern => $action){
 
+            if(!empty($params))unset($params);
+
             $pattern = explode("/",trim($pattern,"/"));
             
             if(count($pattern)==count($requestedPath)){
@@ -60,7 +62,7 @@ class Router{
                 $match = true;
 
                 for ($i=0; $i < count($pattern) ; $i++) {
-                    
+
                     if(str_starts_with($pattern[$i],"{") && str_ends_with($pattern[$i],"}")){
 
                         $param = trim($pattern[$i],"{}");

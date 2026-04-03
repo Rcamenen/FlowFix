@@ -8,6 +8,14 @@ use App\Exceptions\ValidationException;
 
 class RegisterController extends BaseController{
 
+    private UserService $userService;
+
+    public function __construct(){
+
+        $this->userService = new UserService;
+
+    }
+
     /** createUser()
      * Get $_POST values and send them to the service to continue the creation process
      * Call the appropriate view in case of success or failed in the process
@@ -24,10 +32,8 @@ class RegisterController extends BaseController{
 
     
             // ================== APPEL DU SERVICE =================== //
-            
-            $userService = new UserService();
-            $userService->createUser($createUserData);
 
+            $this->userService->createUser($createUserData);
 
             // ================== REDIRECTION VERS LOGIN =================== //
 

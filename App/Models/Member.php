@@ -19,7 +19,7 @@ class Member extends BaseModel{
 
         try{
             
-            $stmt = $this->connection->prepare("SELECT * FROM TEAM_MEMBERS AS m JOIN TEAMS AS g ON m.team_id = g.team_id WHERE g.team_id = :team_id AND m.user_id = :user_id");
+            $stmt = $this->connection->prepare("SELECT * FROM TEAM_MEMBERS AS m JOIN TEAMS AS g ON m.team_id = g.id WHERE g.id = :team_id AND m.user_id = :user_id");
             $stmt->execute([":team_id"=>$groupId,":user_id"=>$userId]);
 
             $result = $stmt->fetch(PDO::FETCH_BOTH);
@@ -27,6 +27,7 @@ class Member extends BaseModel{
             return $result;
 
         }catch (PDOException $e) {
+            
             echo $e->getMessage();
             return false;
 

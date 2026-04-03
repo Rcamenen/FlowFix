@@ -3,10 +3,10 @@ namespace App\Models;
 use Core\BaseModel;
 use PDO;
 use PDOException;
-use App\Entities\GroupEntity;
+use App\Entities\TeamEntity;
 use DateTimeImmutable;
 
-class Group extends BaseModel{
+class TeamModel extends BaseModel{
 
     public function getGroupsByIds(array $ids){
 
@@ -14,7 +14,7 @@ class Group extends BaseModel{
 
         try{
             
-            $stmt = $this->connection->prepare("SELECT * FROM TEAMS WHERE team_id IN ($placeholders)");
+            $stmt = $this->connection->prepare("SELECT * FROM TEAMS WHERE id IN ($placeholders)");
             $stmt->execute($ids);
 
             $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -33,31 +33,14 @@ class Group extends BaseModel{
     public function getGroupsByUser($userId) :Array | bool {
         try{
 
-            $stmt = $this->connection->prepare("SELECT g.* FROM TEAMS as g JOIN TEAM_MEMBERS as m USING (team_id) WHERE m.user_id=:userId");
+            $stmt = $this->connection->prepare("SELECT t.* FROM TEAMS as t JOIN TEAM_MEMBERS as tm ON (t.id = tm.team_id) WHERE tm.user_id=:userId");
             $stmt->execute([":userId"=>$userId]);
 
             $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
             var_dump($result);
 
-            $groups = [];
-
-            if($result){
-                foreach($result as $group){
-                    $groupEntity = new GroupEntity(
-                        new DateTimeImmutable($group["created_at"]),
-                        $group["name"],
-                        $group["description"],
-                        $group["creator_id"],
-                        $group["team_id"]
-                    );
-
-                    $groups[]=$groupEntity;
-
-                }
-            }
-
-            return $groups ?? false;
+            return $result ?? false;
 
         }catch(PDOException $e){
             echo $e->getMessage();

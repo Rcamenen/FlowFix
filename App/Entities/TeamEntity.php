@@ -2,7 +2,7 @@
 namespace App\Entities;
 use DateTimeImmutable;
 
-class GroupEntity{
+class TeamEntity{
 
     protected ?int $id = null; 
     protected DateTimeImmutable $creationDate;

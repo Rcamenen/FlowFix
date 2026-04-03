@@ -3,7 +3,8 @@ use App\Controllers\RegisterController;
 use App\Controllers\LoginController;
 use App\Controllers\UserController;
 use App\Controllers\HomeController;
-use App\Controllers\GroupController;
+use App\Controllers\TeamController;
+use App\Controllers\FrictionController;
 use App\Controllers\ErrorController;
 
     return[
@@ -14,15 +15,17 @@ use App\Controllers\ErrorController;
             "/register"=>["controller"=>RegisterController::class,"method"=>"render"],
             "/login"=>["controller"=>LoginController::class,"method"=>"render"],
             "/teams"=>["controller"=>UserController::class,"method"=>"showGroupsPanel"],
-            "/team/{teamId}"=>["controller"=>GroupController::class,"method"=>"home"],
-            "/team/{teamId}/friction/{frictionId}"=>["controller"=>GroupController::class,"method"=>"home"],
+            "/team/{teamId}/friction/create"=>["controller"=>FrictionController::class,"method"=>"renderCreationForm"],
+            "/team/{teamId}/friction/{frictionId}"=>["controller"=>FrictionController::class,"method"=>"getFrictionView"],
             "/404"=>["controller"=>ErrorController::class,"method"=>"pageNotFound"],
+            "/team/{teamId}"=>["controller"=>TeamController::class,"method"=>"showDashboard"],
             "/disconnect"=>["controller"=>LoginController::class,"method"=>"disconnectUser"]
 
         ],
         "POST"=>[
             "/register"=>["controller"=>RegisterController::class,"method"=>"createUser"],
             "/login"=>["controller"=>LoginController::class,"method"=>"connectUser"],
+            "/team/{teamId}/friction/create"=>["controller"=>FrictionController::class,"method"=>"createFriction"]
         ]
 
 

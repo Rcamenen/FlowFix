@@ -11,13 +11,18 @@ abstract class BaseController {
 
     }
 
-    protected function isUserConnected():bool{
+    protected function isUserConnected(?int $userIdSession=null):bool{
 
-        if(isset($_SESSION["userId"])){
-            return true;
-        }else{
-            return false;
-        }
+        if(isset($userIdSession)) return true;
+        else return false;
+        
+
+    }
+
+    protected function isUserTeamMember(?array $userTeamsId=null,?int $currentTeam=null):bool{
+
+        if(isset($userTeamsId) && in_array($currentTeam,$userTeamsId)) return true;
+        else return false;
 
     }
 

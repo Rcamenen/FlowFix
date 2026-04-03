@@ -1,7 +1,6 @@
 <?php
 namespace App\Controllers;
 use App\Services\UserService;
-use App\Entities\UserEntity;
 use Core\BaseController;
 use Exception;
 use PDOException;
@@ -26,9 +25,9 @@ class LoginController extends BaseController{
             // ================== CONNEXION =================== //
             
             $userService = new UserService();
-            $userId = $userService->connectUser($connectUserData);
-            $_SESSION['userId'] = $userId;
-
+            $sessionData = $userService->connectUser($connectUserData);
+            $_SESSION['userId'] = $sessionData["userId"];
+            $_SESSION['teamsId'] = $sessionData["teamsId"];
 
             // ================== REDIRECTION TO THE TEAMS PANEL =================== //
 

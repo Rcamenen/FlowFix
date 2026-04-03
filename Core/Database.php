@@ -1,5 +1,6 @@
 <?php
 namespace Core;
+use Exception;
 use PDO;
 
 class Database {
@@ -7,19 +8,15 @@ class Database {
     private PDO $connection;
 
     private function __construct() {
-        try{
 
-            $this->connection = new PDO("mysql:
-                host=".$_ENV['DB_HOST'].";
-                dbname=".$_ENV['DB_NAME'],
-                $_ENV['DB_USER'],
-                $_ENV['DB_PASSWORD'],
-                [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]
-            );
-
-        }catch(Exception $e){
-            echo "Error Database.php";
-        }
+        $this->connection = new PDO("mysql:
+            host=".$_ENV['DB_HOST'].";
+            dbname=".$_ENV['DB_NAME'],
+            $_ENV['DB_USER'],
+            $_ENV['DB_PASSWORD'],
+            [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]
+        );
+        
     }
 
     public static function getInstance(): self {
