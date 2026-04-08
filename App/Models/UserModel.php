@@ -1,10 +1,9 @@
 <?php
 namespace App\Models;
+
 use Core\BaseModel;
-use App\Entities\UserEntity;
-use DateTimeImmutable;
+
 use PDO;
-use PDOException;
 
 class UserModel extends BaseModel{
 
@@ -18,6 +17,12 @@ class UserModel extends BaseModel{
 
     }
 
+    /** getIdAndHash()  
+     * Query the database to retrieve the user ID and password hash matching the given email
+     * Return the result as an associative array or false if not found
+     * @param string $email
+     * @return array|false
+     */
     public function getIdAndHash($email): array | false{
 
         $stmt = $this->connection->prepare("SELECT id,password_hash FROM ". $this->tableName ." WHERE email=:email");
@@ -57,6 +62,15 @@ class UserModel extends BaseModel{
 
         $stmt = $this->connection->prepare("INSERT INTO USERS(registered_at,email,firstname,lastname,username,password_hash) values(:registered_at,:email,:firstname,:lastname,:username,:password_hash)");
         $result = $stmt->execute($userData);
+
+        return $result ?? false;
+
+    }
+
+    public function deleteUser(int $userId): bool {
+
+        $stmt = $this->connection->prepare("DELETE FROM USERS WHERE id = :id");
+        $result = $stmt->execute(["id" => $userId]);
 
         return $result ?? false;
 

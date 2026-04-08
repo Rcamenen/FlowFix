@@ -3,10 +3,10 @@ namespace App\Services;
 use App\Models\TeamMemberModel;
 use App\Models\FrictionModel;
 use App\Models\CycleModel;
-use App\Models\FrictionVoteModel;
+use App\Models\FrictionVotesModel;
 use Exception;
 use App\Models\TreatmentModel;
-use App\Models\TreatmentVoteModel;
+use App\Models\TreatmentVotesModel;
 use DateTime;
 
 class FrictionService{
@@ -14,28 +14,29 @@ class FrictionService{
     private TeamMemberModel $teamMemberModel;
     private CycleModel $cycleModel;
     private FrictionModel $frictionModel;
-    private FrictionVoteModel $frictionVoteModel;
+    private FrictionVotesModel $frictionVoteModel;
     private TreatmentModel $treatmentModel;
-    private TreatmentVoteModel $treatmentVoteModel;
+    private TreatmentVotesModel $treatmentVotesModel;
 
     public function __construct(){
 
         $this->teamMemberModel = new TeamMemberModel();
         $this->cycleModel = new CycleModel();
         $this->frictionModel = new FrictionModel();
-        $this->frictionVoteModel = new FrictionVoteModel();
+        $this->frictionVoteModel = new FrictionVotesModel();
         $this->treatmentModel = new TreatmentModel();
-        $this->treatmentVoteModel = new TreatmentVoteModel();
+        $this->treatmentVotesModel = new TreatmentVotesModel();
         
     }
-    /** createUser()
-     * Apply business verification & ask the model to add the user in the DB's user table.
-     * 
-     * @param {UserEntity} $userEntity : Object which represent user
-     * @return bool true in case of success, false if not
-     */
 
-    public function getFrictionData($frictionId,$teamId,$userId){
+    /** getFrictionData()
+     * Retrieve and aggregate all friction-related data including votes, author, and latest treatment details from the models
+     * Return a structured response array containing friction and treatment data
+     * @param int $frictionId
+     * @param int $teamId
+     * @return array
+     */
+    public function getFrictionData($frictionId,$teamId){
 
         echo "<br> FrictionService->getFrictionData : <br><br>";
 
@@ -63,7 +64,7 @@ class FrictionService{
         if($treatmentDataWithStatus){
 
             $treatmentId=$treatmentDataWithStatus["id"];
-            $treatmentCurrentVotes = $this->treatmentVoteModel->getVotesCounter($currentCycleId,$treatmentId);
+            $treatmentCurrentVotes = $this->treatmentVotesModel->getVotesCounter($currentCycleId,$treatmentId);
             $pilotUsername = $this->treatmentModel->getPilotUsername($frictionId);
 
             $response["treatment"]=[
@@ -81,6 +82,12 @@ class FrictionService{
 
     }
 
+    /** createFriction()
+     * Retrieve the team member ID and send structured friction data to the model to handle the creation
+     * Return the newly created friction entry
+     * @param array $createFrictionData
+     * @return array
+     */
     public function createFriction($createFrictionData){
 
         echo "<br> FrictionService->createFriction : <br><br>";

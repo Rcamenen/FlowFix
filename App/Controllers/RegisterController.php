@@ -1,10 +1,13 @@
 <?php
 namespace App\Controllers;
-use App\Services\UserService;
+
 use Core\BaseController;
-use Exception;
-use PDOException;
+
+use App\Services\UserService;
+
 use App\Exceptions\ValidationException;
+use PDOException;
+use Exception;
 
 class RegisterController extends BaseController{
 

@@ -15,6 +15,12 @@ abstract class BaseModel {
             
     }
 
+    /** getAll()
+     * Query the database to retrieve all records from the model's table
+     * Return the results as an array of associative arrays or false on failure
+     * @param {*}
+     * @return array|false
+     */
     public function getAll(){
 
 
@@ -34,7 +40,13 @@ abstract class BaseModel {
 
     }
 
-    public function getById($id){
+    /** getById()
+     * Query the database to retrieve a single record matching the given ID from the model's table
+     * Return the result as an associative array or false if not found
+     * @param int $id
+     * @return array|false
+     */
+    public function getById($id) : array|false {
 
         $stmt = $this->connection->prepare("SELECT * FROM ".$this->tableName." WHERE id=:id");
         $stmt->execute([":id"=>$id]);
@@ -43,22 +55,47 @@ abstract class BaseModel {
 
     }
 
-    public function getFieldsByFilters(array $fields,array $filters,string $fetch="assoc"){
+    /** getFieldsByFilters()
+     * Build and execute a dynamic query to retrieve specific fields matching the given filters from the model's table
+     * Return the results in the specified fetch format
+     * @param array $fields
+     * @param array $filters
+     * @param string $fetch
+     * @return array
+     */
+    public function findBy(array $fields,?array $filters=null,string $fetch="assoc"){
 
         $propsStr = implode(",",$fields);
 
-        foreach($filters as $key => $value){
+        if(!empty($filters)){
+
+            foreach($filters as $key => $value){
 
             $bindingArray[":".$key] = $value;
             $filterArray[]=$key."=:".$key;
 
+            }
+
+            $filtersStr = implode(" AND ",$filterArray);
+
+            $stmt = $this->connection->prepare("
+                    SELECT ".$propsStr.
+                    " FROM ".$this->tableName.
+                    " WHERE ".$filtersStr);
+
+            $stmt -> execute($bindingArray);
+
+        }else{
+
+            $stmt = $this->connection->prepare("
+                    SELECT ".$propsStr.
+                    " FROM ".$this->tableName);
+
+            $stmt -> execute();
+
         }
 
-        $filtersStr = implode(" AND ",$filterArray);
-
-        $stmt = $this->connection->prepare("SELECT ".$propsStr." FROM ".$this->tableName." WHERE ".$filtersStr);
-
-        $stmt -> execute($bindingArray);
+        
 
         switch($fetch){
 
@@ -78,8 +115,12 @@ abstract class BaseModel {
 
     }
 
-
-    public function create($array){
+    /** create()
+     * Build and execute a dynamic INSERT query from the given associative array to create a new record in the model's table
+     * @param array $array
+     * @return void
+     */
+    public function create($array):int{
 
         $propsStr = implode(",",array_keys($array));
         $valuesStr = ":".implode(",:",array_keys($array));
@@ -94,36 +135,45 @@ abstract class BaseModel {
 
         $stmt -> execute($bindingArray);
 
+        return (int) $this->connection->lastInsertId();
+
     }
 
-    public function createTestObject(object $entity){
+    /** delete()
+     * Build and execute a DELETE query to remove a record by its id in the model's table
+     * @param int $id
+     * @return bool
+     */
+    public function delete(int $id): bool {
 
-        $entityArray = $entity->toArray();
+        $stmt = $this->connection->prepare("DELETE FROM " . $this->tableName . " WHERE id = :id");
+        $result = $stmt->execute([":id" => $id]);
 
-        foreach($entityArray as $key=>$value){
+        return $result ?? false;
 
-            if($value===null) unset($entityArray[$key]);
-            if(gettype($value)==="object")$entityArray[$key] = $value->format("Y-m-d h:i:s");
+    }
 
-        }
+    /** update()
+     * Build and execute a dynamic UPDATE query from the given associative array to update an existing record in the model's table
+     * @param int $id
+     * @param array $array
+     * @return bool
+     */
+    public function update(int $id, array $array): bool {
 
-        $propsStr = implode(",",array_keys($entityArray));
-        $valuesStr = ":".implode(",:",array_keys($entityArray));
+        $propsStr = implode(", ", array_map(fn($key) => $key." = :".$key, array_keys($array)));
 
-        foreach($entityArray as $key => $value){
-
+        foreach($array as $key => $value){
             $bindingArray[":".$key] = $value;
-
         }
+        $bindingArray[":id"] = $id;
 
-        $stmt = $this->connection->prepare("INSERT INTO ".$this->tableName."(".$propsStr.") values(".$valuesStr.")");
+        $stmt = $this->connection->prepare("UPDATE ".$this->tableName." SET ".$propsStr." WHERE id = :id");
+        $result = $stmt->execute($bindingArray);
 
-        $stmt -> execute($bindingArray);
-
-        return ($stmt) ? $entity : false;
+        return $result ?? false;
 
     }
-
 
 }
 

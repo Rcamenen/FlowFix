@@ -1,12 +1,22 @@
 <?php
 namespace App\Controllers;
-use App\Services\UserService;
+
 use Core\BaseController;
+
+use App\Services\UserService;
+
 use Exception;
 use PDOException;
 use App\Exceptions\ValidationException;
 
 class LoginController extends BaseController{
+
+    private UserService $userService;
+
+    public function __construct()
+    {
+        $this->userService = new UserService;
+    }
 
     /** connectUser()
      * Retrieve login data from POST & ask the service to connect the user.
@@ -23,9 +33,8 @@ class LoginController extends BaseController{
 
 
             // ================== CONNEXION =================== //
-            
-            $userService = new UserService();
-            $sessionData = $userService->connectUser($connectUserData);
+
+            $sessionData = $this->userService->connectUser($connectUserData);
             $_SESSION['userId'] = $sessionData["userId"];
             $_SESSION['teamsId'] = $sessionData["teamsId"];
 
@@ -43,6 +52,7 @@ class LoginController extends BaseController{
         }catch(PDOException $e){
 
             echo $e->getMessage();
+            var_dump($e->getTrace());
             // $data["failedMessage"] = "Nous rencontrons actuellement des perturbations, veuillez rééssayer un plus plus tard...";
             // $this->renderView("login",$data);
 

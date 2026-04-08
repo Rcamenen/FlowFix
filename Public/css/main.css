@@ -1,0 +1,352 @@
+@charset "UTF-8";
+/* ======================== IMPORT POLICES ======================== */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Manrope:wght@600;700;800&display=swap");
+/* ======================== RESET ======================== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 62.5%;
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-size: 1.6rem;
+  font-family: "Inter", sans-serif;
+  background-color: #F5F4F0;
+  color: var(--text-primary);
+  line-height: 1.5;
+  min-height: 100dvh;
+}
+
+/* ======================== ÉLÉMENTS DE BASE ======================== */
+img,
+video {
+  display: block;
+  max-width: 100%;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-family: inherit;
+  font-size: inherit;
+}
+
+input,
+textarea,
+select {
+  font-family: inherit;
+  font-size: inherit;
+  border: none;
+  outline: none;
+  background: none;
+}
+
+/* ======================== ACCESSIBILITÉ ======================== */
+:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ======================== TITRES ======================== */
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Manrope", sans-serif;
+  line-height: 1.2;
+  color: var(--text-primary);
+}
+
+h1 {
+  font-size: clamp(2.4rem, 4vw, 3.2rem);
+  font-weight: 800;
+}
+
+h2 {
+  font-size: clamp(2rem, 3vw, 2.4rem);
+  font-weight: 700;
+}
+
+h3 {
+  font-size: clamp(1.8rem, 2.5vw, 2rem);
+  font-weight: 600;
+}
+
+h4 {
+  font-size: 1.8rem;
+  font-weight: 600;
+}
+
+/* ======================== TEXTES ======================== */
+p {
+  font-size: 1.6rem;
+  font-weight: 400;
+  color: var(--text-primary);
+}
+
+.text--sm {
+  font-size: 1.4rem;
+}
+
+.text--xs {
+  font-size: 1.2rem;
+}
+
+.text--muted {
+  color: var(--text-secondary);
+}
+
+.text--strong {
+  font-weight: 600;
+}
+
+/* ======================== LIENS ======================== */
+.link {
+  color: var(--color-primary);
+  font-weight: 500;
+  transition: opacity 0.2s ease;
+}
+.link:hover {
+  opacity: 0.8;
+}
+
+/* ======================== CONTAINERS ======================== */
+.container, .container--full, .container--page {
+  margin: auto;
+}
+
+.container--page {
+  width: calc(100% - 32px);
+  max-width: 1200px;
+}
+
+.container--full {
+  width: 100%;
+}
+
+@media screen and (min-width: 768px) {
+  .container--page {
+    width: calc(100% - 64px);
+  }
+}
+/* ======================== HEADER ======================== */
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: spacebetween;
+  align-items: center;
+  flex-wrap: nowrap;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  width: 100%;
+  height: 56px;
+  padding: 0 16px;
+}
+
+@media screen and (min-width: 768px) {
+  .header {
+    height: 64px;
+    padding: 0 32px;
+  }
+}
+/* ======================== LAYOUT GLOBAL ======================== */
+.page {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  min-height: 100dvh;
+}
+
+.page__body {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  flex: 1;
+}
+
+@media screen and (min-width: 768px) {
+  .page__body {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: stretch;
+    flex-wrap: nowrap;
+  }
+}
+/* ======================== SIDEBAR ======================== */
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  gap: 24px;
+  padding: 24px 16px;
+  width: 100%;
+}
+.sidebar__title {
+  margin-bottom: 4px;
+}
+.sidebar__cta {
+  width: 100%;
+}
+
+@media screen and (min-width: 768px) {
+  .sidebar {
+    position: sticky;
+    top: 64px;
+    align-self: flex-start;
+    width: 260px;
+    min-width: 260px;
+    height: calc(100dvh - 64px);
+    padding: 32px 24px;
+    overflow-y: auto;
+  }
+}
+/* ======================== MAIN ======================== */
+.main {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  gap: 48px;
+  padding: 24px 16px 80px;
+  flex: 1;
+}
+
+@media screen and (min-width: 768px) {
+  .main {
+    gap: 64px;
+    padding: 40px 40px 80px;
+  }
+}
+/* ======================== SECTIONS ======================== */
+.section {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  gap: 24px;
+}
+.section__header {
+  display: flex;
+  flex-direction: row;
+  justify-content: spacebetween;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+.section__title {
+  margin-bottom: 0;
+}
+
+/* ======================== GRILLES D'IRRITANTS ======================== */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+@media screen and (min-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+}
+@media screen and (min-width: 1200px) {
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+/* ======================== FOOTER ======================== */
+.footer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: nowrap;
+  padding: 24px 16px;
+  width: 100%;
+}
+
+.teamCard {
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  border-radius: 8px;
+  background-color: white;
+  border-top: 2px solid rgb(255, 225, 0);
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  width: 250px;
+  padding: 16px;
+}
+
+input {
+  border: 1px solid rgba(0, 0, 0, 0.325) !important;
+  border-radius: 6px;
+}
+
+button {
+  border: 1px solid rgba(0, 0, 0, 0.325) !important;
+  background-color: rgb(48, 99, 218);
+  color: white;
+  border-radius: 6px;
+  margin-top: 16px;
+  padding: 8px 8px;
+}
+
+.pill {
+  display: block;
+  border: 1px solid rgba(0, 0, 0, 0.1) !important;
+  background-color: rgb(48, 99, 218);
+  color: white;
+  border-radius: 6px;
+  margin-top: 16px;
+  padding: 8px 8px;
+  width: fit-content;
+}
+
+.pill:hover {
+  background-color: rgb(42, 88, 196);
+}
+
+.nav {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+}
+
+/*# sourceMappingURL=main.css.map */

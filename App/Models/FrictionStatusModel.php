@@ -1,10 +1,9 @@
 <?php
-
 namespace App\Models;
-use Core\BaseModel;
-use PDOException;
 
-class TeamModerator extends BaseModel{
+use Core\BaseModel;
+
+class FrictionStatus extends BaseModel{
     
 }
 

@@ -1,4 +1,4 @@
-<h1>GROUP</h1>
+<h1>TEAM</h1>
 
 <?php 
 
@@ -14,36 +14,14 @@
 
 <h2>IRRITANT TO PILOT</h2>
 
-<div class="card">
 <?php 
+if(isset($frictionsToPilot)){
 
-    if(isset($frictionToPilot)){
-
-?>
-    <p>Vous avez un irritant à piloter</p>
-    <h2><?= $frictionToPilot["title"] ?></h2>
-    <p><?= $frictionToPilot["description"] ?></p>
-    <a href="/team/<?=$frictionToPilot["team_id"]?>/friction/<?=$frictionToPilot["id"]?>"> Voir l'irritant </a>
-
-<?php 
-
-    }else{
-
-    echo "<p> Vous n'avez aucun irritant à piloter";
-
-} ?>
-</div>
-
-<h2>IRRITANT IN PROGRESS</h2>
-
-<?php 
-if(isset($frictionsInProgress)){
-
-    foreach($frictionsInProgress as $friction){
+    foreach($frictionsToPilot as $friction){
         
 ?>
 
-<div class="card">
+<div class="teamCard">
 
     <h2><?= $friction["title"] ?></h2>
     <p><?= $friction["description"] ?></p>
@@ -55,3 +33,27 @@ if(isset($frictionsInProgress)){
     }
 
 } ?>
+
+<h2>IRRITANT IN PROGRESS</h2>
+
+<?php 
+if(isset($frictionsInProgress)){
+
+    foreach($frictionsInProgress as $friction){
+        
+?>
+
+<div class="teamCard">
+
+    <h2><?= $friction["title"] ?></h2>
+    <p><?= $friction["description"] ?></p>
+    <a href="/team/<?= $friction["team_id"]?>/friction/<?= $friction["id"]?>" > Voir l'irritant </a>
+
+</div>
+
+<?php
+    }
+
+} ?>
+
+<a href="/team/<?= $teamId ?>/friction/create">Créer un irritant</a>

@@ -8,9 +8,6 @@ class Router{
     public function __construct($AVAILABLES_ROUTES){
 
         $this->AVAILABLES_ROUTES = $AVAILABLES_ROUTES;
-        echo "Routeur chargé ! <br>";
-        echo "=================<br><br>";
-        echo "La route demandée est la suivante : <br><br>";
 
     }
 
@@ -24,6 +21,7 @@ class Router{
             $method = $action["method"];
 
             $controller->$method($action["params"]);
+            
 
         }else{
 
@@ -45,9 +43,7 @@ class Router{
         //Récupération du chemon demandé
         $requestedPath = parse_url($uri,PHP_URL_PATH);
         $requestedPath = explode("/",trim($requestedPath,"/"));
-        var_dump($requestedPath);
-        echo "<br><br>=================<br>";
-
+        
         //Chargement des routes dispos
         $AVAILABLES_ROUTES = $this->AVAILABLES_ROUTES[$requestMethod];
 
@@ -63,7 +59,7 @@ class Router{
 
                 for ($i=0; $i < count($pattern) ; $i++) {
 
-                    if(str_starts_with($pattern[$i],"{") && str_ends_with($pattern[$i],"}")){
+                    if((str_starts_with($pattern[$i],"{") && str_ends_with($pattern[$i],"}")) && is_numeric($requestedPath[$i])){
 
                         $param = trim($pattern[$i],"{}");
                         $$param = $requestedPath[$i];

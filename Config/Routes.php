@@ -2,30 +2,39 @@
 use App\Controllers\RegisterController;
 use App\Controllers\LoginController;
 use App\Controllers\UserController;
-use App\Controllers\HomeController;
 use App\Controllers\TeamController;
 use App\Controllers\FrictionController;
-use App\Controllers\ErrorController;
+use App\Controllers\StaticPageController;
 
     return[
 
         "GET"=>[
 
-            "/"=>["controller"=>HomeController::class,"method"=>"render"],
+            "/"=>["controller"=>StaticPageController::class,"method"=>"renderHome"],
+            "/404"=>["controller"=>StaticPageController::class,"method"=>"renderPageNotFound"],
+            "/about"=>["controller"=>StaticPageController::class,"method"=>"renderAbout"],
+            "/contact"=>["controller"=>StaticPageController::class,"method"=>"renderContact"],
+
             "/register"=>["controller"=>RegisterController::class,"method"=>"render"],
             "/login"=>["controller"=>LoginController::class,"method"=>"render"],
+            "/disconnect"=>["controller"=>LoginController::class,"method"=>"disconnectUser"],
+
             "/teams"=>["controller"=>UserController::class,"method"=>"showGroupsPanel"],
-            "/team/{teamId}/friction/create"=>["controller"=>FrictionController::class,"method"=>"renderCreationForm"],
-            "/team/{teamId}/friction/{frictionId}"=>["controller"=>FrictionController::class,"method"=>"getFrictionView"],
-            "/404"=>["controller"=>ErrorController::class,"method"=>"pageNotFound"],
+            "/account"=>["controller"=>UserController::class,"method"=>"showAccount"],
+            "/account/delete"=>["controller"=>UserController::class,"method"=>"deleteAccount"],
+
             "/team/{teamId}"=>["controller"=>TeamController::class,"method"=>"showDashboard"],
-            "/disconnect"=>["controller"=>LoginController::class,"method"=>"disconnectUser"]
+            "/team/{teamId}/friction/{frictionId}"=>["controller"=>FrictionController::class,"method"=>"getFrictionView"],
+            "/team/{teamId}/friction/create"=>["controller"=>FrictionController::class,"method"=>"renderCreationForm"]
 
         ],
         "POST"=>[
+
+            "/team/create"=>["controller"=>TeamController::class,"method"=>"create"],
             "/register"=>["controller"=>RegisterController::class,"method"=>"createUser"],
             "/login"=>["controller"=>LoginController::class,"method"=>"connectUser"],
             "/team/{teamId}/friction/create"=>["controller"=>FrictionController::class,"method"=>"createFriction"]
+            
         ]
 
 

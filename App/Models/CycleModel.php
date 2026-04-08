@@ -1,8 +1,10 @@
 <?php
 namespace App\Models;
+
 use Core\BaseModel;
+
 use DateTimeImmutable;
-use PDOException;
+
 use PDO;
 
 class CycleModel extends BaseModel{
@@ -13,33 +15,32 @@ class CycleModel extends BaseModel{
         parent::__construct();
     }
 
-    public function findLastByGroup($member_id){
-
-        try{
+    /** getLastByGroup()
+     * Query the database to retrieve the last cycle associated with a given team member ordered by ID
+     * Return the result as an associative array
+     * @param int $member_id
+     * @return array
+     */
+    public function getLastByTeam($teamId){
             
-            $stmt = $this->connection->prepare("SELECT c.* FROM CYCLES AS c JOIN TREATMENTS AS t ON t.cycle_id=c.id WHERE t.pilot_id=:member_id ORDER BY c.id ASC");
-            $stmt->execute([":member_id"=>$member_id]);
+        $stmt = $this->connection->prepare("SELECT * FROM CYCLES WHERE team_id=:teamId ORDER BY end_date DESC"); //DESC -> date la plus récente
+        $stmt->execute([":teamId"=>$teamId]);
 
-            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            echo "<br><br> CYCLE : <br>";
-            var_dump($result);
-            echo "<br> <br>";
-
-        }catch (PDOException $e) {
-
-            throw new PDOException("Problème avec la base de données");
-            return false;
-
-        }
-
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
+    /** getCurrentCycle()
+     * Query the database to retrieve the active cycle for a given team based on the current date
+     * Return the cycle ID or false if no active cycle is found
+     * @param int $teamId
+     * @return int|false
+     */
     public function getCurrentCycle($teamId){
 
         $currentDate = new DateTimeImmutable()->format("Y-m-d h:i:s");
 
             $stmt = $this->connection->prepare("SELECT * FROM CYCLES WHERE end_date>:currentDate AND team_id=:teamId");
-            $stmt->execute([":teamId"=>$teamId,"currentDate"=>$currentDate]);
+            $stmt->execute([":teamId"=>$teamId,":currentDate"=>$currentDate]);
 
             $result = $stmt->fetch(PDO::FETCH_COLUMN);
 

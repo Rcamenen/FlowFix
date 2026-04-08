@@ -10,6 +10,6 @@
     <p><?php if(isset($validationErrors["description"])) echo $validationErrors["description"];?> </p>
     <textarea name="description" placeholder="Description du problème rencontré" <?= $val["description"] ?? null ?> required></textarea>
 
-    <button type="submit" >Ajouter l'irritant au groupe !</button>
+    <button type="submit" >Soumettre</button>
 
 </form>

@@ -1,13 +1,29 @@
 <?php
 namespace App\Controllers;
-use App\Services\TeamService;
+
 use Core\BaseController;
+
+use App\Services\TeamService;
+use App\Services\CycleService;
+
 use Exception;
+use PDOException;
 use App\Exceptions\ForbiddenException;
 use App\Exceptions\UnauthorizedException;
-use PDOException;
+use App\Exceptions\ValidationException;
+
 
 class TeamController extends BaseController{
+
+    private TeamService $teamService;
+    private CycleService $cycleService;
+
+    public function __construct() {
+
+        $this->teamService = new TeamService();
+        $this->cycleService = new CycleService();
+        
+    }
 
     /** showDashboard()
      * Retrieve group's home data & render the view for the current user.
@@ -19,21 +35,15 @@ class TeamController extends BaseController{
     public function showDashboard($params){
 
         try{
+            $this->checkAccess($params);
 
-            $userId = $_SESSION["userId"];    
-            $userTeamsId = $_SESSION["teamsId"];  
-            $currentTeamId = $params["teamId"];
+            $this->cycleService->synchroCycle($params["teamId"]);
 
-            // Vérification des droits
-            if(!$this->isUserConnected($userId)) throw new Exception("Vous devez être connecté pour accéder à cette page");
-            if(!$this->isUserTeamMember($userTeamsId,$currentTeamId))throw new Exception("Vous ne faites pas partie de ce groupe");
+            $data=$this->teamService->getDashboardData($_SESSION["userId"],$params["teamId"]);
+            
+            $data["teamId"]= $params["teamId"];
 
-            $userId = $_SESSION["userId"];
-            $teamId = $params["teamId"];
-            $teamService = new TeamService();
-            $data=$teamService->home($userId,$teamId);
-
-            $this->renderView("teamHome",$data);
+            $this->renderView("teamDashboard",$data);
 
         }catch(PDOException $e){
             echo $e->getMessage();
@@ -56,8 +66,60 @@ class TeamController extends BaseController{
             // header("Location: \home");
 
         }
-        
 
+    }
+
+    /** create()
+     * Check if the user is connected and initiate the team creation process
+     * @param {*}
+     * @return void
+     */
+    public function create(){
+
+        echo "TeamController->create()";
+
+        try{
+
+            $userId = $_SESSION["userId"] ?? null;
+
+            $this->isUserConnected($userId);
+
+            $createTeamData = $this->getPost(["name","description","duration","treatmentsMax","votingDelay"]);
+            $createTeamData["creatorId"]=$userId;
+
+            $teamId = $this->teamService->create($createTeamData);
+
+            $_SESSION["teamsId"][]=$teamId;
+
+            header("Location: /teams");
+
+        }catch(PDOException $e){
+            echo $e->getMessage();
+            $response["databaseError"] = "Nous rencontrons actuellement un problème technique, veuillez rééssayer plus tard...";
+            $this->renderView("teamsPanel",$response);
+
+        }catch(ForbiddenException $e){
+    
+            echo $e->getMessage();
+
+        }catch(ValidationException $e){
+
+            echo $e->getMessage();
+            var_dump($e->getErrors());
+
+        }catch(UnauthorizedException $e){
+
+            echo $e->getMessage();
+
+        }
+        catch(Exception $e){
+            
+            echo $e->getMessage();
+            // $response["accessRightsError"] = $e->getMessage();
+            // header("Location: \home");
+
+        }
+        
 
     }
 }

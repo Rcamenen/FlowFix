@@ -1,11 +1,25 @@
 <?php
 namespace App\Models;
+
 use Core\BaseModel;
+
 use PDO;
-use PDOException;
 
 class TreatmentModel extends BaseModel{
-    
+
+    public function __construct(){
+
+        $this->tableName = "TREATMENTS";
+        parent::__construct();
+
+    }
+
+    /** findByPilot()
+     * Query the database to retrieve the most recent treatment assigned to a given team member as pilot
+     * Return the result as an associative array or false if not found
+     * @param int $member_id
+     * @return array|false
+     */
     public function findByPilot($member_id){
 
         $stmt = $this->connection->prepare("SELECT t.* FROM TREATMENTS AS t JOIN CYCLES AS c ON t.cycle_id=c.id WHERE t.pilot_id=:member_id ORDER BY c.start_date DESC");
@@ -17,6 +31,12 @@ class TreatmentModel extends BaseModel{
 
     }
 
+    /** isPilot()
+     * Query the database to check if a given team member is assigned as pilot to any treatment
+     * Return the count as an integer
+     * @param int $member_id
+     * @return int
+     */
     public function isPilot($member_id){
 
         $stmt = $this->connection->prepare("SELECT count(*) FROM TREATMENTS WHERE pilot_id=:member_id");
@@ -28,6 +48,12 @@ class TreatmentModel extends BaseModel{
 
     }
 
+    /** getLastByFrictionWithStatus()
+     * Query the database to retrieve the most recent treatment for a given friction along with its status details
+     * Return the result as an associative array or false if not found
+     * @param int $frictionId
+     * @return array|false
+     */
     public function getLastByFrictionWithStatus($frictionId){
 
         $stmt = $this->connection->prepare(
@@ -55,6 +81,12 @@ class TreatmentModel extends BaseModel{
 
     }
 
+    /** getPilotUsername()
+     * Query the database to retrieve the username of the pilot assigned to a given treatment
+     * Return the username as a string or false if not found
+     * @param int $treatmentId
+     * @return string|false
+     */
     public function getPilotUsername($treatmentId){
 
         $stmt = $this->connection->prepare("SELECT u.username FROM TREATMENTS AS t JOIN TEAM_MEMBERS AS tm ON t.pilot_id=tm.id JOIN USERS AS u ON tm.user_id=u.id WHERE t.id=:treatmentId");
@@ -63,6 +95,18 @@ class TreatmentModel extends BaseModel{
         $result = $stmt->fetch(PDO::FETCH_COLUMN);
 
         return $result;
+
+    }
+
+    public function findByFrictionAndCycle($frictionId,$cycleId){
+
+        $stmt = $this->connection->prepare("SELECT * FROM TREATMENTS WHERE friction_id=:frictionId AND cycle_id=:cycleId");
+        $stmt->execute([":frictionId"=>$frictionId,":cycleId"=>$cycleId]);
+
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $result;
+
 
     }
 

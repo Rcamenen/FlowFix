@@ -1,11 +1,13 @@
 <?php
 namespace App\Services;
+
 use App\Models\UserModel;
 use App\Models\TeamModel;
-use App\Entities\UserEntity;
+use App\Models\TeamMemberModel;
+
 use Exception;
 use App\Exceptions\ValidationException;
-use App\Models\TeamMemberModel;
+
 use DateTime;
 
 class UserService{
@@ -22,6 +24,12 @@ class UserService{
 
     }
 
+    /** connectUserDataCheck()
+     * Validate the connection form data by checking if all required fields are filled
+     * Return an array of errors if any field is missing
+     * @param array $connectUserData
+     * @return array
+     */
     public function connectUserDataCheck($connectUserData){
 
         // Checking if each field is filled
@@ -29,10 +37,16 @@ class UserService{
             if(empty($value)) $errors[$data]= "Le champs $data est manquant !";
         }
 
-        return $errors;
+        return $errors ?? false;
 
     }
 
+    /** createUserDataCheck()
+     * Validate the registration form data by checking required fields, email format, email uniqueness and password length
+     * Return an array of errors if any validation fails, false otherwise
+     * @param array $createUserData
+     * @return array|false
+     */
     public function createUserDataCheck($createUserData):array|false{
 
         // Checking if each field is filled
@@ -69,8 +83,6 @@ class UserService{
 
     public function createUser($createUserData){
 
-        echo "<br> UserService->createUser : <br><br>";
-
         // ==================DATA CHECKING=================== //
 
         $errors = $this->createUserDataCheck($createUserData);
@@ -101,13 +113,11 @@ class UserService{
      */
     public function connectUser($connectUserData) :array | false {
 
-        echo "<br> UserService->connectUser : <br><br>";
-        
         // ================== CHECKING DATA =================== //
 
         $errors = $this->connectUserDataCheck($connectUserData);
 
-        if(isset($errors)) throw new ValidationException($errors,"Champs login incorrects");
+        if($errors) throw new ValidationException($errors,"Champs login incorrects");
 
 
         // ================== MATCHING EMAIL/PASSWORD =================== //
@@ -140,9 +150,7 @@ class UserService{
      */
     public function showGroupsPanel($userId) :array|false {
 
-        echo "<br> UserService->showGroupsPanel : <br><br>";
-
-        $userTeams = $this->teamModel->getGroupsByUser($userId);
+        $userTeams = $this->teamModel->getTeamsByUser($userId);
 
         foreach($userTeams as $userTeam){
 
@@ -159,6 +167,22 @@ class UserService{
         $response=["userTeams"=>$userTeamsData];
 
         return $response ?? false;
+
+    }
+
+    /** getProfilData()
+     * Retrieve the user information by using his userId.
+     * 
+     * @param {int} $userId : Id of the current user
+     * @return array|false Array of user's data in case of success, false if not
+     */
+    public function getAccountData($userId){
+
+        $user = $this->userModel->getById($userId);
+
+        $response["user"] = $user;
+
+        return $response;
 
     }
 

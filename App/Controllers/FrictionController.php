@@ -1,11 +1,15 @@
 <?php
 namespace App\Controllers;
-use App\Services\FrictionService;
+
 use Core\BaseController;
+
+use App\Services\FrictionService;
+
 use Exception;
+use PDOException;
 use App\Exceptions\ForbiddenException;
 use App\Exceptions\UnauthorizedException;
-use PDOException;
+
 
 class FrictionController extends BaseController{
 
@@ -16,25 +20,21 @@ class FrictionController extends BaseController{
         $this->frictionService = new FrictionService;
     }
 
-    /** home()
-     * Retrieve group's home data & render the view for the current user.
-     * 
-     * @param {Array} $params : Array which contain route params (groupId, ...)
-     * @return void Render group home view in case of success, throw exception if not
+    /** getFrictionView()
+     * Retrieve friction data from the service using session and route parameters
+     * Call the appropriate view to render the friction page
+     * @param array $params Route parameters containing teamId and frictionId
+     * @return void
      */
-
     public function getFrictionView($params){
 
         try{
+            //Vérification des droits
+            $this->checkAccess($params);
 
-            $userId = $_SESSION["userId"] ?? null;    
-            $userTeamsId = $_SESSION["teamsId"] ?? null;
+            $userId = $_SESSION["userId"] ?? null;
             $currentTeamId = $params["teamId"] ?? null;
             $frictionId = $params["frictionId"] ?? null;
-
-            // Vérification des droits
-            if(!$this->isUserConnected($userId)) throw new Exception("Vous devez être connecté pour accéder à cette page");
-            if(!$this->isUserTeamMember($userTeamsId,$currentTeamId))throw new Exception("Vous ne faites pas partie de ce groupe");
 
             $data = $this->frictionService->getFrictionData($frictionId,$currentTeamId,$userId);
 
@@ -59,16 +59,17 @@ class FrictionController extends BaseController{
 
     }
 
+    /** createFriction()
+     * Get $_POST values and route parameters, structure them and send to the service to handle friction creation
+     * Redirect to the newly created friction page on success
+     * @param array $params Route parameters containing teamId
+     * @return void
+     */
     public function createFriction($params){
 
         try{
-            $userId = $_SESSION["userId"];    
-            $userTeamsId = $_SESSION["teamsId"];  
-            $currentTeamId = $params["teamId"];
 
-            // Vérification des droits
-            if(!$this->isUserConnected($userId)) throw new Exception("Vous devez être connecté pour accéder à cette page");
-            if(!$this->isUserTeamMember($userTeamsId,$currentTeamId))throw new Exception("Vous ne faites pas partie de ce groupe");
+            $this->checkAccess($params);
 
             // Récupération et structuration des données pour appel au service
             $createFrictionData = $this->getPost(["title","description"]);
@@ -101,19 +102,23 @@ class FrictionController extends BaseController{
         //team/id/friction/id/unvote
 
     }
-
+    
+    /** renderCreationForm()
+     * Retrieve the current team context and pass it to the service to render the friction creation form view
+     * @param array $params Route parameters containing teamId
+     * @return void
+     */
     public function renderCreationForm($params){
         try{
 
-            $userId = $_SESSION["userId"];    
-            $userTeamsId = $_SESSION["teamsId"];  
+            $this->checkAccess($params);
+
             $currentTeamId = $params["teamId"];
-            // Vérification des droits
-            if(!$this->isUserConnected($userId)) throw new Exception("Vous devez être connecté pour accéder à cette page");
-            if(!$this->isUserTeamMember($userTeamsId,$currentTeamId))throw new Exception("Vous ne faites pas partie de ce groupe");
+
             $data=[
                 "teamId"=>$currentTeamId
             ];
+
             $this->renderView("frictionCreation",$data);
 
         }
