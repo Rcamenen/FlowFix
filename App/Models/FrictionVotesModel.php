@@ -30,6 +30,13 @@ class FrictionVotesModel extends BaseModel{
 
     }
 
+    /** getCounterByMemberAndTeam()
+     * Query the database to count the number of votes for a given member on a given cycle (so a given team...)
+     * Return the total count as an integer
+     * @param int $cycleId
+     * @param int $frictionId
+     * @return int
+     */
     public function getCounterByMemberAndTeam($cycleId,$teamMemberId): int {
 
         $stmt = $this->connection->prepare("SELECT COUNT(*) FROM FRICTION_VOTES WHERE member_id=:teamMemberId AND cycle_id=:cycleId AND vote=1");
@@ -42,24 +49,22 @@ class FrictionVotesModel extends BaseModel{
 
     }
 
-    public function getCounterBy(array $filters){
+    /** findMostVotedByCycle()
+     * Query the database to retrieve the most voted frictions for a given cycle and limit (team's max treatments preset).
+     * @param int $cycleId
+     * @param int $maxTreatments
+     * @return array
+     */
+    public function findMostVotedByCycle(int $cycleId,int $maxTreatments):array{
 
-        foreach($filters as $key => $value){
+        $stmt = $this->connection->prepare("SELECT friction_id FROM FRICTION_VOTES WHERE cycle_id=:cycleId GROUP BY friction_id ORDER BY COUNT(friction_id) DESC LIMIT :maxTreatments");
 
-            $bindingArray[":".$key] = $value;
-            $filterArray[]=$key."=:".$key;
+        //bindValue obligatoire pour utilisation d'un int en limit
+        $stmt->bindValue(":cycleId", $cycleId, PDO::PARAM_INT);
+        $stmt->bindValue(":maxTreatments", $maxTreatments, PDO::PARAM_INT);
+        $stmt->execute();
 
-            }
-
-            $filtersStr = implode(" AND ",$filterArray);
-
-            $stmt = $this->connection->prepare("SELECT COUNT(*) FROM ".$this->tableName." WHERE ".$filtersStr);
-
-            $stmt -> execute($bindingArray);
-
-        $result = $stmt->fetch(PDO::FETCH_COLUMN);
-
-        return $result;
+        return $stmt->fetchAll(PDO::FETCH_COLUMN);
 
     }
 }

@@ -1,6 +1,82 @@
 @charset "UTF-8";
 /* ======================== IMPORT POLICES ======================== */
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Manrope:wght@600;700;800&display=swap");
+:root {
+  /* Couleurs de surface */
+  --color-bg-base: #F7F6F3;
+  --color-bg-surface: #ffffff;
+  /* Bordures */
+  --color-border: #e5e5e5;
+  /* Texte */
+  --color-text-primary: #222222;
+  --color-text-muted: #555555;
+  --color-text-inverse: #ffffff;
+  /* Marque / accent */
+  --color-brand: #2563EB;
+  --color-brand-hover: #1F54CA;
+  /* Feedback */
+  --color-success-text: #16a34a;
+  --color-success-bg: #16a34a;
+  --color-success-border: #16a34a;
+  --color-error-text: #dc2626;
+  --color-error-bg: #dc2626;
+  --color-error-border: #dc2626;
+  /* ════════════════════════════════════════════
+     STATUS FRICTION
+  ════════════════════════════════════════════ */
+  /* À traiter — bleu (en attente d'action) */
+  --color-friction-totreat-text: #1E40AF;
+  --color-friction-totreat-bg: #DBEAFE;
+  --color-friction-totreat-border: #3B82F6;
+  /* En cours — orange (en cours de traitement) */
+  --color-friction-inprogress-text: #92400E;
+  --color-friction-inprogress-bg: #FEF3C7;
+  --color-friction-inprogress-border: #F59E0B;
+  /* En vote — violet (délibération collective) */
+  --color-friction-invote-text: #5B21B6;
+  --color-friction-invote-bg: #EDE9FE;
+  --color-friction-invote-border: #8B5CF6;
+  /* Clos — gris (archivé, passé) */
+  --color-friction-closed-text: #374151;
+  --color-friction-closed-bg: #F3F4F6;
+  --color-friction-closed-border: #9CA3AF;
+  /* ════════════════════════════════════════════
+     STATUS TREATMENT
+  ════════════════════════════════════════════ */
+  /* En cours — orange (traitement actif) */
+  --color-treatment-inprogress-text: #92400E;
+  --color-treatment-inprogress-bg: #FEF3C7;
+  --color-treatment-inprogress-border: #F59E0B;
+  /* À valider — jaune-ambre (attention requise) */
+  --color-treatment-toreview-text: #78350F;
+  --color-treatment-toreview-bg: #FFF7ED;
+  --color-treatment-toreview-border: #FB923C;
+  /* Approuvé — vert (succès) */
+  --color-treatment-approved-text: #14532D;
+  --color-treatment-approved-bg: #DCFCE7;
+  --color-treatment-approved-border: #22C55E;
+  /* Non approuvé — rouge (rejeté) */
+  --color-treatment-rejected-text: #7F1D1D;
+  --color-treatment-rejected-bg: #FEE2E2;
+  --color-treatment-rejected-border: #EF4444;
+  /* ════════════════════════════════════════════
+     STATUS MEMBER
+  ════════════════════════════════════════════ */
+  /* Member — gris-bleu (rôle de base) */
+  --color-member-member-text: #1E3A5F;
+  --color-member-member-bg: #EFF6FF;
+  --color-member-member-border: #93C5FD;
+  /* Pilot — cyan (rôle intermédiaire) */
+  --color-member-pilot-text: #164E63;
+  --color-member-pilot-bg: #ECFEFF;
+  --color-member-pilot-border: #22D3EE;
+  /* Moderator — indigo (rôle élevé) */
+  --color-member-moderator-text: #312E81;
+  --color-member-moderator-bg: #EEF2FF;
+  --color-member-moderator-border: #6366F1;
+  font-size: 18px;
+}
+
 /* ======================== RESET ======================== */
 *,
 *::before,
@@ -19,7 +95,7 @@ html {
 body {
   font-size: 1.6rem;
   font-family: "Inter", sans-serif;
-  background-color: #F5F4F0;
+  background-color: var(--color-bg-base);
   color: var(--text-primary);
   line-height: 1.5;
   min-height: 100dvh;
@@ -87,8 +163,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 h1 {
-  font-size: clamp(2.4rem, 4vw, 3.2rem);
-  font-weight: 800;
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 700;
 }
 
 h2 {
@@ -139,164 +215,13 @@ p {
   opacity: 0.8;
 }
 
-/* ======================== CONTAINERS ======================== */
-.container, .container--full, .container--page {
+.container {
   margin: auto;
-}
-
-.container--page {
-  width: calc(100% - 32px);
   max-width: 1200px;
 }
 
-.container--full {
-  width: 100%;
-}
-
-@media screen and (min-width: 768px) {
-  .container--page {
-    width: calc(100% - 64px);
-  }
-}
-/* ======================== HEADER ======================== */
 .header {
-  display: flex;
-  flex-direction: row;
-  justify-content: spacebetween;
-  align-items: center;
-  flex-wrap: nowrap;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  width: 100%;
-  height: 56px;
-  padding: 0 16px;
-}
-
-@media screen and (min-width: 768px) {
-  .header {
-    height: 64px;
-    padding: 0 32px;
-  }
-}
-/* ======================== LAYOUT GLOBAL ======================== */
-.page {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: stretch;
-  min-height: 100dvh;
-}
-
-.page__body {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: stretch;
-  flex: 1;
-}
-
-@media screen and (min-width: 768px) {
-  .page__body {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: stretch;
-    flex-wrap: nowrap;
-  }
-}
-/* ======================== SIDEBAR ======================== */
-.sidebar {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: stretch;
-  gap: 24px;
-  padding: 24px 16px;
-  width: 100%;
-}
-.sidebar__title {
-  margin-bottom: 4px;
-}
-.sidebar__cta {
-  width: 100%;
-}
-
-@media screen and (min-width: 768px) {
-  .sidebar {
-    position: sticky;
-    top: 64px;
-    align-self: flex-start;
-    width: 260px;
-    min-width: 260px;
-    height: calc(100dvh - 64px);
-    padding: 32px 24px;
-    overflow-y: auto;
-  }
-}
-/* ======================== MAIN ======================== */
-.main {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: stretch;
-  gap: 48px;
-  padding: 24px 16px 80px;
-  flex: 1;
-}
-
-@media screen and (min-width: 768px) {
-  .main {
-    gap: 64px;
-    padding: 40px 40px 80px;
-  }
-}
-/* ======================== SECTIONS ======================== */
-.section {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: stretch;
-  gap: 24px;
-}
-.section__header {
-  display: flex;
-  flex-direction: row;
-  justify-content: spacebetween;
-  align-items: center;
-  flex-wrap: nowrap;
-}
-.section__title {
-  margin-bottom: 0;
-}
-
-/* ======================== GRILLES D'IRRITANTS ======================== */
-.grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 16px;
-}
-
-@media screen and (min-width: 768px) {
-  .grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 24px;
-  }
-}
-@media screen and (min-width: 1200px) {
-  .grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-/* ======================== FOOTER ======================== */
-.footer {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: nowrap;
-  padding: 24px 16px;
-  width: 100%;
+  border: 1px solid blue;
 }
 
 .teamCard {
@@ -307,46 +232,51 @@ p {
   border-top: 2px solid rgb(255, 225, 0);
 }
 
-form {
-  display: flex;
-  flex-direction: column;
-  width: 250px;
-  padding: 16px;
-}
-
-input {
-  border: 1px solid rgba(0, 0, 0, 0.325) !important;
-  border-radius: 6px;
-}
-
-button {
-  border: 1px solid rgba(0, 0, 0, 0.325) !important;
-  background-color: rgb(48, 99, 218);
-  color: white;
-  border-radius: 6px;
-  margin-top: 16px;
-  padding: 8px 8px;
-}
-
-.pill {
-  display: block;
-  border: 1px solid rgba(0, 0, 0, 0.1) !important;
-  background-color: rgb(48, 99, 218);
-  color: white;
-  border-radius: 6px;
-  margin-top: 16px;
-  padding: 8px 8px;
-  width: fit-content;
-}
-
-.pill:hover {
-  background-color: rgb(42, 88, 196);
-}
-
-.nav {
+.navbar {
   display: flex;
   flex-direction: row;
-  gap: 8px;
+  justify-content: space-between;
+  padding: 8px 16px;
+}
+.navbar__logo {
+  width: 50px;
+  height: 50px;
+  border: 1px solid black;
+}
+.navbar__menu {
+  background-color: var(--color-bg-base);
+  display: none;
+  gap: 16px;
+}
+.navbar__menu--open {
+  position: absolute;
+  right: 0px;
+  top: 66px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: end;
+  width: 100%;
+  padding: 32px 24px;
+}
+.navbar .burger {
+  font-size: 32px;
+}
+
+@media screen and (min-width: 480px) {
+  .navbar {
+    max-width: 1400px;
+  }
+  .navbar__burger {
+    display: none;
+  }
+  .navbar__menu {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: nowrap;
+  }
 }
 
 /*# sourceMappingURL=main.css.map */

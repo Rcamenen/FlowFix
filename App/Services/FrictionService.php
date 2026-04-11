@@ -36,7 +36,7 @@ class FrictionService{
      * @param int $teamId
      * @return array
      */
-    public function getFrictionData($frictionId,$teamId){
+    public function getFrictionData(int $frictionId,int $teamId):array{
 
         echo "<br> FrictionService->getFrictionData : <br><br>";
 
@@ -46,36 +46,48 @@ class FrictionService{
 
         if(!$frictionDataWithStatus) throw new Exception("La page demandée n'existe pas"); //404
 
-        $frictionCurrentVotes =  $this->frictionVoteModel->getVotesCounter($currentCycleId,$frictionId);
+        $isFrictionOwnByTeam = $this->frictionModel->isOwnByTeam($frictionDataWithStatus['author_id'],$teamId); //Vérification de la cohérence friction/team.
+        if(!$isFrictionOwnByTeam) throw new Exception("Cette friction ne fait pas partie de ce groupe !"); //404
+
+        $response=[];
+
+        $frictionVotes =  $this->frictionVoteModel->getVotesCounter($currentCycleId,$frictionId);
         $authorUsername = $this->frictionModel->getAuthorUsername($frictionId);
 
         $response["friction"]=[
                 "id"=>$frictionDataWithStatus["id"],
                 "title"=>$frictionDataWithStatus["title"],
                 "description"=>$frictionDataWithStatus["description"],
-                "statusLabel"=>$frictionDataWithStatus["label"],
+                "statusLabel"=>$frictionDataWithStatus["status_label"],
                 "author"=>$authorUsername,
-                "votes"=>$frictionCurrentVotes,
+                "votes"=>$frictionVotes,
                 "created_at"=>$frictionDataWithStatus["created_at"],
                 "updated_at"=>$frictionDataWithStatus["updated_at"]
             ];
 
-        $treatmentDataWithStatus = $this->treatmentModel->getLastByFrictionWithStatus($frictionId);
-        if($treatmentDataWithStatus){
+        $treatmentsDataWithStatus = $this->treatmentModel->findLastsByFrictionWithStatus($frictionId, 5);
+        if(!empty($treatmentsDataWithStatus)){
 
-            $treatmentId=$treatmentDataWithStatus["id"];
-            $treatmentCurrentVotes = $this->treatmentVotesModel->getVotesCounter($currentCycleId,$treatmentId);
-            $pilotUsername = $this->treatmentModel->getPilotUsername($frictionId);
+            $response["treatments"] = [];
 
-            $response["treatment"]=[
-                "id"=>$treatmentDataWithStatus["id"],
-                "solution"=>$treatmentDataWithStatus["solution"],
-                "created_at"=>$treatmentDataWithStatus["created_at"],
-                "updated_at"=>$treatmentDataWithStatus["updated_at"],
-                "statusLabel"=>$treatmentDataWithStatus["label"],
-                "pilot"=>$pilotUsername,
-                "votes"=>$treatmentCurrentVotes,
-            ];
+            foreach($treatmentsDataWithStatus as $treatment){
+
+                $treatmentVotes = $this->treatmentVotesModel->findVotesByTreatmentAndCycle($treatment["id"], $currentCycleId);
+                $treatmentVotesCount = array_count_values($treatmentVotes);
+
+                $pilotUsername = $this->treatmentModel->getPilotUsername($treatment["id"]);
+
+                $response["treatments"][] = [
+                    "id"=>$treatment["id"],
+                    "solution"=>$treatment["solution"],
+                    "created_at"=>$treatment["created_at"],
+                    "updated_at"=>$treatment["updated_at"],
+                    "statusLabel"=>$treatment["label"],
+                    "pilot"=>$pilotUsername,
+                    "forVotes" => $treatmentVotesCount[1] ?? 0,
+                    "againstVotes" => $treatmentVotesCount[0] ?? 0
+                ];
+            }
         }
 
         return $response;
@@ -93,10 +105,10 @@ class FrictionService{
         echo "<br> FrictionService->createFriction : <br><br>";
 
         //Vérification de la longueur
-        $memberId = $this->teamMemberModel->getMemberId($createFrictionData["userId"],$createFrictionData["teamId"]);
+        $memberId = $this->teamMemberModel->findMemberId($createFrictionData["userId"],$createFrictionData["teamId"]);
 
         $this->frictionModel->create([
-            "created_at" => new DateTime()->format("Y-m-d h:i:s"),
+            "created_at" => new DateTime()->format("Y-m-d H:i:s"),
             "title" => $createFrictionData["title"],
             "description"=>$createFrictionData["description"],
             "updated_at"=>null,
@@ -110,6 +122,38 @@ class FrictionService{
 
         return $frictionCreated;
 
+    }
+
+    public function voteFriction($userId,$teamId,$frictionId){
+
+        echo "<br> FrictionService->voteFriction : <br><br>";
+
+        // Vérifier que la friction fais partie de la team
+
+        // Vérifier que l'utilisaeur fait bien partie du groupe
+        $memberId = $this->teamMemberModel->findMemberId($userId,$teamId);
+        if(!$memberId) throw new Exception("Vous ne faites pas partie de ce groupe !");
+
+        $cycle = $this->cycleModel->getLastByTeam($teamId);
+
+        //Vérifier si le membre à atteind sont quota de vote
+        $memberNbVotes = $this->frictionVoteModel->getCounterByMemberAndTeam($cycle["id"],$memberId);
+
+        if($memberNbVotes > 3) throw new Exception("Vous avez atteind le nombre de vote maximal");
+
+        $isVoteExist = $this->frictionVoteModel->findBy(["id"],["cycle_id"=>$cycle["id"],"member_id"=>$memberId,"friction_id"=>$frictionId]);
+
+        if(!empty($isVoteExist)) throw new Exception("Vous avez déjà voté pour cet irritant");
+
+        $this->frictionVoteModel->create([
+            "vote"=>1,
+            "voted_at"=> new DateTime()->format("Y-m-d H:i:s"),
+            "cycle_id"=> $cycle["id"],
+            "member_id"=> $memberId,
+            "friction_id"=> $frictionId
+        ]);
+
+        return $response["success"]="Vote envoyé !";
     }
 
 }

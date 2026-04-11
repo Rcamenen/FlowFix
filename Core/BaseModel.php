@@ -55,7 +55,7 @@ abstract class BaseModel {
 
     }
 
-    /** getFieldsByFilters()
+    /** findBy()
      * Build and execute a dynamic query to retrieve specific fields matching the given filters from the model's table
      * Return the results in the specified fetch format
      * @param array $fields
@@ -118,7 +118,7 @@ abstract class BaseModel {
     /** create()
      * Build and execute a dynamic INSERT query from the given associative array to create a new record in the model's table
      * @param array $array
-     * @return void
+     * @return int
      */
     public function create($array):int{
 

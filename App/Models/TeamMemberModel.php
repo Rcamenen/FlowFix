@@ -34,14 +34,14 @@ class TeamMemberModel extends BaseModel{
     }
 
 
-    /** getMemberId()
+    /** findMemberId()
      * Query the database to retrieve the team member ID matching the given user ID and group ID
      * Return the member ID as an integer or false if not found
      * @param int $userId
      * @param int $groupId
      * @return int|false
      */
-    public function getMemberId(int $userId, int $groupId): int | false {
+    public function findMemberId(int $userId, int $groupId): int | false {
 
         $stmt = $this->connection->prepare("SELECT tm.id FROM TEAM_MEMBERS AS tm JOIN TEAMS AS t ON tm.team_id = t.id WHERE t.id = :team_id AND tm.user_id = :user_id");
         $stmt->execute([":team_id"=>$groupId,":user_id"=>$userId]);

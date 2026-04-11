@@ -36,9 +36,12 @@ class FrictionController extends BaseController{
             $currentTeamId = $params["teamId"] ?? null;
             $frictionId = $params["frictionId"] ?? null;
 
-            $data = $this->frictionService->getFrictionData($frictionId,$currentTeamId,$userId);
 
-            $this->renderView("friction",$data);
+
+            $data = $this->frictionService->getFrictionData($frictionId,$currentTeamId,$userId);
+            $data["teamId"] = $currentTeamId;
+
+            $this->renderView("/team/friction/frictionDetails",$data);
 
         }
         catch(PDOException $e){
@@ -96,10 +99,29 @@ class FrictionController extends BaseController{
 
     }
 
-    public function voteFriction(){
+    public function voteFriction($params){
 
-        //team/id/friction/id/vote
-        //team/id/friction/id/unvote
+        try{
+            echo "<br> FrictionController->voteFriction : <br><br>";
+
+            //team/id/friction/id/vote
+            $this->checkAccess($params);
+            
+            $userId = $_SESSION["userId"];
+            $teamId = $params["teamId"];
+            $frictionId = $params["frictionId"];
+
+            $this->frictionService->voteFriction($userId,$teamId,$frictionId);
+            //team/id/friction/id/unvote
+
+        }
+        catch(PDOException $e){$e->getMessage();
+            $response["databaseError"] = "Nous rencontrons actuellement un problème technique, veuillez rééssayer plus tard...";
+        }
+        catch(ForbiddenException $e){echo $e->getMessage();}
+        catch(UnauthorizedException $e){echo $e->getMessage();}
+        catch(Exception $e){echo $e->getMessage();
+        }
 
     }
     
@@ -119,7 +141,7 @@ class FrictionController extends BaseController{
                 "teamId"=>$currentTeamId
             ];
 
-            $this->renderView("frictionCreation",$data);
+            $this->renderView("/team/friction/frictionCreation",$data);
 
         }
         catch(PDOException $e){echo $e->getMessage();

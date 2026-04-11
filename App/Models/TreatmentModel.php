@@ -48,13 +48,14 @@ class TreatmentModel extends BaseModel{
 
     }
 
-    /** getLastByFrictionWithStatus()
-     * Query the database to retrieve the most recent treatment for a given friction along with its status details
-     * Return the result as an associative array or false if not found
+    /** findLastsByFrictionWithStatus()
+     * Query the database to retrieve the most recent treatments for a given friction along with their status details
+     * Return the results as an array
      * @param int $frictionId
-     * @return array|false
+     * @param int $limit
+     * @return array
      */
-    public function getLastByFrictionWithStatus($frictionId){
+    public function findLastsByFrictionWithStatus(int $frictionId, int $limit): array {
 
         $stmt = $this->connection->prepare(
             "SELECT 
@@ -71,11 +72,13 @@ class TreatmentModel extends BaseModel{
                 JOIN TREATMENT_STATUS AS ts ON t.status_id = ts.id 
                 WHERE t.friction_id = :frictionId 
                 ORDER BY t.id DESC 
-                LIMIT 1"
+                LIMIT :limit"
             );
-        $stmt->execute([":frictionId"=>$frictionId]);
+        $stmt->bindValue(":frictionId", $frictionId, PDO::PARAM_INT);
+        $stmt->bindValue(":limit", $limit, PDO::PARAM_INT);
+        $stmt->execute();
 
-        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         return $result;
 
@@ -98,17 +101,16 @@ class TreatmentModel extends BaseModel{
 
     }
 
-    public function findByFrictionAndCycle($frictionId,$cycleId){
+    // public function findByFrictionAndCycle(int $frictionId,int $cycleId){
 
-        $stmt = $this->connection->prepare("SELECT * FROM TREATMENTS WHERE friction_id=:frictionId AND cycle_id=:cycleId");
-        $stmt->execute([":frictionId"=>$frictionId,":cycleId"=>$cycleId]);
+    //     $stmt = $this->connection->prepare("SELECT * FROM TREATMENTS WHERE friction_id=:frictionId AND cycle_id=:cycleId");
+    //     $stmt->execute([":frictionId"=>$frictionId,":cycleId"=>$cycleId]);
 
-        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    //     $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        return $result;
+    //     return $result;
 
-
-    }
+    // }
 
 }
 

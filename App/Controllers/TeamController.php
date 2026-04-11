@@ -37,16 +37,17 @@ class TeamController extends BaseController{
         try{
             $this->checkAccess($params);
 
-            $this->cycleService->synchroCycle($params["teamId"]);
+            $this->cycleService->syncCycle($params["teamId"]);
 
             $data=$this->teamService->getDashboardData($_SESSION["userId"],$params["teamId"]);
             
             $data["teamId"]= $params["teamId"];
 
-            $this->renderView("teamDashboard",$data);
+            $this->renderView("team/teamDashboard",$data);
 
         }catch(PDOException $e){
             echo $e->getMessage();
+            var_dump($e->getTrace());
             $response["databaseError"] = "Nous rencontrons actuellement un problème technique, veuillez rééssayer plus tard...";
             $this->renderView("teamsPanel",$response);
 
@@ -122,6 +123,28 @@ class TeamController extends BaseController{
         
 
     }
+    
+    ///////////////////////////// TEST /////////////////////////////////
+
+    public function getFrictions($params) {
+    try {
+        $this->checkAccess($params);
+
+        $page = isset($_GET["page"]) && is_numeric($_GET["page"])
+                ? (int) $_GET["page"] : 1;
+
+        $data = $this->teamService->getFrictionsPage(
+            $params["teamId"],
+            $page
+        );
+
+        $this->renderPartial("partials/frictionsList", $data);
+
+    } catch (Exception $e) {
+        http_response_code(403);
+        echo $e->getMessage();
+    }
+}
 }
 
 ?>

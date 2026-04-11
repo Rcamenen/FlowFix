@@ -70,7 +70,7 @@ class UserController extends BaseController{
 
         $data = $this->userService->getAccountData($userId);
 
-        $this->renderView("profil",$data);
+        $this->renderView("Profil/profil",$data);
 
     }catch(PDOException $e){
 

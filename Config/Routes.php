@@ -25,7 +25,10 @@ use App\Controllers\StaticPageController;
 
             "/team/{teamId}"=>["controller"=>TeamController::class,"method"=>"showDashboard"],
             "/team/{teamId}/friction/{frictionId}"=>["controller"=>FrictionController::class,"method"=>"getFrictionView"],
-            "/team/{teamId}/friction/create"=>["controller"=>FrictionController::class,"method"=>"renderCreationForm"]
+            "/team/{teamId}/friction/create"=>["controller"=>FrictionController::class,"method"=>"renderCreationForm"],
+
+            "/team/{teamId}/frictions" => ["controller"=>TeamController::class,"method"=> "getFrictions"
+    ]
 
         ],
         "POST"=>[
@@ -33,7 +36,8 @@ use App\Controllers\StaticPageController;
             "/team/create"=>["controller"=>TeamController::class,"method"=>"create"],
             "/register"=>["controller"=>RegisterController::class,"method"=>"createUser"],
             "/login"=>["controller"=>LoginController::class,"method"=>"connectUser"],
-            "/team/{teamId}/friction/create"=>["controller"=>FrictionController::class,"method"=>"createFriction"]
+            "/team/{teamId}/friction/create"=>["controller"=>FrictionController::class,"method"=>"createFriction"],
+            "/team/{teamId}/friction/{frictionId}/vote"=>["controller"=>FrictionController::class,"method"=>"voteFriction"]
             
         ]
 

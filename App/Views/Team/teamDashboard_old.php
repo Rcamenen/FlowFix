@@ -1,5 +1,11 @@
 <h1>TEAM</h1>
 
+<ul>
+    <li>Vue globale</li>
+    <li>Liste des irritants</li>
+    <li>Infos groupe</li>
+</ul>
+
 <?php 
 
 

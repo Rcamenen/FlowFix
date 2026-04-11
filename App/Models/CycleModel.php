@@ -37,7 +37,7 @@ class CycleModel extends BaseModel{
      */
     public function getCurrentCycle($teamId){
 
-        $currentDate = new DateTimeImmutable()->format("Y-m-d h:i:s");
+        $currentDate = new DateTimeImmutable()->format("Y-m-d H:i:s");
 
             $stmt = $this->connection->prepare("SELECT * FROM CYCLES WHERE end_date>:currentDate AND team_id=:teamId");
             $stmt->execute([":teamId"=>$teamId,":currentDate"=>$currentDate]);

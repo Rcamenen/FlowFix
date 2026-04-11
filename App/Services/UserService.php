@@ -93,7 +93,7 @@ class UserService{
         // ================== USER CREATION =================== //
 
         $userData=[
-            "registered_at"=>new DateTime()->format("Y-m-d h:i:s"),
+            "registered_at"=>new DateTime()->format("Y-m-d H:i:s"),
             "email"=>$createUserData["email"],
             "firstname"=>$createUserData["firstname"],
             "lastname"=>$createUserData["lastname"],
@@ -164,7 +164,7 @@ class UserService{
             
         }
 
-        $response=["userTeams"=>$userTeamsData];
+        $response=["userTeams"=>$userTeamsData ?? null]; // ?? null si le user n'a aucune team
 
         return $response ?? false;
 

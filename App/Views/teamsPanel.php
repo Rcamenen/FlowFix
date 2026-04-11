@@ -24,6 +24,8 @@ if(!empty($userTeams)){
 <?php
     }
 
+}else{
+    echo "Vous ne faites partie d'aucune équipe";
 }
 
 ?>

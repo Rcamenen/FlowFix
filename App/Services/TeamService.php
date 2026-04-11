@@ -42,7 +42,7 @@ class TeamService extends BaseService{
 
         // ======================================== Retrieve teamMemberId
 
-        $teamMemberId = $this->teamMemberModel->getMemberId($userId,$teamId);
+        $teamMemberId = $this->teamMemberModel->findMemberId($userId,$teamId);
         $currentCycle = $this->cycleModel->getCurrentCycle($teamId);
         // ======================================== Retrieve friction to pilot if exists
 
@@ -80,7 +80,7 @@ class TeamService extends BaseService{
 
         // Adding new team to DB
         $teamId = $this->teamModel->create([
-            "created_at" => new DateTime()->format("Y-m-d h:i:s"),
+            "created_at" => new DateTime()->format("Y-m-d H:i:s"),
             "name" => $createTeamData["name"],
             "description" => $createTeamData["description"],
             "max_treatments_cycle_preset" => $createTeamData["treatmentsMax"],
@@ -91,8 +91,8 @@ class TeamService extends BaseService{
 
         // Adding new cycle to DB
         $this->cycleModel->create([
-            "start_date" => new DateTime()->format("Y-m-d h:i:s"),
-            "end_date" => new DateTime()->modify("+".$createTeamData["duration"]." days")->format("Y-m-d h:i:s"),
+            "start_date" => new DateTime()->format("Y-m-d H:i:s"),
+            "end_date" => new DateTime()->modify("+".$createTeamData["duration"]." days")->format("Y-m-d H:i:s"),
             "max_active_treatments" => $createTeamData["treatmentsMax"],
             "treatments_voting_delay" => $createTeamData["votingDelay"],
             "team_id" => $teamId
@@ -100,8 +100,8 @@ class TeamService extends BaseService{
 
         // Adding new teamMember to DB
         $this->teamMemberModel->create([
-            "joined_at"=> new DateTime()->format("Y-m-d h:i:s"),
-            "promoted_at"=> new DateTime()->format("Y-m-d h:i:s"),
+            "joined_at"=> new DateTime()->format("Y-m-d H:i:s"),
+            "promoted_at"=> new DateTime()->format("Y-m-d H:i:s"),
             "team_id"=>$teamId,
             "user_id"=>$createTeamData["creatorId"]
         ]);
@@ -155,6 +155,20 @@ class TeamService extends BaseService{
         return $errors ?? false;
 
     }
+    
+    ///////////////////////////// TEST /////////////////////////////////
+
+    public function getFrictionsPage($teamId, $page = 1, $limit = 10) {
+        $offset = ($page - 1) * $limit;
+        $total  = $this->frictionModel->countByTeam($teamId);
+
+        return [
+            "frictions"   => $this->frictionModel->findByTeamPaginated($teamId, $limit, $offset),
+            "currentPage" => $page,
+            "totalPages"  => (int) ceil($total / $limit),
+            "teamId"      => $teamId
+        ];
+}
 
 }
 

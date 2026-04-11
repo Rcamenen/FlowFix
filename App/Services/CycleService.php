@@ -4,6 +4,7 @@ namespace App\Services;
 use Core\BaseService;
 
 use App\Models\FrictionModel;
+use App\Models\FrictionVotesModel;
 use App\Models\CycleModel;
 use App\Models\TreatmentModel;
 use App\Models\TreatmentVotesModel;
@@ -12,11 +13,10 @@ use App\Models\TeamMemberModel;
 
 use DateTime;
 
-use App\Exceptions\ValidationException;
-
 class CycleService extends BaseService{
 
     private FrictionModel $frictionModel;
+    private FrictionVotesModel $frictionVotesModel;
     private CycleModel $cycleModel;
     private TreatmentModel $treatmentModel;
     private TreatmentVotesModel $treatmentVotesModel;
@@ -26,6 +26,7 @@ class CycleService extends BaseService{
     public function __construct (){
 
         $this->frictionModel = new FrictionModel;
+        $this->frictionVotesModel = new FrictionVotesModel;
         $this->cycleModel = new CycleModel;
         $this->treatmentModel = new TreatmentModel;
         $this->treatmentVotesModel = new TreatmentVotesModel;
@@ -34,121 +35,163 @@ class CycleService extends BaseService{
 
     }
 
-    function synchroCycle($teamId){
+    /** syncCycle
+     * 1 - Contrôle si un cycle est arrivé à échéance, si c'est le cas :
+     *      -> Création d'un nouveau cycle
+     *      -> Ouvre le session d'approbation des solutions proposées sur les frictions "en cours" qui passent à "en vote", les treatments passe à "à valider"
+     * 2 - Cloture des frictions en votes avec un cycle dont la date est arrivée à échéance
+     * @param int $teamId
+     * @return void
+     */
+    function syncCycle($teamId){
+        
+        echo "<br> CycleService->synchroCycle() <br>";
 
-        echo "<br> CycleService->synchroCycle => TEST POUR SYNCHRO CYCLE : <br><br>";
+        // Cycle courant de la team
+        $currentCycle = $this->cycleModel->getLastByTeam($teamId);
 
-        $currentTeamCycle = $this->cycleModel->getLastByTeam($teamId);
-        $cycleEndDate = $currentTeamCycle["end_date"];
+        // Date de fin du cycle courant
+        $cycleEndDate = $currentCycle["end_date"];
 
-        if($cycleEndDate < (new DateTime())->format("Y-m-d h:i:s")){
+        // Date du jour format
+        $todayDate = (new DateTime())->format("Y-m-d H:i:s");
 
-            $this->endCycle($currentTeamCycle,$cycleEndDate,$teamId);
-            $this->startCycle($teamId,$currentTeamCycle);
+        // Le cycle est-il périmée ?
+        if($todayDate > $cycleEndDate){
 
-        }
+            echo "<br> Cycle périmée <br>";
 
-        echo "Le cycle est en cours";
+            // Les solutions proposées sont soumises au vote
+            $this->openTreatmentsVotingSession($currentCycle["id"]);
+
+            // On créer un nouveau cycle
+            $newCycleId = $this->createCycle($teamId);
+
+            // On créer un treatment, affecté au nouveau cycle, pour chaque frictions sélectionnées pour être traitées lors du dernier cycle
+            $this->createTreatmentsFromTopVotedFrictions($currentCycle,$newCycleId,$teamId);
+
+        }else echo "Cycle non périmée"; // Else à supprimer lors de la mise en prod
+
+            $this->closeTreatmentsVotingSession();
 
     }
 
-    private function endCycle($currentTeamCycle,$cycleEndDate,$teamId){
+    /** openTreatmentsVotingSession
+     * Change les status des treatments et leur irritant à "en vote" si une solution est proposée
+     * @param int $teamCycleId
+     * @return void
+     */
+    private function openTreatmentsVotingSession(int $teamCycleId):void{
 
-            $cycleVotingDelay = $currentTeamCycle["treatments_voting_delay"];
-            $endDateVoting = new DateTime($cycleEndDate)->modify("+".$cycleVotingDelay." days");
+        echo "<br> CycleService->openTreatmentsVotingSession() <br>";
 
-            $inProgressFrictions = $this->frictionModel->findInProgress($teamId);
+        // Récupère les treatments d'un cycle;
+        $treatmentsInProgress = $this->treatmentModel->findBy(["*"],["cycle_id"=>$teamCycleId]);
 
-            if(!$inProgressFrictions) return;
+        foreach($treatmentsInProgress as $treatment){
+            if(!empty($treatment["solution"])){
 
-            foreach($inProgressFrictions AS $friction){
+                $this->treatmentModel->update($treatment["id"],["status_id"=>3]); //treatment status_id 3 = A valider
+                $this->frictionModel->update($treatment["friction_id"],["status_id"=>3]); //friction status_id 3 = En vote
+                echo '<br> treatments $treatment["id"] et frictions $treatment["friction_id"] passé au status 3 <br>';
 
-                $treatment = $this->treatmentModel->findByFrictionAndCycle($friction["f_id"],$currentTeamCycle["id"]);
+            }else{
 
-                var_dump($treatment);
-
-                if(!$treatment) $this->treatmentModel->create([ // Ne dois pas arriver
-                    "created_at"=>new DateTime()->format("Y-m-d h:i:s"),
-                    "pilot_id"=>0,
-                    "status_id"=>2,
-                    "cycle_id"=>$currentTeamCycle["id"],
-                    "friction_id"=>$friction["f_id"]
-                    ]);
-
-                if(empty($treatment["solution"])){
-
-                    $this->treatmentModel->update($treatment["id"],["solution"=>"Aucune solution n'a été proposée","status_id"=>5]);
-                    $this->frictionModel->update($friction["f_id"],["status_id"=>4]);
-
-                }else{
-
-                    if($endDateVoting > (new DateTime())->format("Y-m-d h:i:s")){
-
-                        $treatmentVotes = $this->treatmentVotesModel->getVotesCounter($currentTeamCycle["id"],$treatment["id"]);
-                        $votes = array_count_values($treatmentVotes);
-
-                        $votesFor = $votes[1] ?? 0;
-                        $votesAgainst = $votes[0] ?? 0;
-
-                        if($votesFor >= $votesAgainst){
-
-                            $this->frictionModel->update($friction["f_id"],["status_id"=>4]);
-                            $this->treatmentModel->update($treatment["id"],["status_id"=>4]);
-
-
-                        }else{
-
-                            $this->frictionModel->update($friction["f_id"],["status_id"=>4]);
-                            $this->treatmentModel->update($treatment["id"],["status_id"=>5]);
-
-                        }
-
-                    }
-
-                }
+                $this->treatmentModel->update($treatment["id"],["status_id"=>5]); //treatment status_id 5 = Non validé
+                $this->frictionModel->update($treatment["friction_id"],["status_id"=>4]); //friction status_id 4 = Clos
+                echo '<br> treatments $treatment["id"] et frictions $treatment["friction_id"] passé au status 5 & 4 <br>';
 
             }
 
-            
+        }
 
     }
 
-    private function startCycle($teamId,$oldCycle){
+    /** createCycle
+     * Créer dans la bdd un nouveau cycle
+     * @param int $teamId
+     * @return int l'id du cycle créé
+     */
+    private function createCycle($teamId){
+        echo "<br> CycleService->createCycle() <br>";
 
         $team = $this->teamModel->getById($teamId);
 
-        $newCycleId = $this->cycleModel->create([
-            "start_date" => new DateTime()->format("Y-m-d h:i:s"),
-            "end_date" => new DateTime()->modify("+".$team["cycle_duration_preset"]." days")->format("Y-m-d h:i:s"),
+        //Création d'un nouveau cycle
+        return $this->cycleModel->create([
+            "start_date" => new DateTime()->format("Y-m-d H:i:s"),
+            "end_date" => new DateTime()->modify("+".$team["cycle_duration_preset"]." days")->format("Y-m-d H:i:s"),
             "max_active_treatments" => $team["max_treatments_cycle_preset"],
             "treatments_voting_delay" => $team["treatment_voting_delay_preset"],
             "team_id" => $team["id"]
         ]);
 
-        $selectedFrictionsId = $this->frictionModel->findMostVoted($oldCycle["id"],$oldCycle["max_active_treatments"]);
+    }
+
+    /** createTreatmentsFromTopVotedFrictions
+     * Récolte les votes des treatments dont le délais de vote est dépassée
+     * puis leur affecte un nouveau status selon le résultat des votes, ainsi qu'a leur friction.
+     * @param int $pastCycle
+     * @param int $newCycleId
+     * @param int $teamId 
+     * @return void
+     */
+    private function createTreatmentsFromTopVotedFrictions($pastCycle,$newCycleId,$teamId){
+        echo "<br> CycleService->createTreatmentsFromTopVotedFrictions() <br>";
+
+        $topVotedFrictionsId = $this->frictionVotesModel->findMostVotedByCycle($pastCycle["id"],$pastCycle["max_active_treatments"]);
+        foreach($topVotedFrictionsId as $frictionId){
+            var_dump($frictionId);
+            $this->treatmentModel->create([
+                "created_at" => (new DateTime())->format("Y-m-d H:i:s"),
+                "pilot_id" => $this->teamMemberModel->getRandomMemberNotPilot($teamId,$newCycleId),
+                "status_id" => 2, //treatment status_id 2 = -
+                "cycle_id" => $newCycleId,
+                "friction_id" => $frictionId
+            ]);
+            $this->frictionModel->update($frictionId,["status_id"=>2]);
+        }
+
+    }
+
+    /** closeTreatmentsVotingSession
+     * Récolte les votes des treatments dont le délais de vote est dépassée
+     * puis leur affecte un nouveau status selon le résultat des votes, ainsi qu'a leur friction.
+     * @param {*}
+     * @return void
+     */
+    private function closeTreatmentsVotingSession(){
+        echo "<br> CycleService->closeTreatmentsVotingSession() <br>";
+
+        $inVotingTreatments = $this->treatmentModel->findBy(["*"],["status_id"=>3]); // treatment status_id 3 = A valider
         
-        if($selectedFrictionsId){
+        foreach($inVotingTreatments as $treatment){
 
+            $cycleData = $this->cycleModel->findBy(["end_date","treatments_voting_delay"],["id"=>$treatment["cycle_id"]]);
 
-            foreach($selectedFrictionsId as $frictionId){
+            $votingEndDate = new DateTime($cycleData["end_date"])->modify(("+".$cycleData["treatments_voting_delay"]." days"));
 
-                $this->frictionModel->update($frictionId,["status_id"=>2]);
-                $this->treatmentModel->create([
-                    "created_at"=> new DateTime()->format("Y-m-d h:i:s"),
-                    "pilot_id"=> $this->teamMemberModel->getRandomMemberNotPilot($teamId,$newCycleId),
-                    "status_id"=>1,
-                    "cycle_id"=> $newCycleId,
-                    "friction_id"=>$frictionId
-                ]);
+            if($votingEndDate > new DateTime()){
 
-            }
+                // Dépouillement des résultats
+                $votes = $this->treatmentVotesModel->findVotesByTreatmentAndStatus($treatment,3);
+                
+                // Affectation des nouveaux statuts
+                if(!empty($votes) && (array_sum($votes)/count($votes))>=0.5) $this->treatmentModel->update($treatment["id"],["status_id"=>4]); // treatment status_id 4 = Validé
+                else $this->treatmentModel->update($treatment["id"],["status_id"=>5]); // treatment status_id 5 = Non validé
+
+                $this->frictionModel->update($treatment["friction_id"],["status_id"=>4]); // friction status_id 4 = Clos
+
+            }            
 
         }
 
-        echo "Nouveau cycle créé";
-
     }
+
     
+
+    
+
 }
 
 ?>

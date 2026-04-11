@@ -12,6 +12,29 @@ class FrictionModel extends BaseModel{
         $this->tableName = "FRICTIONS";
         parent::__construct();
     }
+
+
+
+    /** isOwnByTeam()
+     * Query the database to check if a friction belongs to a given team
+     * Return true if the friction is owned by the team, false otherwise
+     * @param int $author
+     * @param int $teamId
+     * @return bool
+     */
+    public function isOwnByTeam(int $author, int $teamId): bool {
+
+        $stmt = $this->connection->prepare(
+            "SELECT COUNT(*) 
+            FROM FRICTIONS AS f
+            JOIN TEAM_MEMBERS AS tm ON f.author_id = tm.id
+            WHERE f.author_id = :author AND tm.team_id = :teamId"
+        );
+        $stmt->execute([":author" => $author, ":teamId" => $teamId]);
+
+        return (bool) $stmt->fetch(PDO::FETCH_COLUMN);
+
+    }
     
     /** findByGroupAndStatus()
      * Query the database to retrieve all frictions matching a given team and status
@@ -52,11 +75,11 @@ class FrictionModel extends BaseModel{
      * Query the database to retrieve a friction along with its status details matching the given ID
      * Return the result as an associative array or false if not found
      * @param int $frictionId
-     * @return array|false
+     * @return array
      */
     public function getByIdWithStatus($frictionId){
 
-        $stmt = $this->connection->prepare("SELECT f.*, fs.* FROM FRICTIONS AS f JOIN FRICTION_STATUS AS fs ON f.status_id = fs.id WHERE f.id = :frictionId");
+        $stmt = $this->connection->prepare("SELECT f.*,fs.id as status_id,fs.label as status_label FROM FRICTIONS AS f JOIN FRICTION_STATUS AS fs ON f.status_id = fs.id WHERE f.id = :frictionId");
         $stmt->execute(["frictionId"=>$frictionId]);
 
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -138,17 +161,30 @@ class FrictionModel extends BaseModel{
 
     }
 
-    public function findMostVoted($oldCycleId,$maxTreatments){
+    ///////////////////////////// TEST /////////////////////////////////
 
-        $stmt = $this->connection->prepare("SELECT f.id FROM FRICTIONS AS f JOIN FRICTION_VOTES AS fv ON f.id=fv.friction_id WHERE fv.cycle_id=:oldCycleId GROUP BY fv.friction_id ORDER BY COUNT(fv.friction_id) DESC LIMIT :maxTreatments");
-        
-        $stmt->bindValue(":oldCycleId", $oldCycleId, PDO::PARAM_INT);
-        $stmt->bindValue(":maxTreatments", $maxTreatments, PDO::PARAM_INT);
-
+    public function findByTeamPaginated($teamId, $limit, $offset) {
+        $stmt = $this->connection->prepare("
+            SELECT f.*, fs.label AS status_label 
+            FROM FRICTIONS AS f
+            JOIN FRICTION_STATUS AS fs ON f.status_id = fs.id
+            WHERE f.team_id = :teamId
+            ORDER BY f.created_at DESC
+            LIMIT :limit OFFSET :offset
+        ");
+        $stmt->bindValue(":teamId", $teamId, PDO::PARAM_INT);
+        $stmt->bindValue(":limit",  $limit,  PDO::PARAM_INT);
+        $stmt->bindValue(":offset", $offset, PDO::PARAM_INT);
         $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 
-        return $stmt->fetchAll(PDO::FETCH_COLUMN);
-
+    public function countByTeam($teamId) {
+        $stmt = $this->connection->prepare("
+            SELECT COUNT(*) FROM FRICTIONS WHERE team_id = :teamId
+        ");
+        $stmt->execute(["teamId" => $teamId]);
+        return (int) $stmt->fetchColumn();
     }
 
 

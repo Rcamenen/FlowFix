@@ -10,9 +10,9 @@ abstract class BaseController {
      * @param array|null $response
      * @return void
      */
-    protected function renderView($view,$response=null){
+    protected function renderView($view,?array $data=null){
 
-        if($response)extract($response);
+        if(!empty($data))extract($data);
         $contentPath = ROOT."/App/Views/".$view.".php";
         require(ROOT."/App/Views/Layout/layout.php");
 
@@ -87,6 +87,16 @@ abstract class BaseController {
 
         return $posts;
 
+    }
+
+    ///////////////////////////// TEST /////////////////////////////////
+
+    /** renderPartial()
+     * Render a view without the layout (for AJAX responses)
+     */
+    protected function renderPartial($view, $response = null) {
+        if ($response) extract($response);
+        require(ROOT . "/App/Views/" . $view . ".php");
     }
 
 }
