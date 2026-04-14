@@ -61,7 +61,7 @@ abstract class BaseModel {
      * @param array $fields
      * @param array $filters
      * @param string $fetch
-     * @return array
+     * @return array|string|int|false
      */
     public function findBy(array $fields,?array $filters=null,string $fetch="assoc"){
 
@@ -101,16 +101,16 @@ abstract class BaseModel {
 
             case "assoc":
                 return $stmt->fetchAll(PDO::FETCH_ASSOC);
-                break;
             case "column":
                 return $stmt->fetchAll(PDO::FETCH_COLUMN);
-                break;
             case "both":
                 return $stmt->fetchAll(PDO::FETCH_BOTH);
-                break;
+            case "onecolumn":
+                return $stmt->fetch(PDO::FETCH_COLUMN);
+            case "oneassoc":
+                return $stmt->fetch(PDO::FETCH_ASSOC);
             default:
                 return $stmt->fetchAll(PDO::FETCH_ASSOC);
-                break;
         }
 
     }
@@ -149,7 +149,7 @@ abstract class BaseModel {
         $stmt = $this->connection->prepare("DELETE FROM " . $this->tableName . " WHERE id = :id");
         $result = $stmt->execute([":id" => $id]);
 
-        return $result ?? false;
+        return $result;
 
     }
 
@@ -171,7 +171,7 @@ abstract class BaseModel {
         $stmt = $this->connection->prepare("UPDATE ".$this->tableName." SET ".$propsStr." WHERE id = :id");
         $result = $stmt->execute($bindingArray);
 
-        return $result ?? false;
+        return $result;
 
     }
 

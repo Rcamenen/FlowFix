@@ -4,65 +4,45 @@ namespace App\Controllers;
 use Core\BaseController;
 
 use Exception;
-use PDOException;
 use App\Services\UserService;
 
 class UserController extends BaseController{
 
     private UserService $userService;
 
-    public function __construct()
-    {
+    public function __construct(){
         $this->userService = new UserService;
     }
 
-    /** showGroupsPanel()
+    /** showTeamsPage()
      * Check if the user is connected and retrieve their groups and invitations data from the service
      * Call the appropriate view to render the teams panel
      * @param {*}
      * @return void
      */
-    public function showGroupsPanel(){
+    public function showTeamsPage(){
 
-        try{
-            $userId = $_SESSION["userId"] ?? null;
+        $userId = $_SESSION["userId"] ?? null;
 
-            if(!$this->isUserConnected($userId)) throw new Exception("Vous devez être connecté pour accéder à cette page");
+        if(!$this->isUserConnected($userId)) throw new Exception("Vous devez être connecté pour accéder à cette page");
 
-            $data = $this->userService->showGroupsPanel($userId); // userGroups / userInvitations /
+        $data = $this->userService->showGroupsPanel($userId); // userGroups / userInvitations /
 
-            if(!empty($_GET["connected"])) $data["successMessage"] = "Connexion réussie";
+        if(!empty($_GET["connected"])) $data["successMessage"] = "Connexion réussie";
 
-            $this->renderView("teamsPanel",$data);
+        $this->renderView("teamsPanel",$data);
 
-            exit();
-
-        }catch(PDOException $e){
-
-            echo $e->getMessage();
-            // $data["databaseError"] = "Nous rencontrons actuellement un problème technique, veuillez rééssayer plus tard...";
-            // $this->renderView("groupsPanel",$data);
-
-        }catch(Exception $e){
-            
-            echo $e->getMessage();
-            // $data["accessRightsError"] = $e->getMessage();
-            // header("Location: \home");
-
-        }
-
+        exit();
 
     }
 
-    /** showProfil()
+    /** showAccountPage()
      * Check if the user is connected and retrieve his information from the service
      * Call the appropriate view to render the profil
      * @param {*}
      * @return void
      */
-    public function showAccount(){
-
-    try{
+    public function showAccountPage(){
 
         $userId = $_SESSION["userId"] ?? null;
 
@@ -72,19 +52,41 @@ class UserController extends BaseController{
 
         $this->renderView("Profil/profil",$data);
 
-    }catch(PDOException $e){
+    }
 
-        echo $e->getMessage();
-        // $data["databaseError"] = "Nous rencontrons actuellement un problème technique, veuillez rééssayer plus tard...";
-        // $this->renderView("groupsPanel",$data);
 
-    }catch(Exception $e){
-            
-        echo $e->getMessage();
-        // $data["accessRightsError"] = $e->getMessage();
-        // header("Location: \home");
+    /** createUser()
+     * Get $_POST values and send them to the service to continue the creation process
+     * Call the appropriate view in case of success or failed in the process
+     * @param {*}
+     * @return void
+     */
+    public function createUser(){
 
-        }
+        // ================== RÉCUPÉRATION DES DONNÉES =================== //
+        
+        $createUserData = $this->getPost(["email","firstname","lastname","username","password"]);
+
+
+        // ================== APPEL DU SERVICE =================== //
+
+        $this->userService->createUser($createUserData);
+
+        // ================== REDIRECTION VERS LOGIN =================== //
+
+        header('Location: /login?registered=true');
+        exit();
+
+    }
+
+    public function deleteUser($params){
+
+        //Contrôle user lui même ou bien un admin
+
+        //Appel service
+        $this->userService->delete($params["userId"]);
+
+        echo "utilisateur supprimé";
 
     }
 }

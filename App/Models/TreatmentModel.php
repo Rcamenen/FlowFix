@@ -101,17 +101,6 @@ class TreatmentModel extends BaseModel{
 
     }
 
-    // public function findByFrictionAndCycle(int $frictionId,int $cycleId){
-
-    //     $stmt = $this->connection->prepare("SELECT * FROM TREATMENTS WHERE friction_id=:frictionId AND cycle_id=:cycleId");
-    //     $stmt->execute([":frictionId"=>$frictionId,":cycleId"=>$cycleId]);
-
-    //     $result = $stmt->fetch(PDO::FETCH_ASSOC);
-
-    //     return $result;
-
-    // }
-
 }
 
 ?>

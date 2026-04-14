@@ -5,18 +5,14 @@ use Core\BaseController;
 
 use App\Services\FrictionService;
 
-use Exception;
-use PDOException;
-use App\Exceptions\ForbiddenException;
-use App\Exceptions\UnauthorizedException;
-
+use App\Exceptions\AuthenticateException;
+use App\Exceptions\AuthorizationException;
 
 class FrictionController extends BaseController{
 
     private FrictionService $frictionService;
 
-    public function __construct()
-    {
+    public function __construct(){
         $this->frictionService = new FrictionService;
     }
 
@@ -26,39 +22,19 @@ class FrictionController extends BaseController{
      * @param array $params Route parameters containing teamId and frictionId
      * @return void
      */
-    public function getFrictionView($params){
+    public function showFrictionPage($params){
 
-        try{
-            //Vérification des droits
-            $this->checkAccess($params);
+        if(!$this->checkRole("user")) throw new AuthenticateException("Vous devez être connecté pour voir cette page");
+        if(!$this->checkRole("member",$params["teamId"])) throw new AuthorizationException("teams","Vous devez faire partie du groupe pour voir cette page.");
 
-            $userId = $_SESSION["userId"] ?? null;
-            $currentTeamId = $params["teamId"] ?? null;
-            $frictionId = $params["frictionId"] ?? null;
+        $userId = $_SESSION["userId"] ?? null;
+        $currentTeamId = $params["teamId"] ?? null;
+        $frictionId = $params["frictionId"] ?? null;
 
+        $data = $this->frictionService->getFrictionData($frictionId,$currentTeamId,$userId);
+        $data["teamId"] = $currentTeamId;
 
-
-            $data = $this->frictionService->getFrictionData($frictionId,$currentTeamId,$userId);
-            $data["teamId"] = $currentTeamId;
-
-            $this->renderView("/team/friction/frictionDetails",$data);
-
-        }
-        catch(PDOException $e){
-            echo $e->getTraceAsString();
-            echo "<br>";
-            echo $e->getMessage();
-            $response["databaseError"] = "Nous rencontrons actuellement un problème technique, veuillez rééssayer plus tard...";
-            // $this->renderView("groupsPanel",$response);
-        }
-        catch(ForbiddenException $e){echo $e->getMessage();}
-        catch(UnauthorizedException $e){echo $e->getMessage();}
-        catch(Exception $e){echo $e->getMessage();
-            // $response["accessRightsError"] = $e->getMessage();
-            // header("Location: \");
-        }
-        
-
+        $this->renderView("/team/friction/frictionDetails",$data);
 
     }
 
@@ -70,58 +46,36 @@ class FrictionController extends BaseController{
      */
     public function createFriction($params){
 
-        try{
+        if(!$this->checkRole("user")) throw new AuthenticateException("Vous devez être connecté pour voir cette page");
+        if(!$this->checkRole("member",$params["teamId"])) throw new AuthorizationException("teams","Vous devez faire partie du groupe pour voir cette page.");
 
-            $this->checkAccess($params);
+        $this->checkAccess($params);
 
-            // Récupération et structuration des données pour appel au service
-            $createFrictionData = $this->getPost(["title","description"]);
-            $createFrictionData["userId"]=$_SESSION["userId"];
-            $createFrictionData["teamId"]=$params["teamId"];
+        // Récupération et structuration des données pour appel au service
+        $createFrictionData = $this->getPost(["title","description"]);
+        $createFrictionData["userId"]=$_SESSION["userId"];
+        $createFrictionData["teamId"]=$params["teamId"];
 
-            // Appel au service
-            $frictionCreatedId = $this->frictionService->createFriction($createFrictionData);
+        // Appel au service
+        $frictionCreatedId = $this->frictionService->createFriction($createFrictionData);
 
-            header("Location: /team/".$createFrictionData["teamId"]."/friction/".$frictionCreatedId["id"]);
-
-        }
-        catch(PDOException $e){$e->getMessage();
-            $response["databaseError"] = "Nous rencontrons actuellement un problème technique, veuillez rééssayer plus tard...";
-            // $this->renderView("groupsPanel",$response);
-        }
-        catch(ForbiddenException $e){echo $e->getMessage();}
-        catch(UnauthorizedException $e){echo $e->getMessage();}
-        catch(Exception $e){echo $e->getMessage();
-            // $response["accessRightsError"] = $e->getMessage();
-            // header("Location: /");
-        }
+        header("Location: /team/".$createFrictionData["teamId"]."/friction/".$frictionCreatedId["id"]);
         
-
     }
 
     public function voteFriction($params){
 
-        try{
-            echo "<br> FrictionController->voteFriction : <br><br>";
+        echo "<br> FrictionController->voteFriction : <br><br>";
 
-            //team/id/friction/id/vote
-            $this->checkAccess($params);
-            
-            $userId = $_SESSION["userId"];
-            $teamId = $params["teamId"];
-            $frictionId = $params["frictionId"];
+        if(!$this->checkRole("user")) throw new AuthenticateException("Vous devez être connecté pour voir cette page");
+        if(!$this->checkRole("member",$params["teamId"])) throw new AuthorizationException("teams","Vous devez faire partie du groupe pour voir cette page.");
+        
+        $userId = $_SESSION["userId"];
+        $teamId = $params["teamId"];
+        $frictionId = $params["frictionId"];
 
-            $this->frictionService->voteFriction($userId,$teamId,$frictionId);
-            //team/id/friction/id/unvote
-
-        }
-        catch(PDOException $e){$e->getMessage();
-            $response["databaseError"] = "Nous rencontrons actuellement un problème technique, veuillez rééssayer plus tard...";
-        }
-        catch(ForbiddenException $e){echo $e->getMessage();}
-        catch(UnauthorizedException $e){echo $e->getMessage();}
-        catch(Exception $e){echo $e->getMessage();
-        }
+        $this->frictionService->voteFriction($userId,$teamId,$frictionId);
+        //team/id/friction/id/unvote
 
     }
     
@@ -130,30 +84,18 @@ class FrictionController extends BaseController{
      * @param array $params Route parameters containing teamId
      * @return void
      */
-    public function renderCreationForm($params){
-        try{
+    public function showFrictionCreationPage($params){
 
-            $this->checkAccess($params);
+        if(!$this->checkRole("user")) throw new AuthenticateException("Vous devez être connecté pour voir cette page");
+        if(!$this->checkRole("member",$params["teamId"])) throw new AuthorizationException("teams","Vous devez faire partie du groupe pour voir cette page.");
 
-            $currentTeamId = $params["teamId"];
+        $currentTeamId = $params["teamId"];
 
-            $data=[
-                "teamId"=>$currentTeamId
-            ];
+        $data=[
+            "teamId"=>$currentTeamId
+        ];
 
-            $this->renderView("/team/friction/frictionCreation",$data);
-
-        }
-        catch(PDOException $e){echo $e->getMessage();
-            $response["databaseError"] = "Nous rencontrons actuellement un problème technique, veuillez rééssayer plus tard...";
-            // $this->renderView("groupsPanel",$response);
-        }
-        catch(ForbiddenException $e){echo $e->getMessage();}
-        catch(UnauthorizedException $e){echo $e->getMessage();}
-        catch(Exception $e){echo $e->getMessage();
-            // $response["accessRightsError"] = $e->getMessage();
-            // header("Location: /");
-        }
+        $this->renderView("/team/friction/frictionCreation",$data);
 
     }
 }

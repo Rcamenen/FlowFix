@@ -1,6 +1,13 @@
 <?php
 namespace Core;
 
+use Exception;
+use PDOException;
+use App\Exceptions\AuthenticateException;
+use App\Exceptions\AuthorizationException;
+use App\Exceptions\RoleException;
+use App\Exceptions\FormException;
+
 class Router{
 
     private array $AVAILABLES_ROUTES;
@@ -16,11 +23,36 @@ class Router{
         $action = $this->parseRoute();
 
         if($action){
+            $controller=null;
+            try{
 
-            $controller = new $action["controller"];
-            $method = $action["method"];
+                $controller = new $action["controller"];
+                $method = $action["method"];
 
-            $controller->$method($action["params"]);
+                $controller->$method($action["params"]);
+
+            }catch(FormException $e){
+
+                $_SESSION["error"]=$e->getMessage();
+                header("Location: /".$e->getView());
+                exit;
+
+            }catch(RoleException $e){
+
+                $_SESSION["error"]=$e->getMessage();
+                header("Location: /".$e->getView());
+                exit;
+
+            }catch(PDOException $e){
+
+                echo $e->getMessage();
+
+            }catch(Exception $e){
+
+                echo $e->getMessage();
+                header("Location: /");
+
+            }
             
 
         }else{

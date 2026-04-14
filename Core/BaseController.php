@@ -10,7 +10,7 @@ abstract class BaseController {
      * @param array|null $response
      * @return void
      */
-    protected function renderView($view,?array $data=null){
+    public function renderView($view,?array $data=null){
 
         if(!empty($data))extract($data);
         $contentPath = ROOT."/App/Views/".$view.".php";
@@ -63,6 +63,32 @@ abstract class BaseController {
         
         if ($currentTeamId !== null && !$this->isUserTeamMember($userTeamsId, $currentTeamId)) {
             throw new Exception("Vous ne faites pas partie de ce groupe");
+        }
+
+    }
+
+    /** checkRole()
+     * Check if the given role match with the current user by returning true of false
+     * 
+     * @param string : $role
+     * @param int : $userId
+     * @return bool;
+     */
+    public function checkRole(string $role,?int $teamId=null):bool{
+
+        switch($role){
+
+            case "admin":
+                return !empty($_SESSION["adminId"]);
+            case "user":
+                return !empty($_SESSION["userId"]);
+            case "member":
+                return in_array($teamId,$_SESSION["teamsId"]);
+            case "moderator":
+                return in_array($teamId,$_SESSION["moderateTeamsId"]);
+            default:
+                return false;
+
         }
 
     }

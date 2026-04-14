@@ -1,17 +1,12 @@
 <?php
 namespace App\Controllers;
 
+use App\Exceptions\AuthenticateException;
+use App\Exceptions\AuthorizationException;
 use Core\BaseController;
 
 use App\Services\TeamService;
 use App\Services\CycleService;
-
-use Exception;
-use PDOException;
-use App\Exceptions\ForbiddenException;
-use App\Exceptions\UnauthorizedException;
-use App\Exceptions\ValidationException;
-
 
 class TeamController extends BaseController{
 
@@ -32,41 +27,19 @@ class TeamController extends BaseController{
      * @return void Render group home view in case of success, throw exception if not
      */
 
-    public function showDashboard($params){
+    public function showTeamPage($params){
 
-        try{
-            $this->checkAccess($params);
+        if(!$this->checkRole("user",$params["teamId"])) throw new AuthenticateException("Vous devez vous connecter pour accéder à un groupe !");
+        if(!$this->checkRole("member",$params["teamId"]))throw new AuthorizationException("teams","Vous devez faire partie du groupe pour l'afficher");
 
-            $this->cycleService->syncCycle($params["teamId"]);
+        $this->cycleService->syncCycle($params["teamId"]);
 
-            $data=$this->teamService->getDashboardData($_SESSION["userId"],$params["teamId"]);
-            
-            $data["teamId"]= $params["teamId"];
+        $data=$this->teamService->getDashboardData($_SESSION["userId"],$params["teamId"]);
+        
+        $data["teamId"]= $params["teamId"];
+        $data["isModerator"]= (in_array($params["teamId"],$_SESSION["moderateTeamsId"]))?true:false;
 
-            $this->renderView("team/teamDashboard",$data);
-
-        }catch(PDOException $e){
-            echo $e->getMessage();
-            var_dump($e->getTrace());
-            $response["databaseError"] = "Nous rencontrons actuellement un problème technique, veuillez rééssayer plus tard...";
-            $this->renderView("teamsPanel",$response);
-
-        }catch(ForbiddenException $e){
-    
-            echo $e->getMessage();
-
-        }catch(UnauthorizedException $e){
-
-            echo $e->getMessage();
-
-        }
-        catch(Exception $e){
-            
-            echo $e->getMessage();
-            // $response["accessRightsError"] = $e->getMessage();
-            // header("Location: \home");
-
-        }
+        $this->renderView("team/teamDashboard",$data);
 
     }
 
@@ -75,76 +48,66 @@ class TeamController extends BaseController{
      * @param {*}
      * @return void
      */
-    public function create(){
+    public function createTeam(){
+
+        if(!$this->checkRole("user")) throw new AuthenticateException("login","Vous devez d'abord vous connecter pour créer un groupe !");
 
         echo "TeamController->create()";
 
-        try{
+        $userId = $_SESSION["userId"] ?? null;
 
-            $userId = $_SESSION["userId"] ?? null;
+        $this->isUserConnected($userId);
 
-            $this->isUserConnected($userId);
+        $createTeamData = $this->getPost(["name","description","duration","treatmentsMax","votingDelay"]);
+        $createTeamData["creatorId"]=$userId;
 
-            $createTeamData = $this->getPost(["name","description","duration","treatmentsMax","votingDelay"]);
-            $createTeamData["creatorId"]=$userId;
+        $teamId = $this->teamService->create($createTeamData);
 
-            $teamId = $this->teamService->create($createTeamData);
+        $_SESSION["teamsId"][]=$teamId;
 
-            $_SESSION["teamsId"][]=$teamId;
+        header("Location: /teams");
 
-            header("Location: /teams");
+    }
 
-        }catch(PDOException $e){
-            echo $e->getMessage();
-            $response["databaseError"] = "Nous rencontrons actuellement un problème technique, veuillez rééssayer plus tard...";
-            $this->renderView("teamsPanel",$response);
+    public function createMember($params){
+        if(!$this->checkRole("user")) throw new AuthenticateException("Vous devez d'abord vous connecter pour ajouter un membre à un groupe");
+        if(!$this->checkRole("member",$params["teamId"])) throw new AuthorizationException("teams","Vous devez être membre et modérateur pour ajouter un membre à un groupe");
+        if(!$this->checkRole("moderator",$params["teamId"])) throw new AuthorizationException("team/".$params["teamId"],"Vous devez être modérateur du groupe pour ajouter un membre");
 
-        }catch(ForbiddenException $e){
-    
-            echo $e->getMessage();
+        echo "TeamController->addMember()";
 
-        }catch(ValidationException $e){
+        $userId = $_SESSION["userId"] ?? null;
 
-            echo $e->getMessage();
-            var_dump($e->getErrors());
-
-        }catch(UnauthorizedException $e){
-
-            echo $e->getMessage();
-
-        }
-        catch(Exception $e){
-            
-            echo $e->getMessage();
-            // $response["accessRightsError"] = $e->getMessage();
-            // header("Location: \home");
-
-        }
+        $addMemberData = $this->getPost(["email"]);
         
+        //==================================================================== <<<<<<<<<<<<<<<
+        //Ajouter un check de l'email (méthode php)
+
+        $teamId = $params["teamId"];
+
+        $teamId = $this->teamService->addMember($addMemberData["email"],$teamId,$userId);
+
+        // header("Location: /teams");
 
     }
     
     ///////////////////////////// TEST /////////////////////////////////
 
-    public function getFrictions($params) {
-    try {
-        $this->checkAccess($params);
+    public function showFrictions($params) {
 
-        $page = isset($_GET["page"]) && is_numeric($_GET["page"])
-                ? (int) $_GET["page"] : 1;
+    $this->checkAccess($params);
 
-        $data = $this->teamService->getFrictionsPage(
-            $params["teamId"],
-            $page
+    $page = isset($_GET["page"]) && is_numeric($_GET["page"])
+            ? (int) $_GET["page"] : 1;
+
+    $data = $this->teamService->getFrictionsPage(
+        $params["teamId"],
+        $page
         );
 
-        $this->renderPartial("partials/frictionsList", $data);
+    $this->renderPartial("partials/frictionsList", $data);
 
-    } catch (Exception $e) {
-        http_response_code(403);
-        echo $e->getMessage();
     }
-}
 }
 
 ?>

@@ -30,17 +30,56 @@
                     <a class="navbar__link" href="/">Accueil</a>
                 </li>
 
-                <li class="navbar__item">
-                    <a class="navbar__link" href="/login">Connexion</a>
-                </li>
+                <?php if(empty($_SESSION["adminId"])) {?>
 
-                <li class="navbar__item">
-                    <a class="navbar__link" href="/register">Inscription</a>
-                </li>
+                    <?php if(!empty($_SESSION["userId"])) {?>
+                        <li class="navbar__item">
+                            <a class="navbar__link" href="/teams">Groupes</a>
+                        </li>
 
-                <li class="navbar__item navbar__item--active">
-                    <a class="navbar__link" href="/contact">Contact</a>
-                </li>
+                        <li class="navbar__item">
+                            <a class="navbar__link" href="/account">Profil</a>
+                        </li>
+
+                        <form action="/logout" method="post">
+                            <button type="submit">Déconnexion</button>
+                        </form>
+                    <?php }else{ ?>
+
+                
+
+
+                    <li class="navbar__item">
+                        <a class="navbar__link" href="/register">Inscription</a>
+                    </li>
+
+                    
+                    <li class="navbar__item">
+                        <?php if(empty($_SESSION["userId"])) {?><a class="navbar__link" href="/login">Connexion</a><?php }; ?>
+                    </li>
+                <?php } ?>
+
+                    <li class="navbar__item navbar__item--active">
+                        <a class="navbar__link" href="/contact">Contact</a>
+                    </li>
+
+                <?php }else{ ?>
+
+                    <li class="navbar__item">
+                        <a class="navbar__link" href="/admin/teams">Groupes</a>
+                    </li>
+
+                    <li class="navbar__item navbar__item--active">
+                        <a class="navbar__link" href="/admin/users">Utilisateurs</a>
+                    </li>
+
+                    <li class="navbar__item navbar__item--active">
+                        <form action="/admin/logout" method="post">
+                            <button type="submit">Déconnexion</button>
+                        </form>
+                    </li>
+
+                <?php } ?>
 
             </ul>
 

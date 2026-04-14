@@ -36,7 +36,7 @@ class FrictionService{
      * @param int $teamId
      * @return array
      */
-    public function getFrictionData(int $frictionId,int $teamId):array{
+    public function getFrictionData(int $frictionId,int $teamId, int $userId):array{
 
         echo "<br> FrictionService->getFrictionData : <br><br>";
 
@@ -49,10 +49,13 @@ class FrictionService{
         $isFrictionOwnByTeam = $this->frictionModel->isOwnByTeam($frictionDataWithStatus['author_id'],$teamId); //Vérification de la cohérence friction/team.
         if(!$isFrictionOwnByTeam) throw new Exception("Cette friction ne fait pas partie de ce groupe !"); //404
 
+        $memberId = $this->teamMemberModel->findMemberId($userId,$teamId);
+
         $response=[];
 
         $frictionVotes =  $this->frictionVoteModel->getVotesCounter($currentCycleId,$frictionId);
         $authorUsername = $this->frictionModel->getAuthorUsername($frictionId);
+        $isAlreadyVoted = $this->frictionVoteModel->findBy(["id"],["cycle_id"=>$currentCycleId,"member_id"=>$memberId,"friction_id"=>$frictionId]);
 
         $response["friction"]=[
                 "id"=>$frictionDataWithStatus["id"],
@@ -62,7 +65,8 @@ class FrictionService{
                 "author"=>$authorUsername,
                 "votes"=>$frictionVotes,
                 "created_at"=>$frictionDataWithStatus["created_at"],
-                "updated_at"=>$frictionDataWithStatus["updated_at"]
+                "updated_at"=>$frictionDataWithStatus["updated_at"],
+                "isAlreadyVoted"=> !empty($isAlreadyVoted) ? true : false
             ];
 
         $treatmentsDataWithStatus = $this->treatmentModel->findLastsByFrictionWithStatus($frictionId, 5);
@@ -128,15 +132,19 @@ class FrictionService{
 
         echo "<br> FrictionService->voteFriction : <br><br>";
 
-        // Vérifier que la friction fais partie de la team
-
         // Vérifier que l'utilisaeur fait bien partie du groupe
         $memberId = $this->teamMemberModel->findMemberId($userId,$teamId);
         if(!$memberId) throw new Exception("Vous ne faites pas partie de ce groupe !");
 
+        $authorId = $this->frictionModel->findBy(["author_id"],["id"=>$frictionId],"onecolumn");
+
+        // Vérifier que la friction fais partie de la team
+        $isFrictionOwnByTeam = $this->frictionModel->isOwnByTeam($authorId,$teamId); //Vérification de la cohérence friction/team.
+        if(!$isFrictionOwnByTeam) throw new Exception("Cette friction ne fait pas partie de ce groupe !"); //404
+
         $cycle = $this->cycleModel->getLastByTeam($teamId);
 
-        //Vérifier si le membre à atteind sont quota de vote
+        //Vérifier si le membre à atteind son quota de vote
         $memberNbVotes = $this->frictionVoteModel->getCounterByMemberAndTeam($cycle["id"],$memberId);
 
         if($memberNbVotes > 3) throw new Exception("Vous avez atteind le nombre de vote maximal");

@@ -9,6 +9,13 @@
     <p><?= $friction["author"] ?></p>
     <p><?= $friction["statusLabel"] ?></p>
 
+    <?php 
+    
+        if($friction["isAlreadyVoted"]) echo "Vous avez déjà voté pour cet irritant !";
+        else echo "Vous n'avez pas encore voté pour cet irritant !";
+
+    ?>
+
     <form action="/team/<?= $teamId ?>/friction/<?= $friction["id"] ?>/vote" method="post">
     <button type="submit">Voter</button>
     </form>

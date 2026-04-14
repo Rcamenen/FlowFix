@@ -1,7 +1,10 @@
 <?php
 //$successMessage
 if(!empty($successMessage)) echo "$successMessage";
+if(!empty($_SESSION["error"])) echo "Vous ne faites pas partie de ce groupe";
 
+echo "<br> moderateTeamsId : <br>";
+var_dump($_SESSION["moderateTeamsId"]);
 ?>
 <h1>Mes groupes</h1>
     

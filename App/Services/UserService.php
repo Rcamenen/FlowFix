@@ -4,9 +4,11 @@ namespace App\Services;
 use App\Models\UserModel;
 use App\Models\TeamModel;
 use App\Models\TeamMemberModel;
+use App\Models\FrictionModel;
+use App\Models\TreatmentModel;
 
 use Exception;
-use App\Exceptions\ValidationException;
+use App\Exceptions\FormException;
 
 use DateTime;
 
@@ -15,12 +17,16 @@ class UserService{
     private UserModel $userModel;
     private TeamModel $teamModel;
     private TeamMemberModel $teamMemberModel;
+    private FrictionModel $frictionModel;
+    private TreatmentModel $treatmentModel;
 
     public function __construct(){
 
         $this->userModel = new UserModel();
         $this->teamModel = new TeamModel();
         $this->teamMemberModel = new TeamMemberModel();
+        $this->frictionModel = new FrictionModel();
+        $this->treatmentModel = new TreatmentModel();
 
     }
 
@@ -87,7 +93,7 @@ class UserService{
 
         $errors = $this->createUserDataCheck($createUserData);
 
-        if(!empty($errors)) throw new ValidationException($errors,"Champs incorrectes");
+        if(!empty($errors)) throw new FormException($errors,"Champs incorrectes");
         
 
         // ================== USER CREATION =================== //
@@ -117,24 +123,32 @@ class UserService{
 
         $errors = $this->connectUserDataCheck($connectUserData);
 
-        if($errors) throw new ValidationException($errors,"Champs login incorrects");
+        if($errors) throw new FormException($errors,"Champs login incorrects");
 
 
         // ================== MATCHING EMAIL/PASSWORD =================== //
 
         $userIdAndHash = $this->userModel->getIdAndHash($connectUserData["email"]);
+
+        if(!$userIdAndHash) throw new Exception("Couple nom d'utilisateur / mot de passse incorrecte");
+
         $passwordMatch = password_verify($connectUserData["password"],$userIdAndHash["password_hash"]);
         
-        if(!$userIdAndHash || !$passwordMatch) throw new Exception("Couple nom d'utilisateur / mot de passse incorrecte");
+        if(!$passwordMatch) throw new Exception("Couple nom d'utilisateur / mot de passse incorrecte");
 
         // ================== LOOKING FOR TEAMS THE USER IS MEMBER OF =================== //
 
         $teamsId = $this->teamMemberModel->getTeamsByUser($userIdAndHash["id"]);
 
+        // ================== LOOKING FOR TEAMS THE USER IS MODERATOR OF =================== //
+
+        $moderateTeamsId = $this->teamMemberModel->findModerateTeamByUser($userIdAndHash["id"]);
+
         // ================== DATA FORMATING FOR CONTROLLER =================== //
 
         $response=[
             "teamsId" => $teamsId,
+            "moderateTeamsId" => $moderateTeamsId,
             "userId" =>$userIdAndHash["id"]
         ];
 
@@ -183,6 +197,21 @@ class UserService{
         $response["user"] = $user;
 
         return $response;
+
+    }
+
+    public function delete($userId){
+
+        //Récupérer groupes et memberID
+        $userMembersId = $this->teamMemberModel->findBy(["id"],["user_id"=>$userId],"column");
+
+        foreach($userMembersId as $memberId){
+
+            $this->teamMemberModel->update($memberId,["user_id"=>0]);
+
+        }
+
+        $this->userModel->delete($userId);
 
     }
 

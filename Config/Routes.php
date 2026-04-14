@@ -5,39 +5,51 @@ use App\Controllers\UserController;
 use App\Controllers\TeamController;
 use App\Controllers\FrictionController;
 use App\Controllers\StaticPageController;
+use App\Controllers\AdminController;
+use App\Controllers\AuthController;
 
     return[
 
         "GET"=>[
 
-            "/"=>["controller"=>StaticPageController::class,"method"=>"renderHome"],
-            "/404"=>["controller"=>StaticPageController::class,"method"=>"renderPageNotFound"],
-            "/about"=>["controller"=>StaticPageController::class,"method"=>"renderAbout"],
-            "/contact"=>["controller"=>StaticPageController::class,"method"=>"renderContact"],
+            "/"=>["controller"=>StaticPageController::class,"method"=>"showHomePage"],
+            "/404"=>["controller"=>StaticPageController::class,"method"=>"showPageNotFound"],
+            "/about"=>["controller"=>StaticPageController::class,"method"=>"showAboutPage"],
+            "/contact"=>["controller"=>StaticPageController::class,"method"=>"showContactPage"],
 
-            "/register"=>["controller"=>RegisterController::class,"method"=>"render"],
-            "/login"=>["controller"=>LoginController::class,"method"=>"render"],
-            "/disconnect"=>["controller"=>LoginController::class,"method"=>"disconnectUser"],
+            "/register"=>["controller"=>StaticPageController::class,"method"=>"showRegisterPage"],
+            "/login"=>["controller"=>StaticPageController::class,"method"=>"showLoginPage"],
 
-            "/teams"=>["controller"=>UserController::class,"method"=>"showGroupsPanel"],
-            "/account"=>["controller"=>UserController::class,"method"=>"showAccount"],
-            "/account/delete"=>["controller"=>UserController::class,"method"=>"deleteAccount"],
+            "/teams"=>["controller"=>UserController::class,"method"=>"showTeamsPage"],
+            "/account"=>["controller"=>UserController::class,"method"=>"showAccountPage"],
 
-            "/team/{teamId}"=>["controller"=>TeamController::class,"method"=>"showDashboard"],
-            "/team/{teamId}/friction/{frictionId}"=>["controller"=>FrictionController::class,"method"=>"getFrictionView"],
-            "/team/{teamId}/friction/create"=>["controller"=>FrictionController::class,"method"=>"renderCreationForm"],
+            "/team/{teamId}"=>["controller"=>TeamController::class,"method"=>"showTeamPage"],
+            "/team/{teamId}/friction/{frictionId}"=>["controller"=>FrictionController::class,"method"=>"showFrictionPage"],
+            "/team/{teamId}/friction/create"=>["controller"=>FrictionController::class,"method"=>"showFrictionCreationPage"],
 
-            "/team/{teamId}/frictions" => ["controller"=>TeamController::class,"method"=> "getFrictions"
-    ]
+            "/team/{teamId}/frictions" => ["controller"=>TeamController::class,"method"=> "showFrictions"],
+
+            "/admin/login" => ["controller"=>StaticPageController::class,"method"=> "showAdminLoginPage"],
+            "/adminPanel" => ["controller"=>AdminController::class,"method"=> "showAdminPanel"],
+            "/admin/users" => ["controller"=>AdminController::class,"method"=> "showUsersPage"],
+            "/admin/teams" => ["controller"=>AdminController::class,"method"=> "showTeamsPage"]
 
         ],
         "POST"=>[
 
-            "/team/create"=>["controller"=>TeamController::class,"method"=>"create"],
-            "/register"=>["controller"=>RegisterController::class,"method"=>"createUser"],
-            "/login"=>["controller"=>LoginController::class,"method"=>"connectUser"],
+            "/register"=>["controller"=>UserController::class,"method"=>"createUser"],
+            
+            "/login"=>["controller"=>AuthController::class,"method"=>"connectUser"],
+            "/logout"=>["controller"=>AuthController::class,"method"=>"disconnectUser"],
+
+            "/team/create"=>["controller"=>TeamController::class,"method"=>"createTeam"],
             "/team/{teamId}/friction/create"=>["controller"=>FrictionController::class,"method"=>"createFriction"],
-            "/team/{teamId}/friction/{frictionId}/vote"=>["controller"=>FrictionController::class,"method"=>"voteFriction"]
+            "/team/{teamId}/friction/{frictionId}/vote"=>["controller"=>FrictionController::class,"method"=>"voteFriction"],
+            "/team/{teamId}/addMember"=>["controller"=>TeamController::class,"method"=>"createMember"],
+
+            "/admin/login"=>["controller"=>AuthController::class,"method"=>"connectAdmin"],
+            "/admin/logout"=>["controller"=>AuthController::class,"method"=>"disconnectAdmin"],
+            "/admin/user/{userId}/delete" => ["controller"=>UserController::class,"method"=> "deleteUser"]
             
         ]
 

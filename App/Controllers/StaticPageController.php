@@ -10,7 +10,7 @@ class StaticPageController extends BaseController{
      * @param {*}
      * @return void
      */
-    public function renderHome(){
+    public function showHomePage(){
         
         $this->renderView("home",$response ?? null);
 
@@ -21,9 +21,48 @@ class StaticPageController extends BaseController{
      * @param {*}
      * @return void
      */
-    public function renderPageNotFound(){
+    public function showPageNotFound(){
         
         $this->renderView("404",$response ?? null);
+
+    }
+
+    /** showRegisterPage()
+     * Render the login view, redirect if user is already connected.
+     * 
+     * @return void Render login view with success message if account just created
+     */
+    public function showRegisterPage(){
+
+        if($this->isUserConnected()) header("Location: /");
+        $this->renderView("register");
+
+    }
+
+
+    /** render()
+     * Render the login view, redirect if user is already connected.
+     * 
+     * @return void Render login view with success message if account just created
+     */
+    public function showLoginPage(){
+
+        if($this->isUserConnected()) header("Location: /");
+
+        (!empty($_GET["registered"]) && $_GET["registered"]) ? $data["successMessage"]="Votre compte a bien été créé, vous pouvez dès à présent vous connecter !" : null;
+        
+        $this->renderView("login",$data ?? null);
+
+    }
+
+        /** render()
+     * Render the login view, redirect if user is already connected.
+     * 
+     * @return void Render login view with success message if account just created
+     */
+    public function showAdminLoginPage(){
+        
+        $this->renderView("adminLogin",$data ?? null);
 
     }
 }

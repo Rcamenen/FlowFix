@@ -140,32 +140,11 @@ class FrictionModel extends BaseModel{
     }
 
 
-    public function createFriction($created_at, $title, $description, $updated_at, $author_id, $team_id, $status_id, $id = null): bool {
-
-        $stmt = $this->connection->prepare("
-            INSERT INTO FRICTIONS(created_at, title, description, updated_at, author_id, team_id, status_id) 
-            VALUES(:created_at, :title, :description, :updated_at, :author_id, :team_id, :status_id)
-        ");
-
-        $result = $stmt->execute([
-            "created_at"  => $created_at,
-            "title"       => $title,
-            "description" => $description,
-            "updated_at"  => $updated_at,
-            "author_id"   => $author_id,
-            "team_id"     => $team_id,
-            "status_id"   => $status_id
-        ]);
-
-        return $result ?? false;
-
-    }
-
     ///////////////////////////// TEST /////////////////////////////////
 
     public function findByTeamPaginated($teamId, $limit, $offset) {
-        $stmt = $this->connection->prepare("
-            SELECT f.*, fs.label AS status_label 
+        $stmt = $this->connection->prepare(
+            "SELECT f.*, fs.label AS status_label 
             FROM FRICTIONS AS f
             JOIN FRICTION_STATUS AS fs ON f.status_id = fs.id
             WHERE f.team_id = :teamId

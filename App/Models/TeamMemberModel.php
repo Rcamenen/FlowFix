@@ -41,10 +41,10 @@ class TeamMemberModel extends BaseModel{
      * @param int $groupId
      * @return int|false
      */
-    public function findMemberId(int $userId, int $groupId): int | false {
+    public function findMemberId(int $userId, int $teamId): int | false {
 
         $stmt = $this->connection->prepare("SELECT tm.id FROM TEAM_MEMBERS AS tm JOIN TEAMS AS t ON tm.team_id = t.id WHERE t.id = :team_id AND tm.user_id = :user_id");
-        $stmt->execute([":team_id"=>$groupId,":user_id"=>$userId]);
+        $stmt->execute([":team_id"=>$teamId,":user_id"=>$userId]);
 
         $result = $stmt->fetch(PDO::FETCH_COLUMN);
 
@@ -69,20 +69,20 @@ class TeamMemberModel extends BaseModel{
 
     }
 
+    public function findModerateTeamByUser(int $userId):array{
+
+        $stmt = $this->connection->prepare("SELECT team_id FROM TEAM_MEMBERS WHERE user_id = :user_id AND promoted_at IS NOT NULL");
+        $stmt->execute([":user_id"=>$userId]);
+
+        $result = $stmt->fetchAll(PDO::FETCH_COLUMN);
+
+        return $result;
+
+    }
+
     public function getRandomMemberNotPilot($teamId, $cycleId) {
 
-        $stmt = $this->connection->prepare("
-            SELECT tm.id 
-            FROM TEAM_MEMBERS AS tm
-            WHERE tm.team_id = :teamId
-            AND tm.id NOT IN (
-                SELECT pilot_id 
-                FROM TREATMENTS 
-                WHERE cycle_id = :cycleId
-            )
-            ORDER BY RAND()
-            LIMIT 1
-        ");
+        $stmt = $this->connection->prepare("SELECT tm.id FROM TEAM_MEMBERS AS tm WHERE tm.team_id = :teamId AND tm.id NOT IN (SELECT pilot_id FROM TREATMENTS WHERE cycle_id = :cycleId) ORDER BY RAND() LIMIT 1");
 
         $stmt->bindValue(":teamId", $teamId, PDO::PARAM_INT);
         $stmt->bindValue(":cycleId", $cycleId, PDO::PARAM_INT);

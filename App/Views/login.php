@@ -1,6 +1,10 @@
 <h1>Login</h1>
 
 <?php
+if(isset($_SESSION["error"])){
+    echo $_SESSION["error"];
+    unset($_SESSION['error']);
+}
 
 if(isset($validationErrors)){
     foreach($validationErrors as $input => $error){

@@ -4,14 +4,17 @@ namespace App\Controllers;
 use Core\BaseController;
 
 use App\Services\UserService;
+use App\Services\AdminService;
 
-class LoginController extends BaseController{
+class AuthController extends BaseController{
 
     private UserService $userService;
+    private AdminService $adminService;
 
     public function __construct()
     {
         $this->userService = new UserService;
+        $this->adminService = new AdminService;
     }
 
     /** connectUser()
@@ -55,18 +58,38 @@ class LoginController extends BaseController{
 
     }
 
-    /** render()
-     * Render the login view, redirect if user is already connected.
-     * 
-     * @return void Render login view with success message if account just created
+
+
+    /** connectAdmin()
+     * Check if the user is connected and retrieve their groups and invitations data from the service
+     * Call the appropriate view to render the teams panel
+     * @param {*}
+     * @return void
      */
-    public function showLoginPage(){
+    public function connectAdmin(){
 
-        if($this->isUserConnected()) header("Location: /");
+        // ================== GETTING DATA =================== //
 
-        (!empty($_GET["registered"]) && $_GET["registered"]) ? $data["successMessage"]="Votre compte a bien été créé, vous pouvez dès à présent vous connecter !" : null;
+        $connectAdminData = $this->getPost(["email","password"]);
+
+        // ================== CONNEXION =================== //
+
+        $sessionData = $this->adminService->connectAdmin($connectAdminData);
         
-        $this->renderView("login",$data ?? null);
+        $_SESSION['adminId'] = $sessionData["adminId"];
+
+        // ================== REDIRECTION TO THE ADMIN PANEL =================== //
+
+        header("Location: /adminPanel");
+        exit();
+
+    }
+
+    public function disconnectAdmin(){
+
+        session_destroy();
+        header("Location: /?disconnected=true");
+        exit();
 
     }
 }

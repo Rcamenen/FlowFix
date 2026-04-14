@@ -5,18 +5,20 @@ use Core\BaseService;
 
 use App\Models\TeamMemberModel;
 use App\Models\TeamModel;
+use App\Models\UserModel;
 use App\Models\CycleModel;
 use App\Models\FrictionModel;
 use App\Models\FrictionVotesModel;
 
 use DateTime;
 
-use App\Exceptions\ValidationException;
+use App\Exceptions\FormException;
 
 class TeamService extends BaseService{
 
     private TeamMemberModel $teamMemberModel;
     private TeamModel $teamModel;
+    private UserModel $userModel;
     private CycleModel $cycleModel;
     private FrictionModel $frictionModel;
     private FrictionVotesModel $frictionVotesModel;
@@ -25,6 +27,7 @@ class TeamService extends BaseService{
     {
         $this->teamMemberModel = new TeamMemberModel();
         $this->teamModel = new TeamModel();
+        $this->userModel = new UserModel();
         $this->frictionModel = new FrictionModel();
         $this->frictionVotesModel = new FrictionVotesModel();
         $this->cycleModel = new CycleModel();
@@ -44,6 +47,7 @@ class TeamService extends BaseService{
 
         $teamMemberId = $this->teamMemberModel->findMemberId($userId,$teamId);
         $currentCycle = $this->cycleModel->getCurrentCycle($teamId);
+
         // ======================================== Retrieve friction to pilot if exists
 
         $frictionsToPilot = $this->frictionModel->findByPilotAndCycle($teamMemberId,$currentCycle);
@@ -76,7 +80,7 @@ class TeamService extends BaseService{
 
         $errors = $this->createTeamDataCheck($createTeamData);
 
-        if($errors) throw new ValidationException($errors,"Au moins un champs du formulaire est incorrecte");
+        if($errors) throw new FormException($errors,"Au moins un champs du formulaire est incorrecte");
 
         // Adding new team to DB
         $teamId = $this->teamModel->create([
@@ -111,6 +115,34 @@ class TeamService extends BaseService{
         echo "Nouveau cycle créé";
 
         return $teamId;
+
+    }
+
+    public function addMember($newMemberEmail,$teamId,$userId){
+
+        //Check des droits du l'utilisateur qui veut ajouter un membre
+        // Recherche dans la table teamMember du champs promoted_at pour voir si le user est membre et modérateur
+        $memberPromotedAt = $this->teamMemberModel->findBy(["promoted_at"],["user_id"=>$userId,"team_id"=>$teamId],"onecolumn");
+
+        if(!$memberPromotedAt) echo "<br>Vous devez être modérateur pour effectuer cette action<br>";
+        else echo "<br>Vous avez le droit d'effectuer cette action<br>";
+
+        //Check si l'email correspond à un user
+        $newMemberUserId = $this->userModel->findBy(["id"],["email"=>$newMemberEmail],"onecolumn");
+        if(!$newMemberUserId) echo "<br>L'email renseignée ne correspond à aucun utilisateur<br>";
+        else echo "<br>L'email correspond au user $userId <br>";
+
+        //check si le user ne fait pas déjà partie du groupe
+        $newMemberMemberId = $this->teamMemberModel->findBy(["id"],["user_id"=>$newMemberUserId,"team_id"=>$teamId],"onecolumn");
+        if($newMemberMemberId) echo "<br>Cet utilisateur fait déjà partie du groupe ! <br>";
+        else echo "<br>L'utilisateur ne fait pas encore partie du groupe<br>";
+
+        //ajout
+        $this->teamMemberModel->create([
+            "joined_at"=>(new DateTime())->format("Y-m-d H:i:s"),
+            "team_id"=>$teamId,
+            "user_id"=>$newMemberUserId
+        ]);
 
     }
 
