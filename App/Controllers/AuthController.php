@@ -52,8 +52,9 @@ class AuthController extends BaseController{
      */
     public function disconnectUser(){
 
-        session_destroy();
-        header("Location: /?disconnected=true");
+        session_unset();
+        $_SESSION["disconnect"]=true;
+        header("Location: /");
         exit();
 
     }
@@ -88,7 +89,8 @@ class AuthController extends BaseController{
     public function disconnectAdmin(){
 
         session_destroy();
-        header("Location: /?disconnected=true");
+        $_SESSION["disconnect"]=true;
+        header("Location: /");
         exit();
 
     }

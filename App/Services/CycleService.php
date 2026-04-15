@@ -45,7 +45,7 @@ class CycleService extends BaseService{
      */
     function syncCycle($teamId){
         
-        echo "<br> CycleService->synchroCycle() <br>";
+        // echo "<br> CycleService->synchroCycle() <br>";
 
         // Cycle courant de la team
         $currentCycle = $this->cycleModel->getLastByTeam($teamId);
@@ -59,7 +59,7 @@ class CycleService extends BaseService{
         // Le cycle est-il périmée ?
         if($todayDate > $cycleEndDate){
 
-            echo "<br> Cycle périmée <br>";
+            // echo "<br> Cycle périmée <br>";
 
             // Les solutions proposées sont soumises au vote
             $this->openTreatmentsVotingSession($currentCycle["id"]);
@@ -70,7 +70,7 @@ class CycleService extends BaseService{
             // On créer un treatment, affecté au nouveau cycle, pour chaque frictions sélectionnées pour être traitées lors du dernier cycle
             $this->createTreatmentsFromTopVotedFrictions($currentCycle,$newCycleId,$teamId);
 
-        }else echo "Cycle non périmée"; // Else à supprimer lors de la mise en prod
+        }//else echo "Cycle non périmée"; // Else à supprimer lors de la mise en prod
 
             $this->closeTreatmentsVotingSession();
 
@@ -83,7 +83,7 @@ class CycleService extends BaseService{
      */
     private function openTreatmentsVotingSession(int $teamCycleId):void{
 
-        echo "<br> CycleService->openTreatmentsVotingSession() <br>";
+        // echo "<br> CycleService->openTreatmentsVotingSession() <br>";
 
         // Récupère les treatments d'un cycle;
         $treatmentsInProgress = $this->treatmentModel->findBy(["*"],["cycle_id"=>$teamCycleId]);
@@ -93,13 +93,13 @@ class CycleService extends BaseService{
 
                 $this->treatmentModel->update($treatment["id"],["status_id"=>3]); //treatment status_id 3 = A valider
                 $this->frictionModel->update($treatment["friction_id"],["status_id"=>3]); //friction status_id 3 = En vote
-                echo '<br> treatments $treatment["id"] et frictions $treatment["friction_id"] passé au status 3 <br>';
+                // echo '<br> treatments $treatment["id"] et frictions $treatment["friction_id"] passé au status 3 <br>';
 
             }else{
 
                 $this->treatmentModel->update($treatment["id"],["status_id"=>5]); //treatment status_id 5 = Non validé
                 $this->frictionModel->update($treatment["friction_id"],["status_id"=>4]); //friction status_id 4 = Clos
-                echo '<br> treatments $treatment["id"] et frictions $treatment["friction_id"] passé au status 5 & 4 <br>';
+                // echo '<br> treatments $treatment["id"] et frictions $treatment["friction_id"] passé au status 5 & 4 <br>';
 
             }
 
@@ -113,7 +113,7 @@ class CycleService extends BaseService{
      * @return int l'id du cycle créé
      */
     private function createCycle($teamId){
-        echo "<br> CycleService->createCycle() <br>";
+        // echo "<br> CycleService->createCycle() <br>";
 
         $team = $this->teamModel->getById($teamId);
 
@@ -137,11 +137,11 @@ class CycleService extends BaseService{
      * @return void
      */
     private function createTreatmentsFromTopVotedFrictions($pastCycle,$newCycleId,$teamId){
-        echo "<br> CycleService->createTreatmentsFromTopVotedFrictions() <br>";
+        // echo "<br> CycleService->createTreatmentsFromTopVotedFrictions() <br>";
 
         $topVotedFrictionsId = $this->frictionVotesModel->findMostVotedByCycle($pastCycle["id"],$pastCycle["max_active_treatments"]);
         foreach($topVotedFrictionsId as $frictionId){
-            var_dump($frictionId);
+            // var_dump($frictionId);
             $this->treatmentModel->create([
                 "created_at" => (new DateTime())->format("Y-m-d H:i:s"),
                 "pilot_id" => $this->teamMemberModel->getRandomMemberNotPilot($teamId,$newCycleId),
@@ -161,7 +161,7 @@ class CycleService extends BaseService{
      * @return void
      */
     private function closeTreatmentsVotingSession(){
-        echo "<br> CycleService->closeTreatmentsVotingSession() <br>";
+        // echo "<br> CycleService->closeTreatmentsVotingSession() <br>";
 
         $inVotingTreatments = $this->treatmentModel->findBy(["*"],["status_id"=>3]); // treatment status_id 3 = A valider
         

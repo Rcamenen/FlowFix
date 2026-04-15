@@ -9,6 +9,7 @@ use App\Models\TreatmentModel;
 
 use Exception;
 use App\Exceptions\FormException;
+use App\Exceptions\RoleException;
 
 use DateTime;
 
@@ -93,7 +94,7 @@ class UserService{
 
         $errors = $this->createUserDataCheck($createUserData);
 
-        if(!empty($errors)) throw new FormException($errors,"Champs incorrectes");
+        if(!empty($errors)) throw new FormException($errors,"register","Champs incorrectes");
         
 
         // ================== USER CREATION =================== //
@@ -123,18 +124,18 @@ class UserService{
 
         $errors = $this->connectUserDataCheck($connectUserData);
 
-        if($errors) throw new FormException($errors,"Champs login incorrects");
+        if($errors) throw new FormException($errors,"login","Champs login incorrects");
 
 
         // ================== MATCHING EMAIL/PASSWORD =================== //
 
         $userIdAndHash = $this->userModel->getIdAndHash($connectUserData["email"]);
 
-        if(!$userIdAndHash) throw new Exception("Couple nom d'utilisateur / mot de passse incorrecte");
+        if(!$userIdAndHash) throw new RoleException("login","Couple nom d'utilisateur / mot de passse incorrecte");
 
         $passwordMatch = password_verify($connectUserData["password"],$userIdAndHash["password_hash"]);
         
-        if(!$passwordMatch) throw new Exception("Couple nom d'utilisateur / mot de passse incorrecte");
+        if(!$passwordMatch) throw new RoleException("login","Couple nom d'utilisateur / mot de passse incorrecte");
 
         // ================== LOOKING FOR TEAMS THE USER IS MEMBER OF =================== //
 

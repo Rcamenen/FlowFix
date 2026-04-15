@@ -30,7 +30,7 @@ class UserController extends BaseController{
 
         if(!empty($_GET["connected"])) $data["successMessage"] = "Connexion réussie";
 
-        $this->renderView("teamsPanel",$data);
+        $this->renderView("User/teamsPanel",$data);
 
         exit();
 

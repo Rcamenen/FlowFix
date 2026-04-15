@@ -12,6 +12,16 @@
 </head>
 <body>
     <script src="/js/nav.js" defer></script>
+
+    <?php if(isset($_GET["message"])) echo $_GET["message"]; ?>
+
+    <?php if(isset($_SESSION["disconnect"])): ?>
+    <div class="container">
+        <p class="notice--success">Vous avez bien été déconnecté ! </p>
+        <?php unset($_SESSION["disconnect"]) ?>
+    </div>
+    <?php endif ?>
+    
     <header class="header">
 
         <nav class="navbar">
@@ -30,63 +40,61 @@
                     <a class="navbar__link" href="/">Accueil</a>
                 </li>
 
-                <?php if(empty($_SESSION["adminId"])) {?>
+                <?php if(empty($_SESSION["adminId"])): ?>
 
-                    <?php if(!empty($_SESSION["userId"])) {?>
-                        <li class="navbar__item">
-                            <a class="navbar__link" href="/teams">Groupes</a>
-                        </li>
+                    <?php if(!empty($_SESSION["userId"])): ?>
 
-                        <li class="navbar__item">
-                            <a class="navbar__link" href="/account">Profil</a>
-                        </li>
+                    <li class="navbar__item">
+                        <a class="navbar__link" href="/teams">Groupes</a>
+                    </li>
 
-                        <form action="/logout" method="post">
-                            <button type="submit">Déconnexion</button>
-                        </form>
-                    <?php }else{ ?>
+                    <li class="navbar__item">
+                        <a class="navbar__link" href="/account">Profil</a>
+                    </li>
 
-                
+                    <form action="/logout" method="post">
+                        <button type="submit">Déconnexion</button>
+                    </form>
 
+                    <?php else: ?>
 
                     <li class="navbar__item">
                         <a class="navbar__link" href="/register">Inscription</a>
                     </li>
 
-                    
                     <li class="navbar__item">
-                        <?php if(empty($_SESSION["userId"])) {?><a class="navbar__link" href="/login">Connexion</a><?php }; ?>
+                        <a class="navbar__link" href="/login">Connexion</a>
                     </li>
-                <?php } ?>
+
+                    <?php endif ?>
 
                     <li class="navbar__item navbar__item--active">
-                        <a class="navbar__link" href="/contact">Contact</a>
+                    <a class="navbar__link" href="/contact">Contact</a>
                     </li>
 
-                <?php }else{ ?>
+                <?php else: ?>
 
                     <li class="navbar__item">
-                        <a class="navbar__link" href="/admin/teams">Groupes</a>
+                    <a class="navbar__link" href="/admin/teams">Groupes</a>
                     </li>
 
                     <li class="navbar__item navbar__item--active">
-                        <a class="navbar__link" href="/admin/users">Utilisateurs</a>
+                    <a class="navbar__link" href="/admin/users">Utilisateurs</a>
                     </li>
 
                     <li class="navbar__item navbar__item--active">
-                        <form action="/admin/logout" method="post">
-                            <button type="submit">Déconnexion</button>
-                        </form>
+                    <form action="/admin/logout" method="post">
+                        <button class="navbar__link" type="submit">Déconnexion</button>
+                    </form>
                     </li>
 
-                <?php } ?>
+                <?php endif ?>
 
             </ul>
 
         </nav>
 
     </header>
-    
     <?php include($contentPath); ?>
 </body>
 </html>

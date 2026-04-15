@@ -66,7 +66,7 @@ class LoginController extends BaseController{
 
         (!empty($_GET["registered"]) && $_GET["registered"]) ? $data["successMessage"]="Votre compte a bien été créé, vous pouvez dès à présent vous connecter !" : null;
         
-        $this->renderView("login",$data ?? null);
+        $this->renderView("Auth/login",$data ?? null);
 
     }
 }

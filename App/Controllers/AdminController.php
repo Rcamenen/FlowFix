@@ -25,7 +25,7 @@ class AdminController extends BaseController{
 
         if(!empty($_GET["connected"])) $data["successMessage"] = "Connexion réussie";
 
-        $this->renderView("adminPanel",$data ?? null);
+        $this->renderView("Admin/adminPanel",$data ?? null);
 
         exit();
 
@@ -42,7 +42,7 @@ class AdminController extends BaseController{
 
         $data = $this->adminService->showUsers(); // userGroups / userInvitations /
 
-        $this->renderView("usersAdmin",$data ?? null);
+        $this->renderView("Admin/usersAdmin",$data ?? null);
 
         exit();
 
@@ -54,7 +54,7 @@ class AdminController extends BaseController{
 
         $data = $this->adminService->showTeams(); // userGroups / userInvitations /
 
-        $this->renderView("teamsAdmin",$data ?? null);
+        $this->renderView("Admin/teamsAdmin",$data ?? null);
 
     }
 }

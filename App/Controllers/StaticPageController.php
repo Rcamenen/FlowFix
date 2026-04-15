@@ -23,7 +23,7 @@ class StaticPageController extends BaseController{
      */
     public function showPageNotFound(){
         
-        $this->renderView("404",$response ?? null);
+        $this->renderView("Errors/404",$response ?? null);
 
     }
 
@@ -35,7 +35,7 @@ class StaticPageController extends BaseController{
     public function showRegisterPage(){
 
         if($this->isUserConnected()) header("Location: /");
-        $this->renderView("register");
+        $this->renderView("Auth/register");
 
     }
 
@@ -51,7 +51,7 @@ class StaticPageController extends BaseController{
 
         (!empty($_GET["registered"]) && $_GET["registered"]) ? $data["successMessage"]="Votre compte a bien été créé, vous pouvez dès à présent vous connecter !" : null;
         
-        $this->renderView("login",$data ?? null);
+        $this->renderView("Auth/login",$data ?? null);
 
     }
 
@@ -62,7 +62,7 @@ class StaticPageController extends BaseController{
      */
     public function showAdminLoginPage(){
         
-        $this->renderView("adminLogin",$data ?? null);
+        $this->renderView("Admin/adminLogin",$data ?? null);
 
     }
 }

@@ -139,6 +139,19 @@ class FrictionModel extends BaseModel{
 
     }
 
+    public function findByTeam($teamId) {
+        $stmt = $this->connection->prepare(
+            "SELECT f.*, fs.label AS status_label 
+            FROM FRICTIONS AS f
+            JOIN FRICTION_STATUS AS fs ON f.status_id = fs.id
+            WHERE f.team_id = :teamId
+            ORDER BY f.created_at DESC
+        ");
+        $stmt->bindValue(":teamId", $teamId, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
 
     ///////////////////////////// TEST /////////////////////////////////
 

@@ -62,8 +62,35 @@ class TeamService extends BaseService{
 
         $votes = $this->frictionVotesModel->getCounterByMemberAndTeam($currentCycle,$teamMemberId);
 
-        echo "<br>Nombre de votes : $votes <br>";
+        // echo "<br>Nombre de votes : $votes <br>";
 
+        return $response;
+
+    }
+
+    /** getDashboardData()
+     * Retrieve and aggregate dashboard data including the friction to pilot and frictions in progress for the given user and team
+     * Return a structured response array containing the collected data
+     * @param int $userId
+     * @param int $teamId
+     * @return array
+     */
+    public function getFrictionsData($userId,$teamId){
+
+        // ======================================== Retrieve frictions
+
+        $frictions = $this->frictionModel->findByTeam($teamId);
+        // ======================================== Retrieve teamMemberId
+
+        $currentCycle = $this->cycleModel->getCurrentCycle($teamId);
+
+        // ======================================== Add vote count to each friction
+        foreach($frictions as &$friction){
+            $friction["votes"] = $this->frictionVotesModel->getVotesCounter($currentCycle, $friction["id"] ?? null);
+        }
+
+        $response["frictions"] = $frictions ?? null;
+        
         return $response;
 
     }

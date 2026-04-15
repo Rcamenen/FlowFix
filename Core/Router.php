@@ -34,6 +34,7 @@ class Router{
             }catch(FormException $e){
 
                 $_SESSION["error"]=$e->getMessage();
+                $_SESSION["formErrors"]=$e->getErrors();
                 header("Location: /".$e->getView());
                 exit;
 

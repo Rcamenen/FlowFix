@@ -3,6 +3,7 @@ namespace App\Controllers;
 
 use App\Exceptions\AuthenticateException;
 use App\Exceptions\AuthorizationException;
+use App\Exceptions\RoleException;
 use Core\BaseController;
 
 use App\Services\TeamService;
@@ -43,6 +44,29 @@ class TeamController extends BaseController{
 
     }
 
+    /** showDashboard()
+     * Retrieve group's home data & render the view for the current user.
+     * 
+     * @param {Array} $params : Array which contain route params (groupId, ...)
+     * @return void Render group home view in case of success, throw exception if not
+     */
+
+    public function showTeamFrictionsPage($params){
+
+        if(!$this->checkRole("user",$params["teamId"])) throw new AuthenticateException("Vous devez vous connecter pour accéder à un groupe !");
+        if(!$this->checkRole("member",$params["teamId"]))throw new AuthorizationException("teams","Vous devez faire partie du groupe pour l'afficher");
+
+        $this->cycleService->syncCycle($params["teamId"]);
+
+        $data=$this->teamService->getFrictionsData($_SESSION["userId"],$params["teamId"]);
+        
+        $data["teamId"]= $params["teamId"];
+        $data["isModerator"]= (in_array($params["teamId"],$_SESSION["moderateTeamsId"]))?true:false;
+
+        $this->renderView("team/teamFrictions",$data);
+
+    }
+
     /** create()
      * Check if the user is connected and initiate the team creation process
      * @param {*}
@@ -50,7 +74,7 @@ class TeamController extends BaseController{
      */
     public function createTeam(){
 
-        if(!$this->checkRole("user")) throw new AuthenticateException("login","Vous devez d'abord vous connecter pour créer un groupe !");
+        if(!$this->checkRole("user")) throw new RoleException("login","Vous devez d'abord vous connecter pour créer un groupe !");
 
         echo "TeamController->create()";
 
@@ -95,17 +119,16 @@ class TeamController extends BaseController{
 
     public function showFrictions($params) {
 
-    $this->checkAccess($params);
+        $this->checkAccess($params);
 
-    $page = isset($_GET["page"]) && is_numeric($_GET["page"])
-            ? (int) $_GET["page"] : 1;
+        $page = (isset($_GET["page"]) && is_numeric($_GET["page"])) ? (int) $_GET["page"] : 1;
 
-    $data = $this->teamService->getFrictionsPage(
-        $params["teamId"],
-        $page
-        );
+        $data = $this->teamService->getFrictionsPage(
+                $params["teamId"],
+                $page
+            );
 
-    $this->renderPartial("partials/frictionsList", $data);
+        $this->renderPartial("Partials/frictionsList", $data);
 
     }
 }
