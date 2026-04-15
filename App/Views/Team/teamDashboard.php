@@ -10,7 +10,7 @@
                     
             <?php unset($_SESSION['error']) ;} ?>
 
-<main class="main container">
+<main class="main container" data-team-id=<?= $teamId ?>>
 
     <h1 class="title-md">Tableau de bord</h1>
     <!-- MESSAGE DE SUCCES OU D'ERREUR -->
@@ -27,16 +27,16 @@
         <nav class="subnav">
             <p class="section-label">Groupe</p>
             <ul class="subnav__list">
-                <li class="subnav__item btn-tab btn-tab--active">Vue globale</li>
-                <li class="subnav__item btn-tab"><a href="/team/<?= $teamId ?>/frictions">Irritants</a></li>
-                <li class="subnav__item btn-tab">Infos groupe</li>
-                <li class="subnav__item btn-primary--sm"><a href="/team/<?= $teamId ?>/friction/create">Créer un irritant</a></li>
+                <li data-tab-button="dashboard" class="subnav__item btn-tab btn-tab--active">Vue globale</li>
+                <li data-tab-button="frictions" class="subnav__item btn-tab">Irritants</li>
+                <li data-tab-button="infos" class="subnav__item btn-tab">Infos groupe</li>
+                <li data-tab-button="addFriction" class="subnav__item btn-primary--sm"><a href="/team/<?= $teamId ?>/friction/create">Créer un irritant</a></li>
             </ul>
         </nav>
     </aside>
 
     <div class="main__content">
-        <section class="main__section section main__section main__section--first">
+        <section data-tab-content="dashboard" class="main__section section main__section main__section--first">
 
             <div class="section__top">
                 <h2 class="section__title title-lg">Irritants à piloter</h2>
@@ -58,7 +58,7 @@
 
         </section>
 
-        <section class="main__section section main__section">
+        <section data-tab-content="dashboard" class="main__section section">
 
             <div class="section__top">
                 <h2 class="section__title title-lg">Irritants en cours</h2>
@@ -80,7 +80,7 @@
 
         </section>
 
-        <section class="main__section section main__section">
+        <section data-tab-content="dashboard" class="main__section section">
 
             <div class="section__top">
                 <h2 class="section__title title-lg">Vos votes</h2>
@@ -102,51 +102,21 @@
 
         </section>
 
-        <!-- <section id="tab-frictions" class="tab-content main__section section">
+        <section data-tab-content="frictions" class="main__section section dn main__section--first">
+
             <div class="section__top">
-                <h2 class="section__title title-xl">Irritants à piloter</h2>
+                <h2 class="section__title title-lg">Listes des irritants</h2>
             </div>
-            <div id="frictions-container">
-            
+
+            <!-- AFFICHAGE DES IRRITANTS DU GROUPES -->
+            <div class="section__content">
+
             </div>
 
         </section>
-
-
-        <section id="tab-infos" class="tab-content main__section section">
-
-            <div class="section__top">
-                <h2 class="section__title title-xl">Irritants à piloter</h2>
-            </div>
-            <div id="frictions-container">
-            
-            </div>
-
-        </section> -->
-
     </div>
     </div>
 </main>
-
-<!-- <nav class="tab-nav">
-    <button class="tab-btn active" data-tab="overview">Vue globale</button>
-    <button class="tab-btn" data-tab="frictions">Liste des irritants</button>
-    <button class="tab-btn" data-tab="infos">Infos groupe</button>
-</nav> -->
-
-<!-- <div class="container">
-
-    <a class="btn-primary" href="/team/<?= $teamId ?>/friction/create">Créer un irritant</a>
-
-</div> -->
-
-<!-- <div id="tab-overview" class="tab-content active wrapper"> -->
-
-        
-
-<!-- <div id="team-dashboard" data-team-id="<?= htmlspecialchars($teamId) ?>">
-    ...
-</div> -->
 
 <script src="/js/dashboard.js" defer></script>
 

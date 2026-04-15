@@ -217,17 +217,31 @@ class TeamService extends BaseService{
     
     ///////////////////////////// TEST /////////////////////////////////
 
-    public function getFrictionsPage($teamId, $page = 1, $limit = 10) {
-        $offset = ($page - 1) * $limit;
-        $total  = $this->frictionModel->countByTeam($teamId);
+    public function getFrictionsPage($teamId, $page = 1, $limit = 10){
 
-        return [
-            "frictions"   => $this->frictionModel->findByTeamPaginated($teamId, $limit, $offset),
-            "currentPage" => $page,
-            "totalPages"  => (int) ceil($total / $limit),
-            "teamId"      => $teamId
-        ];
-}
+        // ======================================== Retrieve frictions
+        $offset = ($page - 1) * $limit;
+        $frictions = $this->frictionModel->findByTeamPaginated($teamId, $limit, $offset);
+
+        // ======================================== Retrieve current cycle
+        $currentCycle = $this->cycleModel->getCurrentCycle($teamId);
+
+        // ======================================== Add vote count to each friction
+        foreach($frictions as &$friction){
+            $friction["votes"] = $this->frictionVotesModel->getVotesCounter($currentCycle, $friction["id"] ?? null);
+        }
+
+        // ======================================== Pagination data
+        $total = $this->frictionModel->countByTeam($teamId);
+
+        $response["frictions"]   = $frictions ?? null;
+        $response["currentPage"] = $page;
+        $response["totalPages"]  = (int) ceil($total / $limit);
+        $response["teamId"]      = $teamId;
+
+        return $response;
+
+    }
 
 }
 

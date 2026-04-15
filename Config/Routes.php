@@ -24,11 +24,11 @@ use App\Controllers\AuthController;
             "/account"=>["controller"=>UserController::class,"method"=>"showAccountPage"],
 
             "/team/{teamId}"=>["controller"=>TeamController::class,"method"=>"showTeamPage"],
-            "/team/{teamId}/frictions"=>["controller"=>TeamController::class,"method"=>"showTeamFrictionsPage"],
+            // "/team/{teamId}/frictions"=>["controller"=>TeamController::class,"method"=>"showTeamFrictionsPage"],
             "/team/{teamId}/friction/{frictionId}"=>["controller"=>FrictionController::class,"method"=>"showFrictionPage"],
             "/team/{teamId}/friction/create"=>["controller"=>FrictionController::class,"method"=>"showFrictionCreationPage"],
 
-            // "/team/{teamId}/frictions" => ["controller"=>TeamController::class,"method"=> "showFrictions"],
+            "/team/{teamId}/frictions" => ["controller"=>TeamController::class,"method"=> "showFrictions"],
 
             "/admin/login" => ["controller"=>StaticPageController::class,"method"=> "showAdminLoginPage"],
             "/adminPanel" => ["controller"=>AdminController::class,"method"=> "showAdminPanel"],

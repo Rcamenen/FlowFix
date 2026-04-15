@@ -461,9 +461,13 @@ p {
   align-items: flex-start;
   gap: 32px;
 }
+.main__content {
+  width: 100%;
+}
 .main__section {
   padding-top: 32px;
   padding-bottom: 32px;
+  width: 100%;
 }
 .main__section--first {
   padding-top: 0px;
@@ -474,6 +478,7 @@ p {
   justify-content: flex-start;
   align-items: flex-start;
   gap: 32px;
+  width: 100%;
 }
 
 @media screen and (min-width: 850px) {
@@ -499,6 +504,7 @@ p {
   justify-content: flex-start;
   align-items: flex-start;
   gap: 16px;
+  width: 100%;
 }
 
 .badge {
@@ -560,6 +566,7 @@ p {
 }
 
 .card--friction, .card--friction-closed, .card--friction-invote, .card--friction-inprogress, .card--friction-totreat {
+  width: 100%;
   padding: 1.5rem;
   background-color: white;
   border-top: 2px solid rgb(255, 225, 0);
@@ -604,6 +611,7 @@ p {
   display: flex;
   flex-direction: column;
   gap: 32px;
+  width: 100%;
 }
 .form__input {
   background-color: var(--bg-surface);
@@ -697,7 +705,16 @@ p {
     gap: 8px;
   }
 }
-.btn, .btn-secondary, .btn-primary, .btn-primary--sm {
+.pagination {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+
+.btn, .btn-secondary, .btn-secondary--sm, .btn-primary, .btn-primary--sm {
   display: inline-block;
   font-family: var(--font-text);
   font-size: 1rem;
@@ -721,13 +738,17 @@ p {
   padding: 0px 8px;
 }
 
-.btn-secondary {
+.btn-secondary, .btn-secondary--sm {
   background: var(--bg-surface);
   color: var(--text-primary);
   border-color: var(--border);
 }
-.btn-secondary:hover {
+.btn-secondary:hover, .btn-secondary--sm:hover {
   border-color: var(--brand);
+}
+
+.btn-secondary--sm {
+  padding: 0px 8px;
 }
 
 .btn-tab {
@@ -743,6 +764,16 @@ p {
   color: #2563EB;
   border: 1px solid #2563EB;
   cursor: pointer;
+}
+
+.btn--inactive {
+  color: var(--text-muted);
+}
+
+.btn--inactive:hover {
+  color: var(--text-muted);
+  border-color: var(--border);
+  cursor: default;
 }
 
 .notice, .notice--warning, .notice--info, .notice--error, .notice--success {
@@ -875,6 +906,10 @@ p {
 .abs--center {
   left: 50%;
   transform: translateX(-50%);
+}
+
+.dn {
+  display: none !important;
 }
 
 /*# sourceMappingURL=main.css.map */

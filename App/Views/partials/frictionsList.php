@@ -1,19 +1,60 @@
-<?php foreach($frictions as $friction): ?>
-<div class="frictionCard teamCard">
-    <h3><?= htmlspecialchars($friction["title"]) ?></h3>
-    <span><?= htmlspecialchars($friction["status_label"]) ?></span>
-    <a href="/team/<?= $teamId ?>/friction/<?= $friction["id"] ?>">Voir</a>
-</div>
+<?php
+    $labelClassMap = [
+        'Non traité'    => 'totreat',
+        'En cours' => 'inprogress',
+        'En vote'     => 'invote',
+        'Clos'     => 'closed'
+    ];
+?>
+
+<?php foreach($frictions as $f): ?>
+
+<article class="card--friction-<?= $labelClassMap[$f["status_label"]] ?>">
+
+    <header class="card--friction__header">
+        <h3><?= $f["title"] ?></h3>
+        <span class="badge badge--<?= $labelClassMap[$f["status_label"]] ?>"><?= $f["status_label"] ?></span>
+    </header>
+
+    <p><?= $f["description"] ?></p>
+
+    <?php if($f["status_label"]=="Non traité"): ?>
+        <p><?= $f["votes"] ?> votes</p>
+    <?php endif?>
+
+    <p><?= $f["status_label"] ?></p>
+
+    <a class="btn-secondary" href="/team/<?= $teamId ?>/friction/<?= $f["id"] ?>">Consulter l'irritant</a>
+
+</article>
+
 <?php endforeach; ?>
 
+<?php if(!$frictions):?>
+
+    <p class="notice--info">Aucun irritant sur le groupe !</p>
+
+
+<?php else: ?>
+
+
 <nav class="pagination">
+
+
     <?php if($currentPage > 1): ?>
-        <button onclick="loadFrictions(<?= $teamId ?>, <?= $currentPage - 1 ?>)">← Précédent</button>
+        <a class="pagination__prev btn-secondary--sm" data-team="<?= $teamId ?>" data-page="<?= $currentPage - 1 ?>">Précédent</a>
+    <?php else: ?>
+        <a class="btn-secondary--sm btn--inactive">Précédent</a>
     <?php endif; ?>
 
-    <span>Page <?= $currentPage ?> / <?= $totalPages ?></span>
+    <span><?= $currentPage ?> / <?= $totalPages ?></span>
 
     <?php if($currentPage < $totalPages): ?>
-        <button onclick="loadFrictions(<?= $teamId ?>, <?= $currentPage + 1 ?>)">Suivant →</button>
+        <a class="pagination__next btn-secondary--sm" data-team="<?= $teamId ?>" data-page="<?= $currentPage + 1 ?>">Suivant</a>
+    <?php else: ?>
+        <a class="btn-secondary--sm btn--inactive">Suivant</a>
     <?php endif; ?>
+
 </nav>
+
+<?php endif ?>

@@ -1,32 +1,63 @@
-const teamId = document.getElementById('team-dashboard').dataset.teamId;
-let frictionsLoaded = false;
+const tabButtons = document.querySelectorAll(".subnav li");
+const tabContents = document.querySelectorAll(".main__content section");
+const teamId = document.querySelector("main").dataset.teamId;
+frictionLoaded = false;
 
-// Gestion des onglets
-document.querySelectorAll('.tab-btn').forEach(btn => {
+tabButtons.forEach(tabButton => {
 
-    btn.addEventListener('click', () => {
+    // ECOUTE AU CLICK DES TAB BUTTONS
+    tabButton.addEventListener("click",function(){
+
+        tabName = this.dataset.tabButton;
         
-        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-        document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-        btn.classList.add('active');
-        document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+        // CSS TAB BUTTONS
+        tabButtons.forEach(tabButton=>{
+            if(tabButton.dataset.tabButton != tabName) tabButton.classList.remove("btn-tab--active");
+            else tabButton.classList.add("btn-tab--active")
+        })
 
-        // Chargement lazy au premier clic sur "liste"
-        if (btn.dataset.tab === 'frictions' && !frictionsLoaded) {
-            loadFrictions(teamId, 1);
-            frictionsLoaded = true;
+        tabContents.forEach(tabContent => {
+            if(tabContent.dataset.tabContent != tabName) tabContent.classList.add("dn");
+            else tabContent.classList.remove("dn");
+        });
+
+        if(tabName == "frictions" && !frictionLoaded){
+            console.log("frictions");
+            loadFrictions(teamId,1);
+            frictionLoaded = true;
         }
-    });
+        
+    })
+
 });
 
-// Chargement AJAX de la liste paginée
-function loadFrictions(teamId, page) {
+
+function loadFrictions(teamId, page){
+
     fetch(`/team/${teamId}/frictions?page=${page}`)
-        .then(r => r.text())
-        .then(html => {
-            document.getElementById('frictions-container').innerHTML = html;
-        })
-        .catch(() => {
-            document.getElementById('frictions-container').innerHTML = '<p>Erreur de chargement.</p>';
-        });
+    .then(response=>response.text())
+    .then(html => {
+
+        document.querySelector("[data-tab-content=frictions] .section__content").innerHTML=html
+
+        const prevBtn = document.querySelector(".pagination__prev");
+        const nextBtn = document.querySelector(".pagination__next");
+
+        if(prevBtn){
+            prevBtn.addEventListener("click", function(){
+                loadFrictions(this.dataset.team, this.dataset.page);
+            },{ once: true });
+        }
+
+        if(nextBtn){
+            nextBtn.addEventListener("click", function(){
+                loadFrictions(this.dataset.team, this.dataset.page);
+            },{ once: true });
+        }
+
+    })
+    .catch(() => {
+        document.querySelector("[data-tab-content=frictions] .section__content").innerHTML = '<p>Erreur de chargement.</p>'
+    })
+
 }
