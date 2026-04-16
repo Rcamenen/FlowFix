@@ -46,11 +46,20 @@ class TeamService extends BaseService{
         // ======================================== Retrieve teamMemberId
 
         $teamMemberId = $this->teamMemberModel->findMemberId($userId,$teamId);
-        $currentCycle = $this->cycleModel->getCurrentCycle($teamId);
+
+        // ======================================== Retrieve teamMemberId
+
+        $teamName = $this->teamModel->findBy(["name"],["id"=>$teamId],"onecolumn");
+        $response["teamName"]=$teamName ?? null;
 
         // ======================================== Retrieve friction to pilot if exists
 
-        $frictionsToPilot = $this->frictionModel->findByPilotAndCycle($teamMemberId,$currentCycle);
+        $currentCycle = $this->cycleModel->getCurrentCycle($teamId);
+        $response["cycle"]=$currentCycle ?? null;
+
+        // ======================================== Retrieve friction to pilot if exists
+
+        $frictionsToPilot = $this->frictionModel->findByPilotAndCycle($teamMemberId,$currentCycle["id"]);
         $response["frictionsToPilot"] = $frictionsToPilot ?? null;
 
         // ======================================== Retrieve friction in progress if exists
@@ -60,7 +69,7 @@ class TeamService extends BaseService{
 
         // ======================================== Retrieve given's votes number
 
-        $votes = $this->frictionVotesModel->getCounterByMemberAndTeam($currentCycle,$teamMemberId);
+        $votes = $this->frictionVotesModel->getCounterByMemberAndTeam($currentCycle["id"],$teamMemberId);
 
         // echo "<br>Nombre de votes : $votes <br>";
 
@@ -82,7 +91,7 @@ class TeamService extends BaseService{
         $frictions = $this->frictionModel->findByTeam($teamId);
         // ======================================== Retrieve teamMemberId
 
-        $currentCycle = $this->cycleModel->getCurrentCycle($teamId);
+        $currentCycle = $this->cycleModel->getCurrentCycleId($teamId);
 
         // ======================================== Add vote count to each friction
         foreach($frictions as &$friction){
@@ -122,8 +131,8 @@ class TeamService extends BaseService{
 
         // Adding new cycle to DB
         $this->cycleModel->create([
-            "start_date" => new DateTime()->format("Y-m-d H:i:s"),
-            "end_date" => new DateTime()->modify("+".$createTeamData["duration"]." days")->format("Y-m-d H:i:s"),
+            "start_date" => new DateTime()->setTime(0, 0, 0)->format("Y-m-d H:i:s"),
+            "end_date" => new DateTime()->setTime(23, 59, 0)->modify("+".$createTeamData["duration"]." days")->format("Y-m-d H:i:s"),
             "max_active_treatments" => $createTeamData["treatmentsMax"],
             "treatments_voting_delay" => $createTeamData["votingDelay"],
             "team_id" => $teamId
@@ -224,7 +233,7 @@ class TeamService extends BaseService{
         $frictions = $this->frictionModel->findByTeamPaginated($teamId, $limit, $offset);
 
         // ======================================== Retrieve current cycle
-        $currentCycle = $this->cycleModel->getCurrentCycle($teamId);
+        $currentCycle = $this->cycleModel->getCurrentCycleId($teamId);
 
         // ======================================== Add vote count to each friction
         foreach($frictions as &$friction){
