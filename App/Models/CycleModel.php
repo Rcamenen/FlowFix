@@ -29,7 +29,26 @@ class CycleModel extends BaseModel{
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    /** getCurrentCycle()
+    /** getCurrentCycleId()
+     * Query the database to retrieve the active cycle for a given team based on the current date
+     * Return the cycle ID or false if no active cycle is found
+     * @param int $teamId
+     * @return int|false
+     */
+    public function getCurrentCycleId($teamId){
+
+        $currentDate = new DateTimeImmutable()->format("Y-m-d H:i:s");
+
+            $stmt = $this->connection->prepare("SELECT id FROM CYCLES WHERE end_date>:currentDate AND team_id=:teamId");
+            $stmt->execute([":teamId"=>$teamId,":currentDate"=>$currentDate]);
+
+            $result = $stmt->fetch(PDO::FETCH_COLUMN);
+
+            return $result;
+
+    }
+
+    /** getCurrentCycleId()
      * Query the database to retrieve the active cycle for a given team based on the current date
      * Return the cycle ID or false if no active cycle is found
      * @param int $teamId
@@ -42,7 +61,7 @@ class CycleModel extends BaseModel{
             $stmt = $this->connection->prepare("SELECT * FROM CYCLES WHERE end_date>:currentDate AND team_id=:teamId");
             $stmt->execute([":teamId"=>$teamId,":currentDate"=>$currentDate]);
 
-            $result = $stmt->fetch(PDO::FETCH_COLUMN);
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
             return $result;
 
