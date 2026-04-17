@@ -4,16 +4,22 @@ namespace App\Controllers;
 use Core\BaseController;
 
 use App\Services\FrictionService;
+use App\Services\UserService;
 
 use App\Exceptions\AuthenticateException;
 use App\Exceptions\AuthorizationException;
+use App\Exceptions\RoleException;
+use App\Models\TreatmentModel;
 
 class FrictionController extends BaseController{
 
     private FrictionService $frictionService;
+    private UserService $userService;
 
     public function __construct(){
         $this->frictionService = new FrictionService;
+        $this->userService = new UserService;
+;
     }
 
     /** getFrictionView()
@@ -32,7 +38,7 @@ class FrictionController extends BaseController{
         $frictionId = $params["frictionId"] ?? null;
 
         $data = $this->frictionService->getFrictionData($frictionId,$currentTeamId,$userId);
-        $data["teamId"] = $currentTeamId;
+        $data["teamId"] = (string) $currentTeamId;
 
         $this->renderView("/team/friction/frictionDetails",$data);
 
@@ -91,11 +97,43 @@ class FrictionController extends BaseController{
 
         $currentTeamId = $params["teamId"];
 
-        $data=[
-            "teamId"=>$currentTeamId
-        ];
+        $data=["teamId"=>$currentTeamId];
 
         $this->renderView("/team/friction/frictionCreation",$data);
+
+    }
+
+    public function showAddingSolutionPage($params){
+
+        $this->checkRole("member");
+
+        $isPilot = $this->userService->isPilot($_SESSION["userId"],$params["teamId"]);
+
+        if(!$isPilot)throw new RoleException("","Vous n'êtes pas pilote de ce traitement");
+
+        $data["frictionId"] = $params["frictionId"];
+        $data["teamId"] = $params["teamId"];
+        $data["treatmentId"] = $params["treatmentId"];
+
+        $this->renderView("/Team/friction/solutionAdding",$data ?? null);
+
+    }
+
+    public function addSolution($params){
+
+        $this->checkRole("member");
+
+        $isPilot = $this->userService->isPilot($_SESSION["userId"],$params["teamId"]);
+
+        if(!$isPilot)throw new RoleException("","Vous n'êtes pas pilote de ce traitement");
+
+        $data = $this->getPost(["solution"]);
+
+        $this->frictionService->addSolution($data["solution"],$params["treatmentId"]);
+        
+        header("Location: /team/".$params["teamId"]."/friction/".$params["frictionId"]);
+        
+        exit();
 
     }
 }

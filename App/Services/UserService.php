@@ -216,6 +216,19 @@ class UserService{
 
     }
 
+    //Utiliser pour afficher la page de soumission d'une solution sur un irritant
+    public function isPilot($userId,$teamId):bool{
+
+        $memberId = $this->teamMemberModel->findBy(['id'],['user_id'=>$userId],"onecolumn");
+
+        if(!empty($this->treatmentModel->findBy(["id"],["pilot_id"=>$memberId]))){
+
+            return true;
+
+        }else return false;
+
+    }
+
 }
 
 ?>
