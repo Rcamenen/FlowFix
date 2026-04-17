@@ -1,9 +1,3 @@
-<?php if(isset($data))extract($data); // extraction des données pour accès direct aux variables ?>
-<!-- <?php var_dump($data); ?> -->
-
-
-
-
 <main>
     <div class="wrapper">
 
