@@ -18,6 +18,14 @@ abstract class BaseController {
 
     }
 
+    /** renderPartial()
+     * Render a view without the layout (for AJAX responses)
+     */
+    protected function renderPartial($view, $response = null) {
+        if ($response) extract($response);
+        require(ROOT . "/App/Views/" . $view . ".php");
+    }
+
     /** isUserConnected()
      * Check if a user session ID is set to determine if the user is connected
      * Return true if connected, false otherwise
@@ -106,23 +114,13 @@ abstract class BaseController {
         foreach($postsName as $postName){
 
             $key = $postName;
-            $value = trim($_POST[$postName]);
+            $value = htmlspecialchars(trim($_POST[$postName]));
             $posts[$key] = $value;
 
         }
 
         return $posts;
 
-    }
-
-    ///////////////////////////// TEST /////////////////////////////////
-
-    /** renderPartial()
-     * Render a view without the layout (for AJAX responses)
-     */
-    protected function renderPartial($view, $response = null) {
-        if ($response) extract($response);
-        require(ROOT . "/App/Views/" . $view . ".php");
     }
 
 }
