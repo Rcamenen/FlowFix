@@ -12,9 +12,9 @@
 
             <?php if(isset($_SESSION["error"])){ ?>
 
-                    <div class="card--error">
-                        <p><?= $_SESSION["error"] ?></p>
-                    </div>
+            <div class="notice--error">
+                <p><?= $_SESSION["error"] ?></p>
+            </div>
                     
             <?php unset($_SESSION['error']) ;} ?>
 
