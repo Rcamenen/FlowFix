@@ -169,6 +169,7 @@ abstract class BaseModel {
         $bindingArray[":id"] = $id;
 
         $stmt = $this->connection->prepare("UPDATE ".$this->tableName." SET ".$propsStr." WHERE id = :id");
+
         $result = $stmt->execute($bindingArray);
 
         return $result;
