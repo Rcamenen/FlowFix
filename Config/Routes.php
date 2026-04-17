@@ -24,8 +24,10 @@ use App\Controllers\AuthController;
             "/account"=>["controller"=>UserController::class,"method"=>"showAccountPage"],
 
             "/team/{teamId}"=>["controller"=>TeamController::class,"method"=>"showTeamPage"],
+            "/team/create"=>["controller"=>TeamController::class,"method"=>"showTeamCreationPage"],
             "/team/{teamId}/friction/{frictionId}"=>["controller"=>FrictionController::class,"method"=>"showFrictionPage"],
             "/team/{teamId}/friction/create"=>["controller"=>FrictionController::class,"method"=>"showFrictionCreationPage"],
+            "/team/{teamId}/friction/{frictionId}/treatment/{treatmentId}/updatesolution"=>["controller"=>FrictionController::class,"method"=>"showAddingSolutionPage"],
             "/team/{teamId}/member/add" => ["controller"=>TeamController::class,"method"=> "showAddMember"],
 
             "/team/{teamId}/frictions" => ["controller"=>TeamController::class,"method"=> "showFrictions"],
@@ -45,6 +47,7 @@ use App\Controllers\AuthController;
 
             "/team/create"=>["controller"=>TeamController::class,"method"=>"createTeam"],
             "/team/{teamId}/friction/create"=>["controller"=>FrictionController::class,"method"=>"createFriction"],
+            "/team/{teamId}/friction/{frictionId}/treatment/{treatmentId}/updatesolution"=>["controller"=>FrictionController::class,"method"=>"addSolution"],
             "/team/{teamId}/friction/{frictionId}/vote"=>["controller"=>FrictionController::class,"method"=>"voteFriction"],
             "/team/{teamId}/member/add"=>["controller"=>TeamController::class,"method"=>"addMember"],
 

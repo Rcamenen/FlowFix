@@ -88,6 +88,7 @@ class TeamController extends BaseController{
         $teamId = $this->teamService->create($createTeamData);
 
         $_SESSION["teamsId"][]=$teamId;
+        $_SESSION["moderateTeamsId"][]=$teamId;
 
         header("Location: /teams");
 
@@ -133,6 +134,13 @@ class TeamController extends BaseController{
             );
 
         $this->renderPartial("Partials/frictionsList",$data);
+
+    }
+
+    public function showTeamCreationPage(){
+
+        if(!$this->checkRole("user")) throw new RoleException("login","Il faut être connecté pour créer un groupe");
+        $this->renderView("/User/teamCreation");
 
     }
 }
