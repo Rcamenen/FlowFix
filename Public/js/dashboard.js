@@ -61,3 +61,33 @@ function loadFrictions(teamId, page){
     })
 
 }
+
+function loadAddMemberTab(teamId, page){
+
+    fetch(`/team/${teamId}/frictions?page=${page}`)
+    .then(response=>response.text())
+    .then(html => {
+
+        document.querySelector("[data-tab-content=frictions] .section__content").innerHTML=html
+
+        const prevBtn = document.querySelector(".pagination__prev");
+        const nextBtn = document.querySelector(".pagination__next");
+
+        if(prevBtn){
+            prevBtn.addEventListener("click", function(){
+                loadFrictions(this.dataset.team, this.dataset.page);
+            },{ once: true });
+        }
+
+        if(nextBtn){
+            nextBtn.addEventListener("click", function(){
+                loadFrictions(this.dataset.team, this.dataset.page);
+            },{ once: true });
+        }
+
+    })
+    .catch(() => {
+        document.querySelector("[data-tab-content=frictions] .section__content").innerHTML = '<p>Erreur de chargement.</p>'
+    })
+
+}
