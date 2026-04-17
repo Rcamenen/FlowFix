@@ -51,6 +51,7 @@ class FrictionService{
 
         $response=[];
         $response["cycleId"]=$currentCycleId;
+        $response["memberId"]=$memberId;
         
         $frictionVotes =  $this->frictionVoteModel->getVotesCounter($currentCycleId,$frictionId);
         $authorUsername = $this->frictionModel->getAuthorUsername($frictionId);
@@ -88,6 +89,7 @@ class FrictionService{
                     "statusLabel"=>$treatment["label"],
                     "cycleId"=>$treatment["cycle_id"],
                     "pilot"=>$pilotUsername,
+                    "pilotId"=>$treatment["pilot_id"],
                     "forVotes" => $treatmentVotesCount[1] ?? 0,
                     "againstVotes" => $treatmentVotesCount[0] ?? 0
                 ];
@@ -162,6 +164,13 @@ class FrictionService{
         ]);
 
         return $response["success"]="Vote envoyé !";
+    }
+
+    public function addSolution($solution,$treatmentId){
+
+    
+        $this->treatmentModel->update($treatmentId,["solution"=>$solution]);
+
     }
 
 }

@@ -1,4 +1,3 @@
-<?php if(isset($data))extract($data); // extraction des données pour accès direct aux variables ?>
 <?php
     $labelClassMap = [
         'Non traité'    => 'totreat',
@@ -8,6 +7,7 @@
         'Validé' => 'validate',
         'Non validé' => 'closed',
     ];
+    echo $teamId;
 ?>
 
 
@@ -18,12 +18,6 @@
 
     <h1 class="section-label">Irritant</h1>
     <!-- MESSAGE DE SUCCES OU D'ERREUR -->
-
-    <?php if(!empty($_SESSION["error"])): ?>
-    <div class="container">
-            <p class="notice--success"> Vous ne faites pas partie de ce groupe </p>
-    </div>
-    <?php endif ?>
 
     <!-- SOUS MENU DE NAVIGATION -->
     <div class="main__container">
@@ -48,14 +42,13 @@
 
                         <?php 
                         
-                            if($friction["isAlreadyVoted"]) echo "Vous avez déjà voté pour cet irritant !";
-                            else echo "Vous n'avez pas encore voté pour cet irritant !";
+                            if(!($friction["isAlreadyVoted"] || $friction["statusLabel"]!="Non traité")):?> //Si l'irritant n'est pas en cours ou pas déjà voté
 
-                        ?>
+                            <form action="/team/<?= $teamId ?>/friction/<?= $friction["id"] ?>/vote" method="post">
+                                <button type="submit">Voter</button>
+                            </form>
 
-                        <form action="/team/<?= $teamId ?>/friction/<?= $friction["id"] ?>/vote" method="post">
-                        <button type="submit">Voter</button>
-                        </form>
+                        <?php endif?>
 
                     </div>
 
@@ -89,6 +82,9 @@
                             <p><?= $treatment["updated_at"] ?? "Pas d'update" ?></p>
                             <p><?= $treatment["pilot"] ?></p>
                             <p class="badge badge--<?= $labelClassMap[$treatment["statusLabel"]] ?>"><?= $treatment["statusLabel"] ?></p>
+                            <?php if($treatment["statusLabel"]=="En cours" && $treatment["pilotId"]==$memberId): ?>
+                                <a href="/team/<?php echo $teamId ?>/friction/<?= $friction["id"] ?>/treatment/<?= $treatment["id"] ?>/updatesolution" class="btn-primary--sm">Ajouter une solution</a>
+                            <?php endif?>
                         </div>
                         <?php }} ?>
 
