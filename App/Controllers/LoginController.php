@@ -14,34 +14,6 @@ class LoginController extends BaseController{
         $this->userService = new UserService;
     }
 
-    /** connectUser()
-     * Retrieve login data from POST & ask the service to connect the user.
-     * 
-     * @return void Redirect to teams panel in case of success, throw exception if not
-     */
-    public function connectUser(){
-
-
-        // ================== GETTING DATA =================== //
-
-        $connectUserData = $this->getPost(["email","password"]);
-
-
-        // ================== CONNEXION =================== //
-
-        $sessionData = $this->userService->connectUser($connectUserData);
-        $_SESSION['userId'] = $sessionData["userId"];
-        $_SESSION['teamsId'] = $sessionData["teamsId"];
-        $_SESSION['moderateTeamsId'] = $sessionData["moderateTeamsId"];
-        $_SESSION['successMessage'] = "Connexion réussie";
-
-        // ================== REDIRECTION TO THE TEAMS PANEL =================== //
-
-        header("Location: /teams");
-        exit();
-
-    }
-
     /** disconnectUser()
      * Destroy the current session & redirect the user to the home page.
      * 
