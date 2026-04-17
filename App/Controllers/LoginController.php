@@ -33,12 +33,12 @@ class LoginController extends BaseController{
         $_SESSION['userId'] = $sessionData["userId"];
         $_SESSION['teamsId'] = $sessionData["teamsId"];
         $_SESSION['moderateTeamsId'] = $sessionData["moderateTeamsId"];
+        $_SESSION['successMessage'] = "Connexion réussie";
 
         // ================== REDIRECTION TO THE TEAMS PANEL =================== //
 
-        header("Location: /teams?connected=true");
+        header("Location: /teams");
         exit();
-
 
     }
 
