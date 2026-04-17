@@ -3,8 +3,6 @@ namespace Core;
 
 use Exception;
 use PDOException;
-use App\Exceptions\AuthenticateException;
-use App\Exceptions\AuthorizationException;
 use App\Exceptions\RoleException;
 use App\Exceptions\FormException;
 
@@ -18,6 +16,17 @@ class Router{
 
     }
 
+    /** getController
+     * 
+     * Ask to parseRoute() the controller and method to call.
+     * If no controller was found, redirect to 404 page.
+     * 
+     * Retrieve all the throwed exceptions
+     * 
+     * @param (*)
+     * 
+     * @return void
+     */
     public function getController(){
 
         $action = $this->parseRoute();
@@ -33,7 +42,7 @@ class Router{
 
             }catch(FormException $e){
 
-                $_SESSION["error"]=$e->getMessage();
+                $_SESSION["formErrorMessage"]=$e->getMessage();
                 $_SESSION["formErrors"]=$e->getErrors();
                 header("Location: /".$e->getView());
                 exit;
@@ -52,6 +61,7 @@ class Router{
 
                 echo $e->getMessage();
                 header("Location: /");
+                exit;
 
             }
             
@@ -65,7 +75,16 @@ class Router{
 
     }
 
-    public function parseRoute(){
+    /** parseRoute()
+     * 
+     * Return controller, method name and paramterer when the requested path 
+     * match with an available route pattern.
+     * 
+     * @param{*} : /
+     * 
+     * @return {array}
+     */
+    public function parseRoute() {
 
         //Récupération de la méthode de la requête HTTP
         $requestMethod = $_SERVER['REQUEST_METHOD'];
