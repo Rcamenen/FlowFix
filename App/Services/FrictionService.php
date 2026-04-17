@@ -38,9 +38,7 @@ class FrictionService{
      */
     public function getFrictionData(int $frictionId,int $teamId, int $userId):array{
 
-        echo "<br> FrictionService->getFrictionData : <br><br>";
-
-        $currentCycleId = $this->cycleModel->getCurrentCycle($teamId);
+        $currentCycleId = $this->cycleModel->getCurrentCycleId($teamId);
 
         $frictionDataWithStatus = $this->frictionModel->getByIdWithStatus($frictionId);
 
@@ -52,7 +50,8 @@ class FrictionService{
         $memberId = $this->teamMemberModel->findMemberId($userId,$teamId);
 
         $response=[];
-
+        $response["cycleId"]=$currentCycleId;
+        
         $frictionVotes =  $this->frictionVoteModel->getVotesCounter($currentCycleId,$frictionId);
         $authorUsername = $this->frictionModel->getAuthorUsername($frictionId);
         $isAlreadyVoted = $this->frictionVoteModel->findBy(["id"],["cycle_id"=>$currentCycleId,"member_id"=>$memberId,"friction_id"=>$frictionId]);
@@ -87,6 +86,7 @@ class FrictionService{
                     "created_at"=>$treatment["created_at"],
                     "updated_at"=>$treatment["updated_at"],
                     "statusLabel"=>$treatment["label"],
+                    "cycleId"=>$treatment["cycle_id"],
                     "pilot"=>$pilotUsername,
                     "forVotes" => $treatmentVotesCount[1] ?? 0,
                     "againstVotes" => $treatmentVotesCount[0] ?? 0
