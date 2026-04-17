@@ -43,8 +43,8 @@
   ════════════════════════════════════════════ */
   /* En cours — orange (traitement actif) */
   --treatment-inprogress-text: #92400E;
-  --color-treatment-inprogress-bg: #FEF3C7;
-  --color-treatment-inprogress-border: #F59E0B;
+  --treatment-inprogress-bg: #FEF3C7;
+  --treatment-inprogress-border: #F59E0B;
   /* À valider — jaune-ambre (attention requise) */
   --treatment-toreview-text: #78350F;
   --treatment-toreview-bg: #FFF7ED;
@@ -61,17 +61,17 @@
   STATUS MEMBER
   ════════════════════════════════════════════ */
   /* Member — gris-bleu (rôle de base) */
-  --member-member-text: #1E3A5F;
-  --member-member-bg: #EFF6FF;
+  --member-text: #1E3A5F;
+  --member-bg: #EFF6FF;
   --member-member-border: #93C5FD;
   /* Pilot — cyan (rôle intermédiaire) */
-  --member-pilot-text: #164E63;
-  --member-pilot-bg: #ECFEFF;
-  --member-pilot-border: #22D3EE;
+  --pilot-text: #164E63;
+  --pilot-bg: #ECFEFF;
+  --pilot-border: #22D3EE;
   /* Moderator — indigo (rôle élevé) */
-  --member-moderator-text: #312E81;
-  --member-moderator-bg: #EEF2FF;
-  --member-moderator-border: #6366F1;
+  --moderator-text: #312E81;
+  --moderator-bg: #EEF2FF;
+  --moderator-border: #6366F1;
   /* Font */
   --font-title: "Manrope";
   --font-text: "Inter";
@@ -164,13 +164,48 @@ select {
 #home #pret-a-commencer {
   margin: auto;
 }
-#home .list {
+#home #heroSection .right {
+  display: none;
+}
+@media screen and (min-width: 850px) {
+  #home #heroSection {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: nowrap;
+  }
+  #home #heroSection .left {
+    width: 50%;
+  }
+  #home #heroSection .right {
+    display: block;
+    width: 50%;
+    background-color: white;
+  }
+}
+
+.grid {
   display: flex;
   flex-direction: column;
-  gap: 32px;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 16px;
 }
-#home .list h3 {
-  margin-bottom: 8px;
+.grid__item {
+  display: block;
+}
+@media screen and (min-width: 850px) {
+  .grid {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+  .grid__item {
+    width: clamp(50px, 30%, 500px);
+  }
 }
 
 /*# sourceMappingURL=home.css.map */
