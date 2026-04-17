@@ -5,7 +5,7 @@ use Core\BaseController;
 
 class StaticPageController extends BaseController{
 
-    /** renderHome()
+    /** showHomePage()
      * Render the home page view
      * @param {*}
      * @return void
@@ -16,7 +16,7 @@ class StaticPageController extends BaseController{
 
     }
 
-    /** renderPageNotFound()
+    /** showPageNotFound()
      * Render the 404 not found page view
      * @param {*}
      * @return void
@@ -30,7 +30,7 @@ class StaticPageController extends BaseController{
     /** showRegisterPage()
      * Render the login view, redirect if user is already connected.
      * 
-     * @return void Render login view with success message if account just created
+     * @return void
      */
     public function showRegisterPage(){
 
@@ -40,10 +40,10 @@ class StaticPageController extends BaseController{
     }
 
 
-    /** render()
+    /** showLoginPage()
      * Render the login view, redirect if user is already connected.
      * 
-     * @return void Render login view with success message if account just created
+     * @return void
      */
     public function showLoginPage(){
 
@@ -55,8 +55,8 @@ class StaticPageController extends BaseController{
 
     }
 
-        /** render()
-     * Render the login view, redirect if user is already connected.
+    /** showAdminLoginPage()
+     * Render the adminlogin view.
      * 
      * @return void Render login view with success message if account just created
      */
