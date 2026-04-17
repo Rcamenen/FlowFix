@@ -93,13 +93,11 @@ class TeamController extends BaseController{
 
     }
 
-    public function createMember($params){
+    public function addMember($params){
 
-        if(!$this->checkRole("user")) throw new AuthenticateException("Vous devez d'abord vous connecter pour ajouter un membre à un groupe");
-        if(!$this->checkRole("member",$params["teamId"])) throw new AuthorizationException("teams","Vous devez être membre et modérateur pour ajouter un membre à un groupe");
-        if(!$this->checkRole("moderator",$params["teamId"])) throw new AuthorizationException("team/".$params["teamId"],"Vous devez être modérateur du groupe pour ajouter un membre");
-
-        echo "TeamController->addMember()";
+        if(!$this->checkRole("user")) throw new RoleException("team/".$params["teamId"],"Vous devez d'abord vous connecter pour ajouter un membre à un groupe");
+        if(!$this->checkRole("member",$params["teamId"])) throw new RoleException("team/".$params["teamId"],"Vous devez être membre et modérateur pour ajouter un membre à un groupe");
+        if(!$this->checkRole("moderator",$params["teamId"])) throw new RoleException("team/".$params["teamId"],"Vous devez être modérateur du groupe pour ajouter un membre");
 
         $userId = $_SESSION["userId"] ?? null;
 
@@ -114,6 +112,12 @@ class TeamController extends BaseController{
 
         // header("Location: /teams");
         $this->renderPartial("Partials/addMemberForm",$data);
+
+    }
+
+    public function showAddMember(){
+
+        $this->renderPartial("Partials/addMemberForm");
 
     }
 

@@ -11,7 +11,9 @@
                     <li data-tab-button="dashboard" class="subnav__item btn-tab btn-tab--active">Tableau de bord</li>
                     <li data-tab-button="frictions" class="subnav__item btn-tab">Irritants</li>
                     <li data-tab-button="infos" class="subnav__item btn-tab">Cycle</li>
+                    <?php if($isModerator): ?>
                     <li data-tab-button="moderation" class="subnav__item btn-tab">Modération</li>
+                    <?php endif ?>
                     <li data-tab-button="addFriction" class="subnav__item btn-primary--sm"><a href="/team/<?= $teamId ?>/friction/create">Créer un irritant</a></li>
                 </ul>
             </nav>
@@ -50,10 +52,8 @@
                             <a href="/team/<?= $teamId ?>/friction/<?= $f["id"] ?>">Voir</a>
                         </div>
                     <?php endforeach; ?>
-                    <?php if(!$frictionsToPilot){?>
-
+                    <?php if(!$frictionsInProgress){?>
                         <p class="notice--info">Il n'y a pas d'irritant en cours de traitement !</p>
-
                     <?php } ?>
                 </div>
 
@@ -61,16 +61,14 @@
 
                     <h3 class="title-md">Irritants que vous avez voté :</h3>
 
-                    <?php foreach($frictionsInProgress as $f): ?>
+                    <?php foreach($frictionsVoted as $f): ?>
                         <div class="frictionCard">
                             <h3><?= $f["title"] ?></h3>
                             <a href="/team/<?= $teamId ?>/friction/<?= $f["id"] ?>">Voir</a>
                         </div>
                     <?php endforeach; ?>
-                    <?php if(!$frictionsToPilot){?>
-
+                    <?php if(!$frictionsVoted){?>
                         <p class="notice--info">Vous n'avez voté pour aucun irritant !</p>
-
                     <?php } ?>
                 </div>
 
@@ -82,10 +80,8 @@
                     <h2 class="section__title title-lg">Listes des irritants</h2>
                 </div>
 
-                <!-- AFFICHAGE DES IRRITANTS DU GROUPES -->
-                <div class="section__content">
-
-                </div>
+                <!-- Contenu chargé dynamiquement via loadFrictions() -->
+                <div class="section__content"></div>
 
             </section>
 
@@ -99,19 +95,19 @@
 
                     <div class="card--cycle">
 
-                    <h3 class="title-md">Dates</h3>
+                        <h3 class="title-md">Dates</h3>
 
-                    <div class="flex-col g-8">
-                        <p class="text--xs">Début : </p>
-                        <span class=" badge badge--inprogress"><?= new DateTime($cycle["start_date"])->format('d-m-Y') ?> </span>
-                    </div>
+                        <div class="flex-col g-8">
+                            <p class="text--xs">Début : </p>
+                            <span class="badge badge--inprogress"><?= new DateTime($cycle["start_date"])->format('d-m-Y') ?></span>
+                        </div>
 
-                    <div class="flex-col g-8">
-                        <p class="text--xs">Fin :</p>
-                        <span class="badge badge--closed"><?= new DateTime($cycle["end_date"])->format('d-m-Y')?></span>
-                    </div>
+                        <div class="flex-col g-8">
+                            <p class="text--xs">Fin :</p>
+                            <span class="badge badge--closed"><?= new DateTime($cycle["end_date"])->format('d-m-Y') ?></span>
+                        </div>
 
-                    <p class="text--xs">Les cycles se terminent le jour indiqué à 23h59</p>
+                        <p class="text--xs">Les cycles se terminent le jour indiqué à 23h59</p>
                     </div>
 
                     <!-- FORM POUR REQUETE API -->
@@ -141,22 +137,8 @@
                     <h2 class="section__title title-lg">Modération</h2>
                 </div>
 
-                <!-- AFFICHAGE DES IRRITANTS DU GROUPES -->
-                <div class="section__content">
-
-                    <h3 class="title-md">Ajouter un membre</h3>
-
-                    <form id=addMemberForm class="form" action="/addmember" method="post">
-
-                        <input class="form__input" name="email" type="text" placeholder="Email" required>
-
-                        <button class="form__btn btn-primary" type="submit">Ajouter</button>
-
-                    </form>
-
-                    <h3 class="title-md">Supprimer un membre</h3>
-                    
-                </div>
+                <!-- Contenu chargé dynamiquement via loadAddMemberTab() -->
+                <div class="section__content"></div>
 
             </section>
 
@@ -166,5 +148,3 @@
 
 <script src="/js/dashboard.js" defer></script>
 <script src="/js/nagerRequest.js" defer></script>
-
-<!-- <?php include(ROOT."/App/Views/Team/teamMember/teamMemberAddForm.php"); ?> -->

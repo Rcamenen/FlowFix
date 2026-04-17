@@ -24,9 +24,9 @@ use App\Controllers\AuthController;
             "/account"=>["controller"=>UserController::class,"method"=>"showAccountPage"],
 
             "/team/{teamId}"=>["controller"=>TeamController::class,"method"=>"showTeamPage"],
-            // "/team/{teamId}/frictions"=>["controller"=>TeamController::class,"method"=>"showTeamFrictionsPage"],
             "/team/{teamId}/friction/{frictionId}"=>["controller"=>FrictionController::class,"method"=>"showFrictionPage"],
             "/team/{teamId}/friction/create"=>["controller"=>FrictionController::class,"method"=>"showFrictionCreationPage"],
+            "/team/{teamId}/member/add" => ["controller"=>TeamController::class,"method"=> "showAddMember"],
 
             "/team/{teamId}/frictions" => ["controller"=>TeamController::class,"method"=> "showFrictions"],
 
@@ -46,7 +46,7 @@ use App\Controllers\AuthController;
             "/team/create"=>["controller"=>TeamController::class,"method"=>"createTeam"],
             "/team/{teamId}/friction/create"=>["controller"=>FrictionController::class,"method"=>"createFriction"],
             "/team/{teamId}/friction/{frictionId}/vote"=>["controller"=>FrictionController::class,"method"=>"voteFriction"],
-            "/team/{teamId}/addMember"=>["controller"=>TeamController::class,"method"=>"createMember"],
+            "/team/{teamId}/member/add"=>["controller"=>TeamController::class,"method"=>"addMember"],
 
             "/admin/login"=>["controller"=>AuthController::class,"method"=>"connectAdmin"],
             "/admin/logout"=>["controller"=>AuthController::class,"method"=>"disconnectAdmin"],

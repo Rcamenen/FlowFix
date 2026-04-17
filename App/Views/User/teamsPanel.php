@@ -1,6 +1,6 @@
 <main class="main container">
     
-    <h1 class="title-md mb-32">Vos groupes</h1>
+    <h1 class="title-md mb-32">Groupes</h1>
 
     <!-- SOUS MENU DE NAVIGATION -->
     <div class="main__container">
@@ -8,8 +8,8 @@
         <nav class="subnav">
             <!-- <p class="section-label">Vos groupes</p> -->
             <ul class="subnav__list">
-                <li class="subnav__item btn-tab btn-tab--active">Groupes</li>
-                <li class="subnav__item btn-tab">Invitations</li>
+                <!-- <li class="subnav__item btn-tab btn-tab--active">Groupes</li> -->
+                <!-- <li class="subnav__item btn-tab">Invitations</li> -->
                 <li class="subnav__item btn-primary--sm">Créer un groupe</li>
             </ul>
         </nav>

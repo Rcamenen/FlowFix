@@ -1,35 +1,4 @@
-<?php
-
-    if(!empty($formFields)){
-
-        foreach($formFields as $field => $value){
-
-            $val[$field] = "value = \"".$value."\"";
-            
-        }
-
-    }
-
-    if(!empty($response["failedMessage"])){
-?>
-
-    <div class="errors">
-        <p><?= $response["failedMessage"] ?></p>
-    </div>
-
-<?php 
-    }
-?>
-
-
-
-
 <main class="main">
-
-    <!-- Message affiché à l'utilisateur -->
-
-        <?php if(isset($_GET["message"])) echo $_GET["message"]; ?>
-        <?php if(isset($_GET['disconnected'])) echo "Vous avez bien été deconnecté<br>"; ?>
 
     <div class="wrapper">
 
@@ -88,7 +57,6 @@
                     <button class="form__btn btn-primary" type="submit" >Créer un compte</button>
 
                 </form>
-
 
             </div>
 

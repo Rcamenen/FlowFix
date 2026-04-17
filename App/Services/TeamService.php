@@ -156,29 +156,38 @@ class TeamService extends BaseService{
 
     public function addMember($newMemberEmail,$teamId,$userId){
 
-        //Check des droits du l'utilisateur qui veut ajouter un membre
+
+        
         // Recherche dans la table teamMember du champs promoted_at pour voir si le user est membre et modérateur
         $memberPromotedAt = $this->teamMemberModel->findBy(["promoted_at"],["user_id"=>$userId,"team_id"=>$teamId],"onecolumn");
 
-        if(!$memberPromotedAt) echo "<br>Vous devez être modérateur pour effectuer cette action<br>";
-        else echo "<br>Vous avez le droit d'effectuer cette action<br>";
+        if(!$memberPromotedAt) $error = true;
 
         //Check si l'email correspond à un user
         $newMemberUserId = $this->userModel->findBy(["id"],["email"=>$newMemberEmail],"onecolumn");
-        if(!$newMemberUserId) echo "<br>L'email renseignée ne correspond à aucun utilisateur<br>";
-        else echo "<br>L'email correspond au user $userId <br>";
+        if(!$newMemberUserId) $error = "L'email saisi ne correspond à aucun utilisateur";
 
         //check si le user ne fait pas déjà partie du groupe
         $newMemberMemberId = $this->teamMemberModel->findBy(["id"],["user_id"=>$newMemberUserId,"team_id"=>$teamId],"onecolumn");
-        if($newMemberMemberId) echo "<br>Cet utilisateur fait déjà partie du groupe ! <br>";
-        else echo "<br>L'utilisateur ne fait pas encore partie du groupe<br>";
+        if($newMemberMemberId) $error = "Cet utilisateur fait déjà partie du groupe";
 
-        //ajout
-        $this->teamMemberModel->create([
-            "joined_at"=>(new DateTime())->format("Y-m-d H:i:s"),
-            "team_id"=>$teamId,
-            "user_id"=>$newMemberUserId
-        ]);
+        $response=[];
+
+        if(!isset($error)){
+
+            $this->teamMemberModel->create([
+                "joined_at"=>(new DateTime())->format("Y-m-d H:i:s"),
+                "team_id"=>$teamId,
+                "user_id"=>$newMemberUserId
+            ]);
+
+            $response["formSuccess"]="Utilisateur ajouté au groupe";
+
+        }
+
+        $response["formError"] = $error ?? null;
+
+        return $response;
 
     }
 
@@ -223,8 +232,6 @@ class TeamService extends BaseService{
         return $errors ?? false;
 
     }
-    
-    ///////////////////////////// TEST /////////////////////////////////
 
     public function getFrictionsPage($teamId, $page = 1, $limit = 10){
 
