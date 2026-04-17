@@ -94,6 +94,7 @@ class TeamController extends BaseController{
     }
 
     public function createMember($params){
+
         if(!$this->checkRole("user")) throw new AuthenticateException("Vous devez d'abord vous connecter pour ajouter un membre à un groupe");
         if(!$this->checkRole("member",$params["teamId"])) throw new AuthorizationException("teams","Vous devez être membre et modérateur pour ajouter un membre à un groupe");
         if(!$this->checkRole("moderator",$params["teamId"])) throw new AuthorizationException("team/".$params["teamId"],"Vous devez être modérateur du groupe pour ajouter un membre");
@@ -109,13 +110,12 @@ class TeamController extends BaseController{
 
         $teamId = $params["teamId"];
 
-        $teamId = $this->teamService->addMember($addMemberData["email"],$teamId,$userId);
+        $data = $this->teamService->addMember($addMemberData["email"],$teamId,$userId);
 
         // header("Location: /teams");
+        $this->renderPartial("Partials/addMemberForm",$data);
 
     }
-    
-    ///////////////////////////// TEST /////////////////////////////////
 
     public function showFrictions($params) {
 
@@ -128,7 +128,7 @@ class TeamController extends BaseController{
                 $page
             );
 
-        $this->renderPartial("Partials/frictionsList", $data);
+        $this->renderPartial("Partials/frictionsList",$data);
 
     }
 }

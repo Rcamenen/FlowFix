@@ -1,6 +1,7 @@
 <?php
 namespace App\Controllers;
 
+use App\Exceptions\RoleException;
 use Core\BaseController;
 
 use Exception;
@@ -79,11 +80,24 @@ class UserController extends BaseController{
 
     }
 
+    /** deleteUser()
+     * 
+     * 
+     * 
+     * @param {array} params[]
+     * @return void
+     */
     public function deleteUser($params){
 
-        //Contrôle user lui même ou bien un admin
+        // Check if the request is ask by the user himself or an admin
+        if(!$this->checkRole("user")) throw new RoleException("/","Vous devez vous connecter pour effectuer cette action");
 
-        //Appel service
+        $currentUserId = $_SESSION["userId"] ?? null;
+        if($currentUserId!=$params["userId"]) throw new RoleException("/","Vous n'êtes pas aurotisé à effectuer cette action");
+
+        if(!$this->checkRole("admin")) throw new RoleException("/","Vous n'êtes pas aurotisé à effectuer cette action");
+
+        // Call the service
         $this->userService->delete($params["userId"]);
 
         echo "utilisateur supprimé";
