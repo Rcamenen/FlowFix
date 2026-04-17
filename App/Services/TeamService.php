@@ -69,7 +69,16 @@ class TeamService extends BaseService{
 
         // ======================================== Retrieve given's votes number
 
-        $votes = $this->frictionVotesModel->getCounterByMemberAndTeam($currentCycle["id"],$teamMemberId);
+        $frictionsVotedId = $this->frictionVotesModel->findBy(["friction_id"],["cycle_id"=>$currentCycle["id"],"member_id"=>$teamMemberId],"column");
+
+        $response["frictionsVoted"]=[];
+
+        foreach($frictionsVotedId as $friction){
+            
+            $response["frictionsVoted"][] = $this->frictionModel->getByIdWithStatus($friction);
+        }
+
+        // $votes = $this->frictionVotesModel->getCounterByMemberAndTeam($currentCycle["id"],$teamMemberId);
 
         // echo "<br>Nombre de votes : $votes <br>";
 

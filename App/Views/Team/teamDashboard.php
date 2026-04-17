@@ -1,3 +1,4 @@
+
 <main id="teamDashboard" class="main container" data-team-id=<?= $teamId ?>>
 
     <h1 class="title-md mb-32">GROUPE</h1>
@@ -45,6 +46,7 @@
                 </div>
 
                 <div class="section__content">
+
                     <h3 class="title-md">Irritants en cours :</h3>
                     <?php foreach($frictionsInProgress as $f): ?>
                         <div class="frictionCard">
@@ -55,17 +57,27 @@
                     <?php if(!$frictionsInProgress){?>
                         <p class="notice--info">Il n'y a pas d'irritant en cours de traitement !</p>
                     <?php } ?>
+
                 </div>
 
                 <div class="section__content">
-
                     <h3 class="title-md">Irritants que vous avez voté :</h3>
 
                     <?php foreach($frictionsVoted as $f): ?>
-                        <div class="frictionCard">
-                            <h3><?= $f["title"] ?></h3>
-                            <a href="/team/<?= $teamId ?>/friction/<?= $f["id"] ?>">Voir</a>
-                        </div>
+
+                        <article class="frictionCard frictionCard--<?= $labelClassMap[$f["status_label"]] ?>">
+
+                            <header class="frictionCard__header">
+                                <h3><?= $f["title"] ?></h3>
+                                <span class="badge badge--<?= $labelClassMap[$f["status_label"]] ?>"><?= $f["status_label"] ?></span>
+                            </header>
+
+                            <p><?= $f["description"] ?></p>
+
+                            <a class="btn-secondary--sm" href="/team/<?= $teamId ?>/friction/<?= $f["id"] ?>">Consulter l'irritant</a>
+
+                        </article>
+
                     <?php endforeach; ?>
                     <?php if(!$frictionsVoted){?>
                         <p class="notice--info">Vous n'avez voté pour aucun irritant !</p>
