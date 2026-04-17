@@ -1,21 +1,12 @@
 <main class="main container">
-    <h1 class="title-md">Vos groupes</h1>
-
-    <!-- MESSAGE DE SUCCES OU D'ERREUR -->
-
-
-
-    <?php if(!empty($_SESSION["error"])): ?>
-    <div class="container">
-            <p class="notice--success"> Vous ne faites pas partie de ce groupe </p>
-    </div>
-    <?php endif ?>
+    
+    <h1 class="title-md mb-32">Vos groupes</h1>
 
     <!-- SOUS MENU DE NAVIGATION -->
     <div class="main__container">
     <aside class="main__nav">
         <nav class="subnav">
-            <p class="section-label">Vos groupes</p>
+            <!-- <p class="section-label">Vos groupes</p> -->
             <ul class="subnav__list">
                 <li class="subnav__item btn-tab btn-tab--active">Groupes</li>
                 <li class="subnav__item btn-tab">Invitations</li>
@@ -27,26 +18,12 @@
     <!-- CONTENU DE LA PAGE -->
 
     <div class="main__content">
-        <?php if(!empty($successMessage)): ?>
-        <div class="container">
-                <p class="notice--success"><?= $successMessage ?></p>
-        </div>
-        <?php endif ?>
+
         <section class="main__section main__section--first section">
 
             <div class="section__top">
                 <h2 class="section__title title-lg">Liste de vos groupes</h2>
             </div>
-
-            <!-- message d'erreur -->
-
-            <?php if(isset($_SESSION["error"])){ ?>
-
-                        <p class="notice--error"><?= $_SESSION["error"] ?></p>
-                    
-            <?php unset($_SESSION['error']) ;} ?>
-
-
 
             <div class="section__content">
                 <?php
@@ -54,12 +31,12 @@
                 if(!empty($userTeams)){
 
                     foreach($userTeams as $team){ ?>
-                    <div class="card--team">
-
-                        <h3 class="title-md"><?= htmlspecialchars($team["name"]) ?></h2>
+                    <div class="teamCard">
+                        
+                        <h3 class="title-md"><?= htmlspecialchars($team["name"]) ?></h3>
                         <p><?= htmlspecialchars($team["description"]) ?></p>
                         
-                        <a class="btn-secondary" href="/team/<?= $team["id"] ?>">Accéder au groupe</a>
+                        <a class="btn-secondary--sm" href="/team/<?= $team["id"] ?>">Accéder au groupe</a>
 
                     </div>
 

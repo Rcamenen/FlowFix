@@ -96,7 +96,7 @@ class UserService{
 
         if(!empty($errors)) throw new FormException($errors,"register","Champs incorrectes");
         
-
+        
         // ================== USER CREATION =================== //
 
         $userData=[
@@ -168,7 +168,7 @@ class UserService{
         $userTeams = $this->teamModel->getTeamsByUser($userId);
 
         foreach($userTeams as $userTeam){
-
+            
             $userTeamData = [
                 "id"=>$userTeam["id"],
                 "name"=>$userTeam["name"],
