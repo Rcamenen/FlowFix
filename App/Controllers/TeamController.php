@@ -35,6 +35,7 @@ class TeamController extends BaseController{
 
         $this->cycleService->syncCycle($params["teamId"]);
 
+        
         $data=$this->teamService->getDashboardData($_SESSION["userId"],$params["teamId"]);
         
         $data["teamId"]= $params["teamId"];

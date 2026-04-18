@@ -166,9 +166,38 @@ class FrictionService{
         return $response["success"]="Vote envoyé !";
     }
 
+    public function voteTreatment($userId,$teamId,$treatmentId){
+
+        echo "<br> FrictionService->voteFriction : <br><br>";
+
+        // Vérifier que l'utilisaeur fait bien partie du groupe
+        $memberId = $this->teamMemberModel->findMemberId($userId,$teamId);
+        if(!$memberId) throw new Exception("Vous ne faites pas partie de ce groupe !");
+
+        $frictionId = $this->treatmentModel->findBy(["friction_id"],["id"=>$treatmentId],"onecolumn");
+
+        $authorId = $this->frictionModel->findBy(["author_id"],["id"=>$frictionId],"onecolumn");
+
+        // Vérifier que la friction fais partie de la team
+        $isFrictionOwnByTeam = $this->frictionModel->isOwnByTeam($authorId,$teamId); //Vérification de la cohérence friction/team.
+        if(!$isFrictionOwnByTeam) throw new Exception("Cette friction ne fait pas partie de ce groupe !"); //404
+
+        $isVoteExist = $this->treatmentVotesModel->findBy(["id"],["treatment_id"=>$treatmentId,"member_id"=>$memberId]);
+    
+        if(!empty($isVoteExist)) throw new Exception("Vous avez déjà voté pour cet irritant");
+
+        $this->treatmentVotesModel->create([
+            "vote"=>1,
+            "voted_at"=> (new DateTime())->format("Y-m-d H:i:s"),
+            "member_id"=> $memberId,
+            "treatment_id"=> $treatmentId
+        ]);
+
+        return $response["success"]="Vote envoyé !";
+    }
+
     public function addSolution($solution,$treatmentId){
 
-    
         $this->treatmentModel->update($treatmentId,["solution"=>$solution]);
 
     }

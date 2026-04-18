@@ -7,6 +7,13 @@ use PDO;
 
 class TreatmentVotesModel extends BaseModel{
 
+    public function __construct(){
+
+        $this->tableName = "SOLUTION_VOTES";
+        parent::__construct();
+
+    }
+
     /** getVotesCounter()
      * Query the database to count the number of positive votes for a given treatment within a specific cycle
      * Return the total count as an integer

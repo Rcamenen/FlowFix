@@ -84,6 +84,24 @@ class FrictionController extends BaseController{
         //team/id/friction/id/unvote
 
     }
+
+    public function voteTreatment($params){
+
+        echo "<br> FrictionController->voteFriction : <br><br>";
+
+        if(!$this->checkRole("user")) throw new RoleException("teams","Vous devez être connecté pour voir cette page");
+        if(!$this->checkRole("member",$params["teamId"])) throw new RoleException("teams","Vous devez faire partie du groupe pour voir cette page");
+        
+        $userId = $_SESSION["userId"];
+        $teamId = $params["teamId"];
+        $treatmentId = $params["treatmentId"];
+        $frictionId = $params["frictionId"];
+
+        $this->frictionService->voteTreatment($userId,$teamId,$treatmentId);
+
+        header("Location: /team/".$teamId."/friction/".$frictionId);
+
+    }
     
     /** renderCreationForm()
      * Retrieve the current team context and pass it to the service to render the friction creation form view
@@ -120,8 +138,6 @@ class FrictionController extends BaseController{
     }
 
     public function addSolution($params){
-
-        $this->checkRole("member");
 
         $isPilot = $this->userService->isPilot($_SESSION["userId"],$params["teamId"]);
 

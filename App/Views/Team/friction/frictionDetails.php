@@ -5,7 +5,7 @@
         'En vote'     => 'invote',
         'Clos'     => 'closed',
         'Validé' => 'validate',
-        'Non validé' => 'closed',
+        'À valider' => 'closed',
     ];
     echo $teamId;
 ?>
@@ -78,13 +78,16 @@
                             <h3>Traitement du cycle <?= $treatment["cycleId"] ?></h3>
                             <?php endif?>    
                             <p><?= $treatment["solution"] ?></p>
+                            <?php if($treatment["statusLabel"]=="En cours" && $treatment["pilotId"]==$memberId): ?>
+                                <a href="/team/<?php echo $teamId ?>/friction/<?= $friction["id"] ?>/treatment/<?= $treatment["id"] ?>/updatesolution" class="btn-primary--sm mt-8">Ajouter une solution</a>
+                            <?php endif?>
                             <p><?= $treatment["created_at"] ?></p>
                             <p><?= $treatment["updated_at"] ?? "Pas d'update" ?></p>
                             <p><?= $treatment["pilot"] ?></p>
                             <p class="badge badge--<?= $labelClassMap[$treatment["statusLabel"]] ?>"><?= $treatment["statusLabel"] ?></p>
-                            <?php if($treatment["statusLabel"]=="En cours" && $treatment["pilotId"]==$memberId): ?>
-                                <a href="/team/<?php echo $teamId ?>/friction/<?= $friction["id"] ?>/treatment/<?= $treatment["id"] ?>/updatesolution" class="btn-primary--sm">Ajouter une solution</a>
-                            <?php endif?>
+                            <form class="btn-primary--sm mt-8" action="/team/<?= $teamId ?>/friction/<?= $friction["id"] ?>/treatment/<?= $treatment["id"] ?>/vote" method="post">
+                                <button type="submit">Voter</button>
+                            </form>
                         </div>
                         <?php }} ?>
 
