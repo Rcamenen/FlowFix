@@ -1,8 +1,34 @@
-<form action="/admin/login" method="post">
+<main>
+    <div class="wrapper">
 
-    <input name="email" type="text" placeholder="Email" required>
-    <input name="password" type="password" placeholder="Mot de passe" required>
+        <section class="main__section section container">
 
-    <button type="submit">Se connecter</button>
+            <div class="section__top">
+                <p class="section-label">Connexion</p>
+                <h2 class="section__title title-xl">Veuillez renseigner vos informations</h2>
+            </div>
 
-</form>
+            <?php if(isset($_SESSION["error"])){ ?>
+
+            <div class="notice--error">
+                <p><?= $_SESSION["error"] ?></p>
+            </div>
+                    
+            <?php unset($_SESSION['error']) ;} ?>
+
+            <div class="section__content">
+                <form class="form" action="/adminLogin" method="post">
+
+                    <input class="form__input" name="email" type="text" placeholder="Email" required>
+                    <input class="form__input" name="password" type="password" placeholder="Mot de passe" required>
+
+                    <button class="form__btn btn-primary" type="submit">Se connecter</button>
+
+                </form>
+            </div>
+
+        </section>
+
+    </div>
+
+</main>

@@ -19,7 +19,7 @@
 
 
             <?php if(!empty($_SESSION["formErrors"])){
-
+                    
                     $validationErrors = $_SESSION["formErrors"];
                     unset($_SESSION['formErrors']) ;
 

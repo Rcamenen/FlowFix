@@ -6,9 +6,10 @@ use Core\BaseController;
 class StaticPageController extends BaseController{
 
     /** showHomePage()
-     * Render the home page view
-     * @param {*}
-     * @return void
+     * Render the home page view.
+     * 
+     * @param void
+     * @return void Render home view
      */
     public function showHomePage(){
         
@@ -17,9 +18,10 @@ class StaticPageController extends BaseController{
     }
 
     /** showPageNotFound()
-     * Render the 404 not found page view
-     * @param {*}
-     * @return void
+     * Render the 404 not found error page view.
+     * 
+     * @param void
+     * @return void Render 404 error view
      */
     public function showPageNotFound(){
         
@@ -28,9 +30,10 @@ class StaticPageController extends BaseController{
     }
 
     /** showRegisterPage()
-     * Render the login view, redirect if user is already connected.
+     * Redirect to home if the user is already connected, otherwise render the registration form view.
      * 
-     * @return void
+     * @param void
+     * @return void Render register view in case of success, redirect to home if already connected
      */
     public function showRegisterPage(){
 
@@ -41,9 +44,11 @@ class StaticPageController extends BaseController{
 
 
     /** showLoginPage()
-     * Render the login view, redirect if user is already connected.
+     * Redirect to home if the user is already connected, otherwise render the login form view.
+     * Displays a success message if the user has just created an account.
      * 
-     * @return void
+     * @param void
+     * @return void Render login view in case of success, redirect to home if already connected
      */
     public function showLoginPage(){
 
@@ -56,13 +61,31 @@ class StaticPageController extends BaseController{
     }
 
     /** showAdminLoginPage()
-     * Render the adminlogin view.
+     * Redirect to admin panel if the admin is already connected, otherwise render the admin login form view.
      * 
-     * @return void Render login view with success message if account just created
+     * @param void
+     * @return void Render admin login view in case of success, redirect to /admin if already connected
      */
     public function showAdminLoginPage(){
         
+        if($this->checkRole("admin")){
+            header("Location: /admin");
+            exit();
+        }
+
         $this->renderView("Admin/adminLogin",$data ?? null);
+
+    }
+
+    /** showNotMember()
+     * Render the not-member error page view.
+     * 
+     * @param void
+     * @return void Render not-member error view
+     */
+    public function showNotMember(){
+        
+        $this->renderView("Errors/notMember",$data ?? null);
 
     }
 }

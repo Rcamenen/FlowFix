@@ -15,11 +15,11 @@ class CycleModel extends BaseModel{
         parent::__construct();
     }
 
-    /** getLastByGroup()
-     * Query the database to retrieve the last cycle associated with a given team member ordered by ID
-     * Return the result as an associative array
-     * @param int $member_id
-     * @return array
+    /** getLastByTeam()
+     * Query the database to retrieve the most recent cycle for a given team, ordered by end date.
+     * 
+     * @param {int} $teamId : Id of the team to retrieve the last cycle for
+     * @return array|false Associative array of cycle data in case of success, false if not found
      */
     public function getLastByTeam($teamId){
             
@@ -30,10 +30,10 @@ class CycleModel extends BaseModel{
     }
 
     /** getCurrentCycleId()
-     * Query the database to retrieve the active cycle for a given team based on the current date
-     * Return the cycle ID or false if no active cycle is found
-     * @param int $teamId
-     * @return int|false
+     * Query the database to retrieve the id of the active cycle for a given team based on the current date.
+     * 
+     * @param {int} $teamId : Id of the team to retrieve the active cycle id for
+     * @return int|false Id of the active cycle in case of success, false if not found
      */
     public function getCurrentCycleId($teamId){
 
@@ -48,11 +48,11 @@ class CycleModel extends BaseModel{
 
     }
 
-    /** getCurrentCycleId()
-     * Query the database to retrieve the active cycle for a given team based on the current date
-     * Return the cycle ID or false if no active cycle is found
-     * @param int $teamId
-     * @return int|false
+    /** getCurrentCycle()
+     * Query the database to retrieve the full data of the active cycle for a given team based on the current date.
+     * 
+     * @param {int} $teamId : Id of the team to retrieve the active cycle for
+     * @return array|false Associative array of cycle data in case of success, false if not found
      */
     public function getCurrentCycle($teamId){
 

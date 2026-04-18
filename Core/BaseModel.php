@@ -176,6 +176,40 @@ abstract class BaseModel {
 
     }
 
+    /** findAllPaginated()
+     * Build and execute a paginated SELECT query to retrieve all records from the model's table
+     * Return the results as an array of associative arrays
+     * @param int $limit
+     * @param int $offset
+     * @return array
+     */
+    public function findAllPaginated(int $limit, int $offset): array {
+
+        $stmt = $this->connection->prepare("SELECT * FROM " . $this->tableName . " ORDER BY id DESC LIMIT :limit OFFSET :offset");
+
+        $stmt->bindValue(":limit",  $limit,  PDO::PARAM_INT);
+        $stmt->bindValue(":offset", $offset, PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    }
+
+    /** countAll()
+     * Execute a COUNT query to retrieve the total number of records in the model's table
+     * Return the result as an integer
+     * @return int
+     */
+    public function countAll(): int {
+
+        $stmt = $this->connection->prepare("SELECT COUNT(*) FROM " . $this->tableName);
+
+        $stmt->execute();
+
+        return (int) $stmt->fetch(PDO::FETCH_COLUMN);
+
+    }
+
 }
 
 ?>

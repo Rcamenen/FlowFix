@@ -16,16 +16,17 @@ class UserController extends BaseController{
     }
 
     /** showTeamsPage()
-     * Check if the user is connected and retrieve their groups and invitations data from the service
-     * Call the appropriate view to render the teams panel
-     * @param {*}
-     * @return void
+     * Retrieve the current user's teams and invitations data & render the teams panel view.
+     * Displays a success message if the user has just logged in.
+     * 
+     * @param void
+     * @return void Render teams panel view in case of success, throw exception if not
      */
     public function showTeamsPage(){
 
         $userId = $_SESSION["userId"] ?? null;
 
-        if(!$this->isUserConnected($userId)) throw new Exception("Vous devez être connecté pour accéder à cette page");
+        $this->checkRole("user");
 
         $data = $this->userService->showGroupsPanel($userId); // userGroups / userInvitations /
 
@@ -38,17 +39,16 @@ class UserController extends BaseController{
     }
 
     /** showAccountPage()
-     * Check if the user is connected and retrieve his information from the service
-     * Call the appropriate view to render the profil
-     * @param {*}
-     * @return void
+     * Retrieve the current user's account data & render the profile view.
+     * 
+     * @param void
+     * @return void Render profile view in case of success, throw exception if not
      */
     public function showAccountPage(){
 
+        $this->checkRole("user");
+
         $userId = $_SESSION["userId"] ?? null;
-
-        if(!$this->isUserConnected($userId)) throw new Exception("Vous devez être connecté pour accéder à cette page");
-
         $data = $this->userService->getAccountData($userId);
 
         $this->renderView("Profil/profil",$data);
@@ -57,10 +57,11 @@ class UserController extends BaseController{
 
 
     /** createUser()
-     * Get $_POST values and send them to the service to continue the creation process
-     * Call the appropriate view in case of success or failed in the process
-     * @param {*}
-     * @return void
+     * Collect registration data from POST & delegate user creation to the service.
+     * Redirect to the login page on success.
+     * 
+     * @param void
+     * @return void Redirect to login page in case of success, throw exception if not
      */
     public function createUser(){
 
@@ -81,23 +82,19 @@ class UserController extends BaseController{
     }
 
     /** deleteUser()
+     * Verify the current user's identity, ensure they can only delete their own account
+     * & delegate deletion to the service.
      * 
-     * 
-     * 
-     * @param {array} params[]
-     * @return void
+     * @param {Array} $params : Array which contain route params (userId, ...)
+     * @return void Delete user in case of success, throw exception if not
      */
     public function deleteUser($params){
 
-        // Check if the request is ask by the user himself or an admin
-        if(!$this->checkRole("user")) throw new RoleException("/","Vous devez vous connecter pour effectuer cette action");
+        $this->checkRole("user");
 
         $currentUserId = $_SESSION["userId"] ?? null;
         if($currentUserId!=$params["userId"]) throw new RoleException("/","Vous n'êtes pas aurotisé à effectuer cette action");
 
-        if(!$this->checkRole("admin")) throw new RoleException("/","Vous n'êtes pas aurotisé à effectuer cette action");
-
-        // Call the service
         $this->userService->delete($params["userId"]);
 
         echo "utilisateur supprimé";

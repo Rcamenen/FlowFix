@@ -15,10 +15,11 @@ class TeamModel extends BaseModel{
     }
 
     /** getTeamsByUser()
-     * Query the database to retrieve all teams associated with a given user
-     * Return the results as an array of associative arrays or false if none found
-     * @param int $userId
-     * @return array|false
+     * Query the database to retrieve all teams associated with a given user,
+     * enriched with their full team data by joining the teams table.
+     * 
+     * @param {int} $userId : Id of the user to retrieve teams for
+     * @return array|false Array of teams as associative arrays in case of success, false if none found
      */
     public function getTeamsByUser($userId) :Array | bool {
 

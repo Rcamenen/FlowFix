@@ -14,46 +14,13 @@ class TreatmentModel extends BaseModel{
 
     }
 
-    /** findByPilot()
-     * Query the database to retrieve the most recent treatment assigned to a given team member as pilot
-     * Return the result as an associative array or false if not found
-     * @param int $member_id
-     * @return array|false
-     */
-    public function findByPilot($member_id){
-
-        $stmt = $this->connection->prepare("SELECT t.* FROM TREATMENTS AS t JOIN CYCLES AS c ON t.cycle_id=c.id WHERE t.pilot_id=:member_id ORDER BY c.start_date DESC");
-        $stmt->execute([":member_id"=>$member_id]);
-
-        $result = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        return $result;
-
-    }
-
-    /** isPilot()
-     * Query the database to check if a given team member is assigned as pilot to any treatment
-     * Return the count as an integer
-     * @param int $member_id
-     * @return int
-     */
-    public function isPilot($member_id){
-
-        $stmt = $this->connection->prepare("SELECT count(*) FROM TREATMENTS WHERE pilot_id=:member_id");
-        $stmt->execute([":member_id"=>$member_id]);
-
-        $result = $stmt->fetch(PDO::FETCH_COLUMN);
-
-        return $result;
-
-    }
-
     /** findLastsByFrictionWithStatus()
-     * Query the database to retrieve the most recent treatments for a given friction along with their status details
-     * Return the results as an array
-     * @param int $frictionId
-     * @param int $limit
-     * @return array
+     * Query the database to retrieve the most recent treatments for a given friction,
+     * enriched with their status label, ordered by id descending.
+     * 
+     * @param {int} $frictionId : Id of the friction to retrieve treatments for
+     * @param {int} $limit : Maximum number of results to return
+     * @return array Array of treatments as associative arrays, empty array if none found
      */
     public function findLastsByFrictionWithStatus(int $frictionId, int $limit): array {
 
@@ -86,9 +53,10 @@ class TreatmentModel extends BaseModel{
 
     /** getPilotUsername()
      * Query the database to retrieve the username of the pilot assigned to a given treatment
-     * Return the username as a string or false if not found
-     * @param int $treatmentId
-     * @return string|false
+     * by joining treatments, team members & users tables.
+     * 
+     * @param {int} $treatmentId : Id of the treatment to retrieve the pilot for
+     * @return string|false Pilot's username in case of success, false if not found
      */
     public function getPilotUsername($treatmentId){
 

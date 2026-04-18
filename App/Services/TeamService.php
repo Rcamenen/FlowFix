@@ -35,11 +35,13 @@ class TeamService extends BaseService{
 
 
     /** getDashboardData()
-     * Retrieve and aggregate dashboard data including the friction to pilot and frictions in progress for the given user and team
-     * Return a structured response array containing the collected data
-     * @param int $userId
-     * @param int $teamId
-     * @return array
+     * Retrieve and aggregate dashboard data including team name, current cycle, frictions to pilot,
+     * frictions in progress & votes cast by the current user for the active cycle.
+     * Return a structured response array formatted for the team dashboard view.
+     * 
+     * @param {int} $userId : Id of the current user
+     * @param {int} $teamId : Id of the team to retrieve data for
+     * @return array Array of dashboard data in case of success, throw exception if not
      */
     public function getDashboardData($userId,$teamId){
 
@@ -86,46 +88,19 @@ class TeamService extends BaseService{
 
     }
 
-    /** getDashboardData()
-     * Retrieve and aggregate dashboard data including the friction to pilot and frictions in progress for the given user and team
-     * Return a structured response array containing the collected data
-     * @param int $userId
-     * @param int $teamId
-     * @return array
-     */
-    public function getFrictionsData($userId,$teamId){
-
-        // ======================================== Retrieve frictions
-
-        $frictions = $this->frictionModel->findByTeam($teamId);
-        // ======================================== Retrieve teamMemberId
-
-        $currentCycle = $this->cycleModel->getCurrentCycleId($teamId);
-
-        // ======================================== Add vote count to each friction
-        foreach($frictions as &$friction){
-            $friction["votes"] = $this->frictionVotesModel->getVotesCounter($currentCycle, $friction["id"] ?? null);
-        }
-
-        $response["frictions"] = $frictions ?? null;
-        
-        return $response;
-
-    }
-
     /** create()
-     * Check the data sent by the controller
-     * Ask teamModel to add the team table in DB
-     * Ask teamMemberModel to add the creator to the teamMember table in DB and give him moderator role
-     * Return a structured response array containing the collected data
-     * @param array $createTeamData
-     * @return void
+     * Validate team creation data, then create the team, its initial cycle
+     * & register the creator as a moderator member in the database.
+     * Return the newly created team id.
+     * 
+     * @param {Array} $createTeamData : Array which contain team creation data (name, description, duration, treatmentsMax, votingDelay, creatorId)
+     * @return int Id of the newly created team in case of success, throw exception if not
      */
     public function create($createTeamData){
 
         $errors = $this->createTeamDataCheck($createTeamData);
 
-        if($errors) throw new FormException($errors,"Au moins un champs du formulaire est incorrecte");
+        if($errors) throw new FormException($errors,"team/create","Au moins un champs du formulaire est incorrecte");
 
         // Adding new team to DB
         $teamId = $this->teamModel->create([
@@ -163,6 +138,16 @@ class TeamService extends BaseService{
 
     }
 
+    /** addMember()
+     * Verify the moderator's role, resolve the new member by email,
+     * check they are not already a member & register them to the team.
+     * Return a response array containing a success or error message.
+     * 
+     * @param {string} $newMemberEmail : Email of the user to add
+     * @param {int} $teamId : Id of the team to add the member to
+     * @param {int} $userId : Id of the moderator performing the action
+     * @return array Array containing success or error message in case of success, throw exception if not
+     */
     public function addMember($newMemberEmail,$teamId,$userId){
 
 
@@ -200,6 +185,13 @@ class TeamService extends BaseService{
 
     }
 
+    /** createTeamDataCheck()
+     * Validate team creation form data by checking required fields, name length & uniqueness,
+     * description length, cycle duration & treatments max count.
+     * 
+     * @param {Array} $createTeamData : Array which contain team creation data
+     * @return array|false Array of errors if any validation fails, false otherwise
+     */
     public function createTeamDataCheck($createTeamData){
 
 
@@ -242,6 +234,15 @@ class TeamService extends BaseService{
 
     }
 
+    /** getFrictionsPage()
+     * Retrieve a paginated list of frictions for a given team, enrich each entry
+     * with its vote count for the current cycle & format pagination data for the view.
+     * 
+     * @param {int} $teamId : Id of the team to retrieve frictions for
+     * @param {int} $page : Current page number (default: 1)
+     * @param {int} $limit : Number of frictions per page (default: 10)
+     * @return array Array containing frictions list, current page & total pages in case of success, throw exception if not
+     */
     public function getFrictionsPage($teamId, $page = 1, $limit = 10){
 
         // ======================================== Retrieve frictions
@@ -266,6 +267,49 @@ class TeamService extends BaseService{
 
         return $response;
 
+    }
+
+    /** getMembers()
+     * Retrieve all members of a team with their role.
+     * 
+     * @param {int} $teamId : Id of the team to retrieve members for
+     * @return array Array of team members in case of success, throw exception if not
+     */
+    public function getMembers($teamId){
+ 
+        $members = $this->teamMemberModel->findMembersByTeam($teamId);
+        $response["members"] = $members ?? [];
+ 
+        return $response;
+ 
+    }
+
+    /** getCycleData()
+     * Retrieve the current cycle data for a given team.
+     * 
+     * @param {int} $teamId : Id of the team to retrieve the cycle for
+     * @return array Array containing the current cycle data in case of success, throw exception if not
+     */
+    public function getCycleData($teamId){
+ 
+        $currentCycle = $this->cycleModel->getCurrentCycle($teamId);
+        $response["cycle"] = $currentCycle ?? null;
+ 
+        return $response;
+ 
+    }
+
+    /** getTeamName()
+     * Retrieve the name of a team by its id.
+     * Used by the controller to populate the navigation partial.
+     * 
+     * @param {int} $teamId : Id of the team to retrieve the name for
+     * @return string|null Team name in case of success, null if not found
+     */
+    public function getTeamName($teamId){
+ 
+        return $this->teamModel->findBy(["name"],["id"=>$teamId],"onecolumn") ?? null;
+ 
     }
 
 }

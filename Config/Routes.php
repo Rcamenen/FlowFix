@@ -14,28 +14,39 @@ use App\Controllers\AuthController;
 
             "/"=>["controller"=>StaticPageController::class,"method"=>"showHomePage"],
             "/404"=>["controller"=>StaticPageController::class,"method"=>"showPageNotFound"],
+            "/notMember"=>["controller"=>StaticPageController::class,"method"=>"showNotMember"],
             "/about"=>["controller"=>StaticPageController::class,"method"=>"showAboutPage"],
             "/contact"=>["controller"=>StaticPageController::class,"method"=>"showContactPage"],
-
             "/register"=>["controller"=>StaticPageController::class,"method"=>"showRegisterPage"],
             "/login"=>["controller"=>StaticPageController::class,"method"=>"showLoginPage"],
 
             "/teams"=>["controller"=>UserController::class,"method"=>"showTeamsPage"],
             "/account"=>["controller"=>UserController::class,"method"=>"showAccountPage"],
 
-            "/team/{teamId}"=>["controller"=>TeamController::class,"method"=>"showTeamPage"],
+            //TEAM
             "/team/create"=>["controller"=>TeamController::class,"method"=>"showTeamCreationPage"],
-            "/team/{teamId}/friction/{frictionId}"=>["controller"=>FrictionController::class,"method"=>"showFrictionPage"],
+            "/team/{teamId}" => ["controller" => TeamController::class, "method" => "showTeamDashboardPage"],
+
+            //TEAM CYCLE
+            "/team/{teamId}/cycle" => ["controller" => TeamController::class, "method" => "showCyclePage"],
+
+            //TEAM MEMBER
+            "/team/{teamId}/member/add" => ["controller"=>TeamController::class,"method"=> "showAddMemberPage"],
+            "/team/{teamId}/members" => ["controller" => TeamController::class, "method" => "showTeamMembersPage"],
+
+            //TEAM FRICTION
             "/team/{teamId}/friction/create"=>["controller"=>FrictionController::class,"method"=>"showFrictionCreationPage"],
+            "/team/{teamId}/frictions" => ["controller"=>TeamController::class,"method"=> "showFrictionsPage"],
+            "/team/{teamId}/friction/{frictionId}"=>["controller"=>FrictionController::class,"method"=>"showFrictionPage"],
             "/team/{teamId}/friction/{frictionId}/treatment/{treatmentId}/updatesolution"=>["controller"=>FrictionController::class,"method"=>"showAddingSolutionPage"],
-            "/team/{teamId}/member/add" => ["controller"=>TeamController::class,"method"=> "showAddMember"],
 
-            "/team/{teamId}/frictions" => ["controller"=>TeamController::class,"method"=> "showFrictions"],
+            //ADMIN
+            "/adminLogin" => ["controller"=>StaticPageController::class,"method"=> "showAdminLoginPage"],
+            "/admin" => ["controller" => AdminController::class, "method" => "showAdminPanel"],
+            "/admin/users" => ["controller" => AdminController::class, "method" => "showUsers"],
+            "/admin/user/{userId}/delete" => ["controller" => AdminController::class, "method" => "showDeleteUser"],
+            "/admin/teams"  => ["controller" => AdminController::class, "method" => "showTeams"],
 
-            "/admin/login" => ["controller"=>StaticPageController::class,"method"=> "showAdminLoginPage"],
-            "/adminPanel" => ["controller"=>AdminController::class,"method"=> "showAdminPanel"],
-            "/admin/users" => ["controller"=>AdminController::class,"method"=> "showUsersPage"],
-            "/admin/teams" => ["controller"=>AdminController::class,"method"=> "showTeamsPage"]
 
         ],
         "POST"=>[
@@ -52,13 +63,13 @@ use App\Controllers\AuthController;
 
             "/team/{teamId}/friction/{frictionId}/treatment/{treatmentId}/vote/{voteResult}"=>["controller"=>FrictionController::class,"method"=>"voteTreatment"],
             // "/team/{teamId}/friction/{frictionId}/treatment/{treatmentId}/v"=>["controller"=>FrictionController::class,"method"=>"rejectTreatment"],
-            
-            "/team/{teamId}/member/add"=>["controller"=>TeamController::class,"method"=>"addMember"],
+                        
+            "/team/{teamId}/member/add" => ["controller" => TeamController::class, "method" => "addMember"],
 
-            "/admin/login"=>["controller"=>AuthController::class,"method"=>"connectAdmin"],
+            "/adminLogin"=>["controller"=>AuthController::class,"method"=>"connectAdmin"],
             "/admin/logout"=>["controller"=>AuthController::class,"method"=>"disconnectAdmin"],
-            "/admin/user/{userId}/delete" => ["controller"=>UserController::class,"method"=> "deleteUser"]
-            
+            "/admin/user/{userId}/delete"   => ["controller" => AdminController::class, "method" => "deleteUser"]
+
         ]
 
 

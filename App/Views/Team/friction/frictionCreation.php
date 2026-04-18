@@ -1,43 +1,47 @@
-<main>
-    <div class="wrapper">
+<?php $activeTab = 'frictions'; ?>
 
-        <section class="main__section section container">
+<main class="main container">
 
-            <div class="section__top">
-                <p class="section-label">Ajouter un irritant</p>
-                <h2 class="section__title title-xl">Veuillez renseigner les champs</h2>
-            </div>
+    <h1 class="title-md mb-32">GROUPE</h1>
 
-            <!-- message d'erreur -->
+    <div class="main__container">
 
-            <?php if(isset($_SESSION["error"])){ ?>
+        <?php include dirname(__DIR__).'/Partials/_nav.php' ?>
 
-                    <div class="card--error">
-                        <p><?= $_SESSION["error"] ?></p>
-                    </div>
-                    
-            <?php unset($_SESSION['error']) ;} ?>
+        <div class="main__content">
+            <section class="main__section section main__section--first">
 
+                <div class="section__top">
+                    <h2 class="section__title title-lg">Ajouter un irritant</h2>
+                </div>
 
+                <div class="section__content">
 
-            <div class="section__content">
+                    <?php if (isset($_SESSION["error"])): ?>
+                        <p class="notice--error"><?= $_SESSION["error"] ?></p>
+                        <?php unset($_SESSION["error"]) ?>
+                    <?php endif ?>
 
-                <form class="form" action="/team/<?= $teamId ?>/friction/create" method="post">
+                    <form class="form" action="/team/<?= $teamId ?>/friction/create" method="POST">
 
-                    <p><?php if(isset($validationErrors["title"])) echo $validationErrors["title"];?> </p>
-                    <input class="form__input" name="title" type="text" placeholder="Titre de l'irritant" <?= $val["title"] ?? null ?> required>
+                        <?php if (isset($validationErrors["title"])): ?>
+                            <p class="form__error-msg"><?= $validationErrors["title"] ?></p>
+                        <?php endif ?>
+                        <input class="form__input <?= isset($validationErrors["title"]) ? 'form__input--error' : '' ?>" name="title" type="text" placeholder="Titre de l'irritant" <?= $val["title"] ?? null ?> required>
 
-                    <p><?php if(isset($validationErrors["description"])) echo $validationErrors["description"];?> </p>
-                    <textarea class="form__input" name="description" placeholder="Description du problème rencontré" <?= $val["description"] ?? null ?> required></textarea>
+                        <?php if (isset($validationErrors["description"])): ?>
+                            <p class="form__error-msg"><?= $validationErrors["description"] ?></p>
+                        <?php endif ?>
+                        <textarea class="form__input <?= isset($validationErrors["description"]) ? 'form__input--error' : '' ?>" name="description" placeholder="Description du problème rencontré" required><?= $val["description"] ?? null ?></textarea>
 
-                    <button class="form__btn btn-primary" type="submit" >Soumettre</button>
+                        <button class="form__btn btn-primary" type="submit">Soumettre</button>
 
-                </form>
+                    </form>
 
-            </div>
+                </div>
 
-        </section>
+            </section>
+        </div>
 
     </div>
-
 </main>

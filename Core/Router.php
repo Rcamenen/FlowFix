@@ -41,7 +41,7 @@ class Router{
                 $controller->$method($action["params"]);
 
             }catch(FormException $e){
-
+                
                 $_SESSION["formErrorMessage"]=$e->getMessage();
                 $_SESSION["formErrors"]=$e->getErrors();
                 header("Location: /".$e->getView());
@@ -60,15 +60,15 @@ class Router{
             }catch(Exception $e){
 
                 echo $e->getMessage();
-                header("Location: /");
-                exit;
+                // header("Location: /");
+                // exit;
 
             }
             
 
         }else{
 
-            header("Location: /404?message=test");
+            header("Location: /404");
 
         }
         

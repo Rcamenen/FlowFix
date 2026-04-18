@@ -1,5 +1,7 @@
 <?php
 namespace Core;
+
+use App\Exceptions\RoleException;
 use Exception;
 
 abstract class BaseController {
@@ -16,14 +18,6 @@ abstract class BaseController {
         $contentPath = ROOT."/App/Views/".$view.".php";
         require(ROOT."/App/Views/Layout/layout.php");
 
-    }
-
-    /** renderPartial()
-     * Render a view without the layout (for AJAX responses)
-     */
-    protected function renderPartial($view, $response = null) {
-        if ($response) extract($response);
-        require(ROOT . "/App/Views/" . $view . ".php");
     }
 
     /** isUserConnected()
@@ -75,25 +69,19 @@ abstract class BaseController {
 
     }
 
-    /** checkRole()
-     * Check if the given role match with the current user by returning true of false
-     * 
-     * @param string : $role
-     * @param int : $userId
-     * @return bool;
-     */
+
     public function checkRole(string $role,?int $teamId=null):bool{
 
         switch($role){
 
             case "admin":
-                return !empty($_SESSION["adminId"]);
+                return !empty($_SESSION["adminId"]) ?: throw new RoleException("adminLogin","Vous devez être administrateur pour effectuer cette action");
             case "user":
-                return !empty($_SESSION["userId"]);
+                return !empty($_SESSION["userId"]) ?: throw new RoleException("login","Vous devez être connecté pour effectuer cette action");
             case "member":
-                return in_array($teamId,$_SESSION["teamsId"]);
+                return in_array($teamId,$_SESSION["teamsId"]) ?: throw new RoleException("notMember","Vous devez être membre du groupe pour effectuer cette action");
             case "moderator":
-                return in_array($teamId,$_SESSION["moderateTeamsId"]);
+                return in_array($teamId,$_SESSION["moderateTeamsId"]) ?: throw new RoleException("notModerator","Vous devez être modérateur pour effectuer cette action");
             default:
                 return false;
 

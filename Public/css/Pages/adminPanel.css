@@ -158,35 +158,27 @@ select {
   border: 0;
 }
 
-#home section {
-  padding-top: 64px;
-  padding-bottom: 64px;
+#admin .userList {
+  display: grid;
+  width: 100%;
+  grid-template-columns: 1fr;
+  gap: 16px;
 }
-#home .wrapper--alt {
-  background: var(--bg-surface);
-}
-#home #heroSection .right {
-  display: none;
-}
-@media screen and (min-width: 850px) {
-  #home #heroSection {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: nowrap;
-  }
-  #home #heroSection .left {
-    width: 50%;
-  }
-  #home #heroSection .right {
-    display: block;
-    width: 50%;
-    background-color: white;
+@media (min-width: 768px) {
+  #admin .userList {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   }
 }
-#home #pret-a-commencer {
-  margin: auto;
+#admin .teamList {
+  display: grid;
+  width: 100%;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+@media (min-width: 768px) {
+  #admin .teamList {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  }
 }
 
-/*# sourceMappingURL=home.css.map */
+/*# sourceMappingURL=adminPanel.css.map */

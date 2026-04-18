@@ -18,8 +18,10 @@ class AuthController extends BaseController{
     }
 
     /** connectUser()
-     * Retrieve login data from POST & ask the service to connect the user.
+     * Collect login credentials from POST data & delegate user authentication to the service.
+     * Store session data on success & redirect to the teams panel.
      * 
+     * @param void
      * @return void Redirect to teams panel in case of success, throw exception if not
      */
     public function connectUser(){
@@ -46,8 +48,9 @@ class AuthController extends BaseController{
     }
 
     /** disconnectUser()
-     * Destroy the current session & redirect the user to the home page.
+     * Unset the current session & redirect the user to the home page.
      * 
+     * @param void
      * @return void Redirect to home page after session destruction
      */
     public function disconnectUser(){
@@ -62,10 +65,11 @@ class AuthController extends BaseController{
 
 
     /** connectAdmin()
-     * Check if the user is connected and retrieve their groups and invitations data from the service
-     * Call the appropriate view to render the teams panel
-     * @param {*}
-     * @return void
+     * Collect login credentials from POST data & delegate admin authentication to the service.
+     * Store session data on success & redirect to the admin panel.
+     * 
+     * @param void
+     * @return void Redirect to admin panel in case of success, throw exception if not
      */
     public function connectAdmin(){
 
@@ -81,11 +85,17 @@ class AuthController extends BaseController{
 
         // ================== REDIRECTION TO THE ADMIN PANEL =================== //
 
-        header("Location: /adminPanel");
+        header("Location: /admin/users");
         exit();
 
     }
 
+    /** disconnectAdmin()
+     * Destroy the current session & redirect the admin to the home page.
+     * 
+     * @param void
+     * @return void Redirect to home page after session destruction
+     */
     public function disconnectAdmin(){
 
         session_destroy();

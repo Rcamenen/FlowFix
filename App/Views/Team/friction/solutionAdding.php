@@ -1,41 +1,43 @@
+<?php $activeTab = 'frictions'; ?>
 
-<main>
-    <div class="wrapper">
+<main class="main container">
 
-        <section class="main__section section container">
+    <h1 class="title-md mb-32">GROUPE</h1>
 
-            <div class="section__top">
-                <p class="section-label">Ajouter une solution</p>
-                <h2 class="section__title title-xl">Veuillez renseigner le champs ci-dessous</h2>
-            </div>
+    <div class="main__container">
 
-            <!-- message d'erreur -->
+        <?php include dirname(__DIR__).'/Partials/_nav.php' ?>
 
-            <?php if(isset($_SESSION["error"])){ ?>
+        <div class="main__content">
+            <section class="main__section section main__section--first">
 
-                    <div class="card--error">
-                        <p><?= $_SESSION["error"] ?></p>
-                    </div>
-                    
-            <?php unset($_SESSION['error']) ;} ?>
+                <div class="section__top">
+                    <h2 class="section__title title-lg">Ajouter une solution</h2>
+                    <a class="btn-secondary--sm" href="/team/<?= $teamId ?>/friction/<?= $frictionId ?>">Retour</a>
+                </div>
 
+                <div class="section__content">
 
+                    <?php if (isset($_SESSION["error"])): ?>
+                        <p class="notice--error"><?= $_SESSION["error"] ?></p>
+                        <?php unset($_SESSION["error"]) ?>
+                    <?php endif ?>
 
-            <div class="section__content">
+                    <form class="form" action="/team/<?= $teamId ?>/friction/<?= $frictionId ?>/treatment/<?= $treatmentId ?>/updatesolution" method="POST">
 
-                <form class="form" action="/team/<?= $teamId ?>/friction/<?= $frictionId ?>/treatment/<?= $treatmentId ?>/updatesolution" method="post">
+                        <?php if (isset($validationErrors["solution"])): ?>
+                            <p class="form__error-msg"><?= $validationErrors["solution"] ?></p>
+                        <?php endif ?>
+                        <textarea class="form__input <?= isset($validationErrors["solution"]) ? 'form__input--error' : '' ?>" name="solution" placeholder="Description de la solution" required><?= $val["solution"] ?? null ?></textarea>
 
-                    <p><?php if(isset($validationErrors["solution"])) echo $validationErrors["solution"];?> </p>
-                    <textarea class="form__input" name="solution" placeholder="Description de la solution" <?= $val["solution"] ?? null ?> required></textarea>
+                        <button class="form__btn btn-primary" type="submit">Soumettre</button>
 
-                    <button class="form__btn btn-primary" type="submit" >Soumettre</button>
+                    </form>
 
-                </form>
+                </div>
 
-            </div>
-
-        </section>
+            </section>
+        </div>
 
     </div>
-
 </main>

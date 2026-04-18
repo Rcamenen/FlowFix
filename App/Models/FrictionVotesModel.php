@@ -12,11 +12,11 @@ class FrictionVotesModel extends BaseModel{
     }
 
     /** getVotesCounter()
-     * Query the database to count the number of positive votes for a given friction within a specific cycle
-     * Return the total count as an integer
-     * @param int $cycleId
-     * @param int $frictionId
-     * @return int
+     * Query the database to count the number of positive votes for a given friction within a specific cycle.
+     * 
+     * @param {int} $cycleId : Id of the cycle to filter by
+     * @param {int} $frictionId : Id of the friction to count votes for
+     * @return int Total number of positive votes
      */
     public function getVotesCounter($cycleId,$frictionId): int {
 
@@ -31,11 +31,11 @@ class FrictionVotesModel extends BaseModel{
     }
 
     /** getCounterByMemberAndTeam()
-     * Query the database to count the number of votes for a given member on a given cycle (so a given team...)
-     * Return the total count as an integer
-     * @param int $cycleId
-     * @param int $frictionId
-     * @return int
+     * Query the database to count the number of positive votes cast by a given member within a specific cycle.
+     * 
+     * @param {int} $cycleId : Id of the cycle to filter by
+     * @param {int} $teamMemberId : Id of the team member to count votes for
+     * @return int Total number of positive votes cast by the member
      */
     public function getCounterByMemberAndTeam($cycleId,$teamMemberId): int {
 
@@ -50,10 +50,12 @@ class FrictionVotesModel extends BaseModel{
     }
 
     /** findMostVotedByCycle()
-     * Query the database to retrieve the most voted frictions for a given cycle and limit (team's max treatments preset).
-     * @param int $cycleId
-     * @param int $maxTreatments
-     * @return array
+     * Query the database to retrieve the ids of the most voted frictions for a given cycle,
+     * limited to the team's maximum treatments preset.
+     * 
+     * @param {int} $cycleId : Id of the cycle to filter by
+     * @param {int} $maxTreatments : Maximum number of friction ids to return
+     * @return array Array of friction ids ordered by vote count descending
      */
     public function findMostVotedByCycle(int $cycleId,int $maxTreatments):array{
 

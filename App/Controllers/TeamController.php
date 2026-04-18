@@ -1,9 +1,6 @@
 <?php
 namespace App\Controllers;
 
-use App\Exceptions\AuthenticateException;
-use App\Exceptions\AuthorizationException;
-use App\Exceptions\RoleException;
 use Core\BaseController;
 
 use App\Services\TeamService;
@@ -21,61 +18,87 @@ class TeamController extends BaseController{
         
     }
 
-    /** showDashboard()
+    /** showTeamDashboardPage()
      * Retrieve group's home data & render the view for the current user.
      * 
      * @param {Array} $params : Array which contain route params (groupId, ...)
      * @return void Render group home view in case of success, throw exception if not
      */
 
-    public function showTeamPage($params){
-
-        if(!$this->checkRole("user",$params["teamId"])) throw new AuthenticateException("Vous devez vous connecter pour accéder à un groupe !");
-        if(!$this->checkRole("member",$params["teamId"]))throw new AuthorizationException("teams","Vous devez faire partie du groupe pour l'afficher");
-
+    public function showTeamDashboardPage($params){
+ 
+        $this->checkRole("user");
+        $this->checkRole("member",$params["teamId"]);
+ 
         $this->cycleService->syncCycle($params["teamId"]);
-
-        
-        $data=$this->teamService->getDashboardData($_SESSION["userId"],$params["teamId"]);
-        
-        $data["teamId"]= $params["teamId"];
-        $data["isModerator"]= (in_array($params["teamId"],$_SESSION["moderateTeamsId"]))?true:false;
-
-        $this->renderView("team/teamDashboard",$data);
-
+ 
+        $data = $this->teamService->getDashboardData($_SESSION["userId"],$params["teamId"]);
+ 
+        $data["teamId"]      = $params["teamId"];
+        $data["isModerator"] = (in_array($params["teamId"],$_SESSION["moderateTeamsId"])) ? true : false;
+ 
+        $this->renderView("Team/teamDashboard",$data);
+ 
     }
 
-    /** showDashboard()
-     * Retrieve group's home data & render the view for the current user.
+    /** showFrictionsPage()
+     * Retrieve group's frictions data & render the view for the current user.
      * 
-     * @param {Array} $params : Array which contain route params (groupId, ...)
-     * @return void Render group home view in case of success, throw exception if not
+     * @param {Array} $params : Array which contain route params (teamId, ...)
+     * @return void Render team frictions view in case of success, throw exception if not
      */
-
-    public function showTeamFrictionsPage($params){
-
-        if(!$this->checkRole("user",$params["teamId"])) throw new AuthenticateException("Vous devez vous connecter pour accéder à un groupe !");
-        if(!$this->checkRole("member",$params["teamId"]))throw new AuthorizationException("teams","Vous devez faire partie du groupe pour l'afficher");
-
-        $this->cycleService->syncCycle($params["teamId"]);
-
-        $data=$this->teamService->getFrictionsData($_SESSION["userId"],$params["teamId"]);
-        
-        $data["teamId"]= $params["teamId"];
-        $data["isModerator"]= (in_array($params["teamId"],$_SESSION["moderateTeamsId"]))?true:false;
-
+    public function showFrictionsPage($params){
+ 
+        $this->checkRole("user");
+        $this->checkRole("member",$params["teamId"]);
+ 
+        $page = (isset($_GET["page"]) && is_numeric($_GET["page"])) ? (int) $_GET["page"] : 1;
+ 
+        $data = $this->teamService->getFrictionsPage($params["teamId"], $page);
+ 
+        $data["teamId"]      = $params["teamId"];
+        $data["teamName"]    = $this->teamService->getTeamName($params["teamId"]);
+        $data["isModerator"] = (in_array($params["teamId"],$_SESSION["moderateTeamsId"])) ? true : false;
+ 
         $this->renderView("team/teamFrictions",$data);
-
+ 
     }
 
-    /** create()
-     * Check if the user is connected and initiate the team creation process
-     * @param {*}
-     * @return void
+    /** showCyclePage()
+     * Sync the team's cycle then retrieve cycle data & render the view for the current user.
+     * 
+     * @param {Array} $params : Array which contain route params (teamId, ...)
+     * @return void Render team cycle view in case of success, throw exception if not
+     */
+    public function showCyclePage($params){
+ 
+        $this->checkRole("user");
+        $this->checkRole("member",$params["teamId"]);
+
+        $this->cycleService->syncCycle($params["teamId"]);
+ 
+        $data = $this->teamService->getCycleData($params["teamId"]);
+ 
+        $data["teamId"]      = $params["teamId"];
+        $data["teamName"]    = $this->teamService->getTeamName($params["teamId"]);
+        $data["isModerator"] = (in_array($params["teamId"],$_SESSION["moderateTeamsId"])) ? true : false;
+ 
+        $this->renderView("team/teamCycle",$data);
+ 
+    }
+    
+
+
+    /** createTeam()
+     * Check if the user is connected, collect POST data & initiate the team creation process.
+     * Registers the new team in the user's session as owned and moderated, then redirects to /teams.
+     * 
+     * @param void
+     * @return void Redirect to /teams in case of success, throw exception if not
      */
     public function createTeam(){
 
-        if(!$this->checkRole("user")) throw new RoleException("login","Vous devez d'abord vous connecter pour créer un groupe !");
+        $this->checkRole("user");
 
         echo "TeamController->create()";
 
@@ -95,54 +118,90 @@ class TeamController extends BaseController{
 
     }
 
+    /** addMember()
+     * Add a new member to a team after verifying the current user's moderator role.
+     * Collects the target email from POST data & delegates to the team service.
+     * 
+     * @param {Array} $params : Array which contain route params (teamId, ...)
+     * @return void Render team member add confirmation view in case of success, throw exception if not
+     */
     public function addMember($params){
+ 
+        $this->checkRole("user");
+        $this->checkRole("member",$params["teamId"]);
+        $this->checkRole("moderator",$params["teamId"]);
 
-        if(!$this->checkRole("user")) throw new RoleException("team/".$params["teamId"],"Vous devez d'abord vous connecter pour ajouter un membre à un groupe");
-        if(!$this->checkRole("member",$params["teamId"])) throw new RoleException("team/".$params["teamId"],"Vous devez être membre et modérateur pour ajouter un membre à un groupe");
-        if(!$this->checkRole("moderator",$params["teamId"])) throw new RoleException("team/".$params["teamId"],"Vous devez être modérateur du groupe pour ajouter un membre");
-
+ 
         $userId = $_SESSION["userId"] ?? null;
-
+ 
         $addMemberData = $this->getPost(["email"]);
-        
-        //==================================================================== <<<<<<<<<<<<<<<
-        //Ajouter un check de l'email (méthode php)
-
+ 
         $teamId = $params["teamId"];
-
+ 
         $data = $this->teamService->addMember($addMemberData["email"],$teamId,$userId);
-
-        // header("Location: /teams");
-        $this->renderPartial("Partials/addMemberForm",$data);
-
+ 
+        $data["teamId"]      = $teamId;
+        $data["teamName"]    = $this->teamService->getTeamName($teamId);
+        $data["isModerator"] = true;
+ 
+        $this->renderView("team/teamMemberAdd",$data); //header
+ 
     }
 
-    public function showAddMember(){
-
-        $this->renderPartial("Partials/addMemberForm");
-
-    }
-
-    public function showFrictions($params) {
-
-        $this->checkAccess($params);
-
-        $page = (isset($_GET["page"]) && is_numeric($_GET["page"])) ? (int) $_GET["page"] : 1;
-
-        $data = $this->teamService->getFrictionsPage(
-                $params["teamId"],
-                $page
-            );
-
-        $this->renderPartial("Partials/frictionsList",$data);
-
-    }
-
+    /** showTeamCreationPage()
+     * Verify the user is connected & render the team creation form view.
+     * 
+     * @param void
+     * @return void Render team creation view in case of success, throw exception if not
+     */
     public function showTeamCreationPage(){
 
-        if(!$this->checkRole("user")) throw new RoleException("login","Il faut être connecté pour créer un groupe");
+        $this->checkRole("user");
+
         $this->renderView("/User/teamCreation");
 
+    }
+
+    /** showTeamMembersPage()
+     * Retrieve the list of members for a given team & render the view for the current user.
+     * 
+     * @param {Array} $params : Array which contain route params (teamId, ...)
+     * @return void Render team members view in case of success, throw exception if not
+     */
+    public function showTeamMembersPage($params){
+
+        $this->checkRole("user");
+        $this->checkRole("member",$params["teamId"]);
+
+
+        $data = $this->teamService->getMembers($params["teamId"]);
+
+        $data["teamId"]      = $params["teamId"];
+        $data["teamName"]    = $this->teamService->getTeamName($params["teamId"]);
+        $data["isModerator"] = (in_array($params["teamId"],$_SESSION["moderateTeamsId"])) ? true : false;
+
+        $this->renderView("team/teamMembers",$data);
+
+    }
+
+    /** showAddMemberPage()
+     * Verify the current user's moderator role & render the add member form view.
+     * 
+     * @param {Array} $params : Array which contain route params (teamId, ...)
+     * @return void Render add member view in case of success, throw exception if not
+     */
+    public function showAddMemberPage($params){
+ 
+        $this->checkRole("user");
+        $this->checkRole("member",$params["teamId"]);
+        $this->checkRole("moderator",$params["teamId"]);
+ 
+        $data["teamId"]      = $params["teamId"];
+        $data["teamName"]    = $this->teamService->getTeamName($params["teamId"]);
+        $data["isModerator"] = true;
+ 
+        $this->renderView("Team/Member/addMember",$data);
+ 
     }
 }
 

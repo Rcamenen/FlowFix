@@ -35,13 +35,14 @@ class CycleService extends BaseService{
 
     }
 
-    /** syncCycle
-     * 1 - Contrôle si un cycle est arrivé à échéance, si c'est le cas :
-     *      -> Création d'un nouveau cycle
-     *      -> Ouvre le session d'approbation des solutions proposées sur les frictions "en cours" qui passent à "en vote", les treatments passe à "à valider"
-     * 2 - Cloture des frictions en votes avec un cycle dont la date est arrivée à échéance
-     * @param int $teamId
-     * @return void
+    /** syncCycle()
+     * Check if the current cycle has expired & trigger the appropriate transitions if so.
+     * Opens the voting session for in-progress treatments, creates a new cycle & assigns
+     * treatments from the top voted frictions of the past cycle.
+     * Always attempts to close any expired voting sessions regardless of cycle expiry.
+     * 
+     * @param {int} $teamId : Id of the team to sync
+     * @return void Cycle synced in case of success, throw exception if not
      */
     function syncCycle($teamId){
         
@@ -76,10 +77,12 @@ class CycleService extends BaseService{
 
     }
 
-    /** openTreatmentsVotingSession
-     * Change les status des treatments et leur irritant à "en vote" si une solution est proposée
-     * @param int $teamCycleId
-     * @return void
+    /** openTreatmentsVotingSession()
+     * Update treatments and their linked frictions to voting status if a solution has been proposed,
+     * or close them if no solution was submitted.
+     * 
+     * @param {int} $teamCycleId : Id of the cycle whose treatments must be transitioned
+     * @return void Statuses updated in case of success, throw exception if not
      */
     private function openTreatmentsVotingSession(int $teamCycleId):void{
 
@@ -107,10 +110,11 @@ class CycleService extends BaseService{
 
     }
 
-    /** createCycle
-     * Créer dans la bdd un nouveau cycle
-     * @param int $teamId
-     * @return int l'id du cycle créé
+    /** createCycle()
+     * Create a new cycle in the database for a given team, based on the team's presets.
+     * 
+     * @param {int} $teamId : Id of the team for which the cycle is created
+     * @return int Id of the newly created cycle in case of success, throw exception if not
      */
     private function createCycle($teamId){
         // echo "<br> CycleService->createCycle() <br>";
@@ -128,13 +132,14 @@ class CycleService extends BaseService{
 
     }
 
-    /** createTreatmentsFromTopVotedFrictions
-     * Récolte les votes des treatments dont le délais de vote est dépassée
-     * puis leur affecte un nouveau status selon le résultat des votes, ainsi qu'a leur friction.
-     * @param int $pastCycle
-     * @param int $newCycleId
-     * @param int $teamId 
-     * @return void
+    /** createTreatmentsFromTopVotedFrictions()
+     * Retrieve the most voted frictions from the past cycle & create a new treatment for each,
+     * assigned to a random non-pilot member, linked to the new cycle.
+     * 
+     * @param {Array} $pastCycle : Data of the expired cycle
+     * @param {int} $newCycleId : Id of the newly created cycle
+     * @param {int} $teamId : Id of the team being processed
+     * @return void Treatments created in case of success, throw exception if not
      */
     private function createTreatmentsFromTopVotedFrictions($pastCycle,$newCycleId,$teamId){
         // echo "<br> CycleService->createTreatmentsFromTopVotedFrictions() <br>";
@@ -154,11 +159,12 @@ class CycleService extends BaseService{
 
     }
 
-    /** closeTreatmentsVotingSession
-     * Récolte les votes des treatments dont le délais de vote est dépassée
-     * puis leur affecte un nouveau status selon le résultat des votes, ainsi qu'a leur friction.
-     * @param {*}
-     * @return void
+    /** closeTreatmentsVotingSession()
+     * Retrieve all treatments currently in voting status & close those whose voting delay has expired.
+     * Assign a validated or rejected status based on vote results, then close the linked friction.
+     * 
+     * @param void
+     * @return void Statuses updated in case of success, throw exception if not
      */
     private function closeTreatmentsVotingSession(){
         // echo "<br> CycleService->closeTreatmentsVotingSession() <br>";

@@ -6,10 +6,7 @@ use Core\BaseController;
 use App\Services\FrictionService;
 use App\Services\UserService;
 
-use App\Exceptions\AuthenticateException;
-use App\Exceptions\AuthorizationException;
 use App\Exceptions\RoleException;
-use App\Models\TreatmentModel;
 
 class FrictionController extends BaseController{
 
@@ -22,16 +19,16 @@ class FrictionController extends BaseController{
 ;
     }
 
-    /** getFrictionView()
-     * Retrieve friction data from the service using session and route parameters
-     * Call the appropriate view to render the friction page
-     * @param array $params Route parameters containing teamId and frictionId
-     * @return void
+    /** showFrictionPage()
+     * Retrieve friction data using session and route parameters & render the friction details view.
+     * 
+     * @param {Array} $params : Array which contain route params (teamId, frictionId, ...)
+     * @return void Render friction details view in case of success, throw exception if not
      */
     public function showFrictionPage($params){
 
-        if(!$this->checkRole("user")) throw new AuthenticateException("Vous devez être connecté pour voir cette page");
-        if(!$this->checkRole("member",$params["teamId"])) throw new AuthorizationException("teams","Vous devez faire partie du groupe pour voir cette page.");
+        $this->checkRole("user");
+        $this->checkRole("member",$params["teamId"]);
 
         $userId = $_SESSION["userId"] ?? null;
         $currentTeamId = $params["teamId"] ?? null;
@@ -45,15 +42,16 @@ class FrictionController extends BaseController{
     }
 
     /** createFriction()
-     * Get $_POST values and route parameters, structure them and send to the service to handle friction creation
-     * Redirect to the newly created friction page on success
-     * @param array $params Route parameters containing teamId
-     * @return void
+     * Collect POST data and route parameters, structure them & delegate friction creation to the service.
+     * Redirect to the newly created friction page on success.
+     * 
+     * @param {Array} $params : Array which contain route params (teamId, ...)
+     * @return void Redirect to the friction page in case of success, throw exception if not
      */
     public function createFriction($params){
 
-        if(!$this->checkRole("user")) throw new AuthenticateException("Vous devez être connecté pour voir cette page");
-        if(!$this->checkRole("member",$params["teamId"])) throw new AuthorizationException("teams","Vous devez faire partie du groupe pour voir cette page.");
+        $this->checkRole("user");
+        $this->checkRole("member",$params["teamId"]);
 
         $this->checkAccess($params);
 
@@ -69,13 +67,20 @@ class FrictionController extends BaseController{
         
     }
 
+    /** voteFriction()
+     * Collect session and route parameters & delegate the friction vote registration to the service.
+     * Redirect to the friction page on success.
+     * 
+     * @param {Array} $params : Array which contain route params (teamId, frictionId, ...)
+     * @return void Redirect to the friction page in case of success, throw exception if not
+     */
     public function voteFriction($params){
 
         echo "<br> FrictionController->voteFriction : <br><br>";
 
-        if(!$this->checkRole("user")) throw new AuthenticateException("Vous devez être connecté pour voir cette page");
-        if(!$this->checkRole("member",$params["teamId"])) throw new AuthorizationException("teams","Vous devez faire partie du groupe pour voir cette page.");
-        
+        $this->checkRole("user");
+        $this->checkRole("member",$params["teamId"]);
+
         $userId = $_SESSION["userId"];
         $teamId = $params["teamId"];
         $frictionId = $params["frictionId"];
@@ -86,13 +91,20 @@ class FrictionController extends BaseController{
 
     }
 
+    /** voteTreatment()
+     * Collect session and route parameters & delegate the treatment vote registration to the service.
+     * Redirect to the parent friction page on success.
+     * 
+     * @param {Array} $params : Array which contain route params (teamId, frictionId, treatmentId, voteResult, ...)
+     * @return void Redirect to the friction page in case of success, throw exception if not
+     */
     public function voteTreatment($params){
 
         echo "<br> FrictionController->voteFriction : <br><br>";
 
-        if(!$this->checkRole("user")) throw new RoleException("teams","Vous devez être connecté pour voir cette page");
-        if(!$this->checkRole("member",$params["teamId"])) throw new RoleException("teams","Vous devez faire partie du groupe pour voir cette page");
-        
+        $this->checkRole("user");
+        $this->checkRole("member",$params["teamId"]);
+
         $userId = $_SESSION["userId"];
         $teamId = $params["teamId"];
         $treatmentId = $params["treatmentId"];
@@ -105,15 +117,16 @@ class FrictionController extends BaseController{
 
     }
     
-    /** renderCreationForm()
-     * Retrieve the current team context and pass it to the service to render the friction creation form view
-     * @param array $params Route parameters containing teamId
-     * @return void
+    /** showFrictionCreationPage()
+     * Retrieve the current team context & render the friction creation form view.
+     * 
+     * @param {Array} $params : Array which contain route params (teamId, ...)
+     * @return void Render friction creation view in case of success, throw exception if not
      */
     public function showFrictionCreationPage($params){
 
-        if(!$this->checkRole("user")) throw new AuthenticateException("Vous devez être connecté pour voir cette page");
-        if(!$this->checkRole("member",$params["teamId"])) throw new AuthorizationException("teams","Vous devez faire partie du groupe pour voir cette page.");
+        $this->checkRole("user");
+        $this->checkRole("member",$params["teamId"]);
 
         $currentTeamId = $params["teamId"];
 
@@ -123,9 +136,16 @@ class FrictionController extends BaseController{
 
     }
 
+    /** showAddingSolutionPage()
+     * Verify the current user's pilot role on the treatment & render the solution adding form view.
+     * 
+     * @param {Array} $params : Array which contain route params (teamId, frictionId, treatmentId, ...)
+     * @return void Render solution adding view in case of success, throw exception if not
+     */
     public function showAddingSolutionPage($params){
 
-        $this->checkRole("member");
+        $this->checkRole("user");
+        $this->checkRole("member",$params["teamId"]);
 
         $isPilot = $this->userService->isPilot($_SESSION["userId"],$params["teamId"]);
 
@@ -139,7 +159,17 @@ class FrictionController extends BaseController{
 
     }
 
+    /** addSolution()
+     * Verify the current user's pilot role, collect POST data & delegate solution creation to the service.
+     * Redirect to the parent friction page on success.
+     * 
+     * @param {Array} $params : Array which contain route params (teamId, frictionId, treatmentId, ...)
+     * @return void Redirect to the friction page in case of success, throw exception if not
+     */
     public function addSolution($params){
+
+        $this->checkRole("user");
+        $this->checkRole("member",$params["teamId"]);
 
         $isPilot = $this->userService->isPilot($_SESSION["userId"],$params["teamId"]);
 

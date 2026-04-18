@@ -1,25 +1,26 @@
 <?php
+$activeTab = 'frictions';
+
 $labelClassMap = [
-    'Non traité'    => 'totreat',
-    'En cours' => 'inprogress',
+    'Non traité'  => 'totreat',
+    'En cours'    => 'inprogress',
     'En vote'     => 'invote',
-    'Clos'     => 'closed',
-    'Validé' => 'approved',
-    'Non validé' => 'rejected',
-    'À valider' => 'invote',
+    'Clos'        => 'closed',
+    'Validé'      => 'approved',
+    'Non validé'  => 'rejected',
+    'À valider'   => 'invote',
 ];
 ?>
 
-<main class="main container" data-team-id=<?= $teamId ?>>
+<main class="main container">
 
-    <h1 class="section-label">Irritant</h1>
-    <!-- MESSAGE DE SUCCES OU D'ERREUR -->
+    <h1 class="title-md mb-32">GROUPE</h1>
 
-    <!-- SOUS MENU DE NAVIGATION -->
     <div class="main__container">
 
-        <div class="main__content">
+        <?php include dirname(__DIR__).'/Partials/_nav.php' ?>
 
+        <div class="main__content">
 
             <!-- AFFICHAGE DE L'IRRITANT -->
 
@@ -27,7 +28,7 @@ $labelClassMap = [
 
                 <?php
                     $friction = $frictionData["friction"];
-                    $user = $frictionData["user"];
+                    $user     = $frictionData["user"];
                 ?>
 
                 <div class="section__top">
@@ -37,24 +38,22 @@ $labelClassMap = [
                 <div class="section__content">
 
                     <div class="card">
+
                         <div class="card__header">
                             <h3><?= $friction["title"] ?></h3>
-                            <p class="text--xs">Ajouté le <?= new DateTime($friction["created_at"])->format("d-m-Y") ?> par <?= $friction["author"] ?></p>
-                            <p class="badge badge--<?= $labelClassMap[$friction["statusLabel"]] ?>"><?= $friction["statusLabel"] ?></p>
+                            <p class="text--xs">Ajouté le <?= (new DateTime($friction["created_at"]))->format("d-m-Y") ?> par <?= $friction["author"] ?></p>
+                            <span class="badge badge--<?= $labelClassMap[$friction["statusLabel"]] ?>"><?= $friction["statusLabel"] ?></span>
                         </div>
+
                         <p><?= $friction["description"] ?></p>
 
-                        <?php
-
-                        if ($user["canVoteFriction"]): ?> //Si l'irritant n'est pas en cours ou pas déjà voté
-
-                            <form action="/team/<?= $teamId ?>/friction/<?= $friction["id"] ?>/vote" method="post">
+                        <?php if ($user["canVoteFriction"]): ?>
+                            <form action="/team/<?= $teamId ?>/friction/<?= $friction["id"] ?>/vote" method="POST">
                                 <button type="submit">Voter</button>
                             </form>
-
                         <?php endif ?>
 
-                        <p> <?= $user["hasVotedFriction"] ? "Vous avez voté pour cet irritant !" : "Vous n'avez pas voté cet irritant" ?> </p>
+                        <p><?= $user["hasVotedFriction"] ? "Vous avez voté pour cet irritant !" : "Vous n'avez pas voté cet irritant" ?></p>
 
                     </div>
 
@@ -62,14 +61,14 @@ $labelClassMap = [
 
             </section>
 
-            <!-- AFFICHAGE DES DERNIERS TREATMENTS -->
+            <!-- AFFICHAGE DES TRAITEMENTS -->
 
-            <section class="main__section section main__section--first">
+            <section class="main__section section">
 
                 <div class="section__top">
                     <?php if (isset($treatmentsData)): ?>
                         <h2 class="section__title title-lg">Détails du traitement</h2>
-                    <?php else : ?>
+                    <?php else: ?>
                         <h2 class="section__title title-lg">Aucun traitement</h2>
                         <p class="text--xs">L'irritant n'a jamais été traité</p>
                     <?php endif ?>
@@ -77,14 +76,15 @@ $labelClassMap = [
 
                 <div class="section__content">
 
-                    <?php if (isset($treatmentsData)) :?>
+                    <?php if (isset($treatmentsData)): ?>
 
-                    <?php foreach ($treatmentsData as $treatmentData) :
+                        <?php foreach ($treatmentsData as $treatmentData):
 
                             $treatment = $treatmentData["treatment"];
-                            $user = $treatmentData["user"];
+                            $user      = $treatmentData["user"];
 
-                    ?>
+                        ?>
+
                             <div class="card">
 
                                 <?php if ($treatment["cycleId"] == $cycleId): ?>
@@ -95,36 +95,35 @@ $labelClassMap = [
 
                                 <p><?= $treatment["solution"] ?></p>
 
-                                <?php if($user["canUpdateSolution"]): ?>
-                                    <a href="/team/<?php echo $teamId ?>/friction/<?= $friction["id"] ?>/treatment/<?= $treatment["id"] ?>/updatesolution" class="btn-primary--sm mt-8">Ajouter une solution</a>
+                                <?php if ($user["canUpdateSolution"]): ?>
+                                    <a class="btn-primary--sm mt-8" href="/team/<?= $teamId ?>/friction/<?= $friction["id"] ?>/treatment/<?= $treatment["id"] ?>/updatesolution">Ajouter une solution</a>
                                 <?php endif ?>
 
                                 <p><?= $treatment["created_at"] ?></p>
                                 <p><?= $treatment["updated_at"] ?? "Pas d'update" ?></p>
                                 <p><?= $treatment["pilot"] ?></p>
-                                <p class="badge badge--<?= $labelClassMap[$treatment["statusLabel"]] ?>"><?= $treatment["statusLabel"] ?></p>
+                                <span class="badge badge--<?= $labelClassMap[$treatment["statusLabel"]] ?>"><?= $treatment["statusLabel"] ?></span>
 
-                                <!-- GESTION BOUTONS D'APPROBATION OU REJET -->
-                                <?php if($user["canVoteTreatment"]): ?>
+                                <?php if ($user["canVoteTreatment"]): ?>
 
-                                    <form class="btn-primary--sm mt-8" action="/team/<?= $teamId ?>/friction/<?= $friction["id"] ?>/treatment/<?= $treatment["id"] ?>/vote/1" method="post">
-                                        <button type="submit">Approuver</button>
+                                    <form class="mt-8" action="/team/<?= $teamId ?>/friction/<?= $friction["id"] ?>/treatment/<?= $treatment["id"] ?>/vote/1" method="POST">
+                                        <button class="btn-primary--sm" type="submit">Approuver</button>
                                     </form>
 
-                                    <form class="btn-primary--sm mt-8" action="/team/<?= $teamId ?>/friction/<?= $friction["id"] ?>/treatment/<?= $treatment["id"] ?>/vote/0" method="post">
-                                        <button type="submit">Rejeter</button>
+                                    <form class="mt-8" action="/team/<?= $teamId ?>/friction/<?= $friction["id"] ?>/treatment/<?= $treatment["id"] ?>/vote/0" method="POST">
+                                        <button class="btn-primary--sm" type="submit">Rejeter</button>
                                     </form>
 
                                 <?php endif ?>
 
-                                <?php if(!empty($user["hasApprovedSolution"])):?>
-
-                                    <p> <?= $user["hasApprovedSolution"] ? "Vous avez voté pour" : "Vous avez voté contre !" ?> </p>
-
+                                <?php if (!empty($user["hasApprovedSolution"])): ?>
+                                    <p><?= $user["hasApprovedSolution"] ? "Vous avez voté pour" : "Vous avez voté contre !" ?></p>
                                 <?php endif ?>
+
                             </div>
 
-                    <?php endforeach ?>
+                        <?php endforeach ?>
+
                     <?php endif ?>
 
                 </div>

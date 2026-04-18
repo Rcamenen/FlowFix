@@ -17,10 +17,11 @@ class FrictionModel extends BaseModel{
 
     /** isOwnByTeam()
      * Query the database to check if a friction belongs to a given team
-     * Return true if the friction is owned by the team, false otherwise
-     * @param int $author
-     * @param int $teamId
-     * @return bool
+     * by joining frictions with team members.
+     * 
+     * @param {int} $author : Id of the friction's author (team member id)
+     * @param {int} $teamId : Id of the team to check against
+     * @return bool True if the friction belongs to the team, false otherwise
      */
     public function isOwnByTeam(int $author, int $teamId): bool {
 
@@ -37,11 +38,11 @@ class FrictionModel extends BaseModel{
     }
     
     /** findByGroupAndStatus()
-     * Query the database to retrieve all frictions matching a given team and status
-     * Return the results as an array of associative arrays
-     * @param int $teamId
-     * @param int $statusId
-     * @return array
+     * Query the database to retrieve all frictions matching a given team and status.
+     * 
+     * @param {int} $teamId : Id of the team to filter by
+     * @param {int} $statusId : Id of the status to filter by
+     * @return array Array of matching frictions as associative arrays, empty array if none found
      */
     public function findByGroupAndStatus($teamId,$statusId){
 
@@ -55,10 +56,10 @@ class FrictionModel extends BaseModel{
     }
 
     /** getLastIdByAuthor()
-     * Query the database to retrieve the most recently created friction ID for a given author
-     * Return the result as an associative array or false if not found
-     * @param int $author_id
-     * @return array|false
+     * Query the database to retrieve the most recently created friction id for a given author.
+     * 
+     * @param {int} $author_id : Id of the friction's author (team member id)
+     * @return array|false Associative array containing the friction id in case of success, false if not found
      */
     public function getLastIdByAuthor($author_id){
 
@@ -72,10 +73,10 @@ class FrictionModel extends BaseModel{
     }
 
     /** getByIdWithStatus()
-     * Query the database to retrieve a friction along with its status details matching the given ID
-     * Return the result as an associative array or false if not found
-     * @param int $frictionId
-     * @return array
+     * Query the database to retrieve a friction along with its status label for a given id.
+     * 
+     * @param {int} $frictionId : Id of the friction to retrieve
+     * @return array|false Associative array of friction and status data in case of success, false if not found
      */
     public function getByIdWithStatus($frictionId){
 
@@ -90,9 +91,10 @@ class FrictionModel extends BaseModel{
 
     /** getAuthorUsername()
      * Query the database to retrieve the username of the author of a given friction
-     * Return the username as a string or false if not found
-     * @param int $frictionId
-     * @return string|false
+     * by joining frictions, team members & users tables.
+     * 
+     * @param {int} $frictionId : Id of the friction to retrieve the author for
+     * @return string|false Author's username in case of success, false if not found
      */
     public function getAuthorUsername($frictionId){
 
@@ -105,6 +107,13 @@ class FrictionModel extends BaseModel{
 
     }
 
+    /** findByPilotAndCycle()
+     * Query the database to retrieve all frictions piloted by a given member during a given cycle.
+     * 
+     * @param {int} $memberId : Id of the team member acting as pilot
+     * @param {int} $cycleId : Id of the cycle to filter by
+     * @return array Array of matching frictions as associative arrays, empty array if none found
+     */
     public function findByPilotAndCycle($memberId,$cycleId){
 
         $stmt = $this->connection->prepare("SELECT f.* FROM FRICTIONS AS f JOIN TREATMENTS AS t ON f.id=t.friction_id WHERE t.pilot_id = :memberId AND t.cycle_id=:cycleId");
@@ -116,29 +125,13 @@ class FrictionModel extends BaseModel{
 
     }
 
-    public function findInProgress($teamId){
-
-        $stmt = $this->connection->prepare("
-            SELECT 
-                f.id AS f_id,
-                f.title AS title,
-                f.description AS description,
-                f.created_at AS created_at,
-                f.status_id AS status_id,
-                fs.label AS status_label
-            FROM FRICTIONS AS f 
-            JOIN FRICTION_STATUS AS fs ON f.status_id = fs.id 
-            WHERE f.team_id = :teamId AND fs.id=:status
-        ");
-
-        $stmt->execute(["teamId" => $teamId,"status" => 2]);
-
-        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-        return $result;
-
-    }
-
+    /** findByTeam()
+     * Query the database to retrieve all frictions for a given team, enriched with their status label,
+     * ordered by creation date descending.
+     * 
+     * @param {int} $teamId : Id of the team to retrieve frictions for
+     * @return array Array of frictions as associative arrays, empty array if none found
+     */
     public function findByTeam($teamId) {
         $stmt = $this->connection->prepare(
             "SELECT f.*, fs.label AS status_label 
@@ -152,9 +145,15 @@ class FrictionModel extends BaseModel{
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-
-    ///////////////////////////// TEST /////////////////////////////////
-
+    /** findByTeamPaginated()
+     * Query the database to retrieve a paginated list of frictions for a given team,
+     * enriched with their status label, ordered by creation date descending.
+     * 
+     * @param {int} $teamId : Id of the team to retrieve frictions for
+     * @param {int} $limit : Maximum number of results to return
+     * @param {int} $offset : Number of results to skip
+     * @return array Array of frictions as associative arrays, empty array if none found
+     */
     public function findByTeamPaginated($teamId, $limit, $offset) {
         $stmt = $this->connection->prepare(
             "SELECT f.*, fs.label AS status_label 
@@ -171,6 +170,12 @@ class FrictionModel extends BaseModel{
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    /** countByTeam()
+     * Query the database to count the total number of frictions for a given team.
+     * 
+     * @param {int} $teamId : Id of the team to count frictions for
+     * @return int Total number of frictions
+     */
     public function countByTeam($teamId) {
         $stmt = $this->connection->prepare("
             SELECT COUNT(*) FROM FRICTIONS WHERE team_id = :teamId

@@ -17,11 +17,11 @@ class UserModel extends BaseModel{
 
     }
 
-    /** getIdAndHash()  
-     * Query the database to retrieve the user ID and password hash matching the given email
-     * Return the result as an associative array or false if not found
-     * @param string $email
-     * @return array|false
+    /** getIdAndHash()
+     * Query the database to retrieve the id and password hash for a given email.
+     * 
+     * @param {string} $email : Email of the user to look up
+     * @return array|false Associative array containing id and password hash in case of success, false if not found
      */
     public function getIdAndHash($email): array | false{
 
@@ -33,13 +33,12 @@ class UserModel extends BaseModel{
         return $result;
     }
     
-    /** isEmailExist($email)
-     * Check if an email exist in the table
+    /** isEmailExists()
+     * Query the database to check if a given email address already exists in the users table.
      * 
-     * @param {string} $email
-     * @return bool
+     * @param {string} $email : Email address to check
+     * @return bool True if the email exists, false otherwise
      */
-    
     public function isEmailExists(string $email): bool {
 
         $stmt = $this->connection->prepare("SELECT COUNT(*) FROM ". $this->tableName ." WHERE email=:email");
@@ -52,25 +51,15 @@ class UserModel extends BaseModel{
     }
 
     /** createUser()
-     * Add user in DB's user table
+     * Insert a new user record into the users table.
      * 
-     * @param {UserEntity} $userEntity : Objet représentant un user
-     * @return bool true in case of success, false if not
+     * @param {Array} $userData : Array which contain the user's data to insert
+     * @return bool True in case of success, false otherwise
      */
-
     public function createUser(array $userData): bool {
 
         $stmt = $this->connection->prepare("INSERT INTO USERS(registered_at,email,firstname,lastname,username,password_hash) values(:registered_at,:email,:firstname,:lastname,:username,:password_hash)");
         $result = $stmt->execute($userData);
-
-        return $result ?? false;
-
-    }
-
-    public function deleteUser(int $userId): bool {
-
-        $stmt = $this->connection->prepare("DELETE FROM USERS WHERE id = :id");
-        $result = $stmt->execute(["id" => $userId]);
 
         return $result ?? false;
 

@@ -7,7 +7,6 @@ use App\Models\TeamMemberModel;
 use App\Models\FrictionModel;
 use App\Models\TreatmentModel;
 
-use Exception;
 use App\Exceptions\FormException;
 use App\Exceptions\RoleException;
 
@@ -18,7 +17,6 @@ class UserService{
     private UserModel $userModel;
     private TeamModel $teamModel;
     private TeamMemberModel $teamMemberModel;
-    private FrictionModel $frictionModel;
     private TreatmentModel $treatmentModel;
 
     public function __construct(){
@@ -26,16 +24,15 @@ class UserService{
         $this->userModel = new UserModel();
         $this->teamModel = new TeamModel();
         $this->teamMemberModel = new TeamMemberModel();
-        $this->frictionModel = new FrictionModel();
         $this->treatmentModel = new TreatmentModel();
 
     }
 
     /** connectUserDataCheck()
-     * Validate the connection form data by checking if all required fields are filled
-     * Return an array of errors if any field is missing
-     * @param array $connectUserData
-     * @return array
+     * Validate connection form data by checking if all required fields are filled.
+     * 
+     * @param {Array} $connectUserData : Array which contain user's login credentials
+     * @return array|false Array of errors if any field is missing, false otherwise
      */
     public function connectUserDataCheck($connectUserData){
 
@@ -49,10 +46,10 @@ class UserService{
     }
 
     /** createUserDataCheck()
-     * Validate the registration form data by checking required fields, email format, email uniqueness and password length
-     * Return an array of errors if any validation fails, false otherwise
-     * @param array $createUserData
-     * @return array|false
+     * Validate registration form data by checking required fields, email format, email uniqueness & password length.
+     * 
+     * @param {Array} $createUserData : Array which contain user's registration data
+     * @return array|false Array of errors if any validation fails, false otherwise
      */
     public function createUserDataCheck($createUserData):array|false{
 
@@ -82,12 +79,11 @@ class UserService{
     }
 
     /** createUser()
-     * Apply business verification & ask the model to add the user in the DB's user table.
+     * Validate registration data & delegate user creation to the model after hashing the password.
      * 
-     * @param {UserEntity} $userEntity : Object which represent user
-     * @return bool true in case of success, false if not
+     * @param {Array} $createUserData : Array which contain user's registration data
+     * @return void User created in case of success, throw exception if not
      */
-
     public function createUser($createUserData){
 
         // ==================DATA CHECKING=================== //
@@ -113,10 +109,11 @@ class UserService{
     }
 
     /** connectUser()
-     * Apply business verification & ask the model to connect the user with his credentials.
+     * Validate credentials, verify email/password match & retrieve the user's teams and roles.
+     * Return formatted session data on success.
      * 
-     * @param {Array} $connectUserData : Array which contain user's login informations
-     * @return int user's id in case of success, throw exception if not
+     * @param {Array} $connectUserData : Array which contain user's login credentials
+     * @return array|false Array of session data in case of success, throw exception if not
      */
     public function connectUser($connectUserData) :array | false {
 
@@ -158,10 +155,10 @@ class UserService{
     }
 
     /** showGroupsPanel()
-     * Retrieve all groups linked to a user & format them for the view.
+     * Retrieve all teams linked to a user & format them for the view.
      * 
      * @param {int} $userId : Id of the current user
-     * @return array|false Array of user's groups in case of success, false if not
+     * @return array|false Array of user's teams in case of success, false if not
      */
     public function showGroupsPanel($userId) :array|false {
 
@@ -185,8 +182,8 @@ class UserService{
 
     }
 
-    /** getProfilData()
-     * Retrieve the user information by using his userId.
+    /** getAccountData()
+     * Retrieve a user's account information by their id & format it for the view.
      * 
      * @param {int} $userId : Id of the current user
      * @return array|false Array of user's data in case of success, false if not
@@ -201,6 +198,12 @@ class UserService{
 
     }
 
+    /** delete()
+     * Anonymize all the user's team memberships & delete the user from the database.
+     * 
+     * @param {int} $userId : Id of the user to delete
+     * @return void User deleted in case of success, throw exception if not
+     */
     public function delete($userId){
 
         //Récupérer groupes et memberID
@@ -216,7 +219,13 @@ class UserService{
 
     }
 
-    //Utiliser pour afficher la page de soumission d'une solution sur un irritant
+    /** isPilot()
+     * Check whether a user is a pilot of at least one treatment within a given team.
+     * 
+     * @param {int} $userId : Id of the current user
+     * @param {int} $teamId : Id of the team to check against
+     * @return bool True if the user is a pilot, false otherwise
+     */
     public function isPilot($userId,$teamId):bool{
 
         $memberId = $this->teamMemberModel->findBy(['id'],['user_id'=>$userId,'team_id'=>$teamId],"onecolumn");
@@ -228,6 +237,19 @@ class UserService{
         }else return false;
 
     }
+
+    /** getUser()
+     * Retrieve a single user's data by their id.
+     * 
+     * @param {int} $userId : Id of the user to retrieve
+     * @return array Array of user's data in case of success, throw exception if not
+     */
+    public function getUser($userId){
+ 
+        return $this->userModel->findBy(["id","username","email","registered_at"],["id"=>$userId],"oneassoc");
+ 
+    }
+ 
 
 }
 

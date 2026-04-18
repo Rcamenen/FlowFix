@@ -1,5 +1,7 @@
 <?php
 namespace App\Services;
+
+use App\Exceptions\RoleException;
 use App\Models\TeamMemberModel;
 use App\Models\FrictionModel;
 use App\Models\CycleModel;
@@ -30,11 +32,14 @@ class FrictionService{
     }
 
     /** getFrictionData()
-     * Retrieve and aggregate all friction-related data including votes, author, and latest treatment details from the models
-     * Return a structured response array containing friction and treatment data
-     * @param int $frictionId
-     * @param int $teamId
-     * @return array
+     * Retrieve and aggregate all friction-related data including votes, author, user permissions
+     * & latest treatments with their votes and pilot info.
+     * Return a structured response array formatted for the friction details view.
+     * 
+     * @param {int} $frictionId : Id of the friction to retrieve
+     * @param {int} $teamId : Id of the team the friction belongs to
+     * @param {int} $userId : Id of the current user
+     * @return array Array of friction and treatments data in case of success, throw exception if not
      */
     public function getFrictionData(int $frictionId,int $teamId, int $userId):array{
 
@@ -44,10 +49,8 @@ class FrictionService{
 
         $frictionDataWithStatus = $this->frictionModel->getByIdWithStatus($frictionId);
 
-        if(!$frictionDataWithStatus) throw new Exception("La page demandée n'existe pas"); //404
-
         $isFrictionOwnByTeam = $this->frictionModel->isOwnByTeam($frictionDataWithStatus['author_id'],$teamId); //Vérification de la cohérence friction/team.
-        if(!$isFrictionOwnByTeam) throw new Exception("Cette friction ne fait pas partie de ce groupe !"); //404
+        if(!$isFrictionOwnByTeam) throw new Exception("Cette friction ne fait pas partie de ce groupe !");
 
         $memberId = $this->teamMemberModel->findMemberId($userId,$teamId);
 
@@ -131,10 +134,12 @@ class FrictionService{
     }
 
     /** createFriction()
-     * Retrieve the team member ID and send structured friction data to the model to handle the creation
-     * Return the newly created friction entry
-     * @param array $createFrictionData
-     * @return array
+     * Resolve the member id from session data, structure the friction data
+     * & delegate friction creation to the model.
+     * Return the newly created friction entry.
+     * 
+     * @param {Array} $createFrictionData : Array which contain friction creation data (title, description, userId, teamId)
+     * @return array Array containing the newly created friction id in case of success, throw exception if not
      */
     public function createFriction($createFrictionData){
 
@@ -160,19 +165,28 @@ class FrictionService{
 
     }
 
+    /** voteFriction()
+     * Verify member membership, friction ownership & vote quota before registering
+     * the current user's vote on a friction for the active cycle.
+     * 
+     * @param {int} $userId : Id of the current user
+     * @param {int} $teamId : Id of the team the friction belongs to
+     * @param {int} $frictionId : Id of the friction to vote on
+     * @return string Success message in case of success, throw exception if not
+     */
     public function voteFriction($userId,$teamId,$frictionId){
 
         echo "<br> FrictionService->voteFriction : <br><br>";
 
         // Vérifier que l'utilisaeur fait bien partie du groupe
         $memberId = $this->teamMemberModel->findMemberId($userId,$teamId);
-        if(!$memberId) throw new Exception("Vous ne faites pas partie de ce groupe !");
+        if(!$memberId) throw new RoleException("notMember","Vous ne faites pas partie de ce groupe !");
 
         $authorId = $this->frictionModel->findBy(["author_id"],["id"=>$frictionId],"onecolumn");
 
         // Vérifier que la friction fais partie de la team
         $isFrictionOwnByTeam = $this->frictionModel->isOwnByTeam($authorId,$teamId); //Vérification de la cohérence friction/team.
-        if(!$isFrictionOwnByTeam) throw new Exception("Cette friction ne fait pas partie de ce groupe !"); //404
+        if(!$isFrictionOwnByTeam) throw new Exception("Cette friction ne fait pas partie de ce groupe !");
 
         $cycle = $this->cycleModel->getLastByTeam($teamId);
 
@@ -196,13 +210,23 @@ class FrictionService{
         return $response["success"]="Vote envoyé !";
     }
 
+    /** voteTreatment()
+     * Verify member membership, friction ownership & vote uniqueness before registering
+     * the current user's vote on a treatment.
+     * 
+     * @param {int} $userId : Id of the current user
+     * @param {int} $teamId : Id of the team the treatment belongs to
+     * @param {int} $treatmentId : Id of the treatment to vote on
+     * @param {int} $voteResult : Vote value (0 or 1)
+     * @return string Success message in case of success, throw exception if not
+     */
     public function voteTreatment($userId,$teamId,$treatmentId,$voteResult){
 
         echo "<br> FrictionService->voteFriction : <br><br>";
 
         // Vérifier que l'utilisaeur fait bien partie du groupe
         $memberId = $this->teamMemberModel->findMemberId($userId,$teamId);
-        if(!$memberId) throw new Exception("Vous ne faites pas partie de ce groupe !");
+        if(!$memberId) throw new RoleException("notMember","Vous ne faites pas partie de ce groupe !");
 
         $frictionId = $this->treatmentModel->findBy(["friction_id"],["id"=>$treatmentId],"onecolumn");
 
@@ -228,6 +252,13 @@ class FrictionService{
         return $response["success"]="Vote envoyé !";
     }
 
+    /** addSolution()
+     * Update the solution field of a given treatment in the database.
+     * 
+     * @param {string} $solution : Solution text to attach to the treatment
+     * @param {int} $treatmentId : Id of the treatment to update
+     * @return void Solution updated in case of success, throw exception if not
+     */
     public function addSolution($solution,$treatmentId){
 
         $this->treatmentModel->update($treatmentId,["solution"=>$solution]);
