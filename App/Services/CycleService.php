@@ -49,7 +49,7 @@ class CycleService extends BaseService{
 
         // Cycle courant de la team
         $currentCycle = $this->cycleModel->getLastByTeam($teamId);
-
+        
         // Date de fin du cycle courant
         $cycleEndDate = $currentCycle["end_date"];
 
