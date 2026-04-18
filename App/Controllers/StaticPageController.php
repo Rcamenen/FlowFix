@@ -67,8 +67,8 @@ class StaticPageController extends BaseController{
      * @return void Render admin login view in case of success, redirect to /admin if already connected
      */
     public function showAdminLoginPage(){
-        
-        if($this->checkRole("admin")){
+
+        if(!empty($_SESSION["adminId"])){
             header("Location: /admin");
             exit();
         }
