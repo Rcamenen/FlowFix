@@ -97,7 +97,7 @@ class CycleService extends BaseService{
 
             }else{
 
-                $this->treatmentModel->update($treatment["id"],["status_id"=>5]); //treatment status_id 5 = Non validé
+                $this->treatmentModel->update($treatment["id"],["status_id"=>5,"solution"=>"Aucune solution n'a été proposé"]); //treatment status_id 5 = Non validé
                 $this->frictionModel->update($treatment["friction_id"],["status_id"=>4]); //friction status_id 4 = Clos
                 // echo '<br> treatments $treatment["id"] et frictions $treatment["friction_id"] passé au status 5 & 4 <br>';
 
@@ -164,17 +164,17 @@ class CycleService extends BaseService{
         // echo "<br> CycleService->closeTreatmentsVotingSession() <br>";
 
         $inVotingTreatments = $this->treatmentModel->findBy(["*"],["status_id"=>3]); // treatment status_id 3 = A valider
-        
+
         foreach($inVotingTreatments as $treatment){
 
-            $cycleData = $this->cycleModel->findBy(["end_date","treatments_voting_delay"],["id"=>$treatment["cycle_id"]]);
-
+            $cycleData = $this->cycleModel->findBy(["end_date","treatments_voting_delay"],["id"=>$treatment["cycle_id"]],"oneassoc");
+ 
             $votingEndDate = new DateTime($cycleData["end_date"])->modify(("+".$cycleData["treatments_voting_delay"]." days"));
 
-            if($votingEndDate > new DateTime()){
+            if($votingEndDate < new DateTime()){
 
                 // Dépouillement des résultats
-                $votes = $this->treatmentVotesModel->findVotesByTreatmentAndStatus($treatment,3);
+                $votes = $this->treatmentVotesModel->findVotesByTreatmentAndStatus($treatment["id"],3);
                 
                 // Affectation des nouveaux statuts
                 if(!empty($votes) && (array_sum($votes)/count($votes))>=0.5) $this->treatmentModel->update($treatment["id"],["status_id"=>4]); // treatment status_id 4 = Validé
