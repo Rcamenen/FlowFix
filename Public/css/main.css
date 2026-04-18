@@ -553,6 +553,16 @@ p {
   background: var(--friction-closed-bg);
   border-color: var(--friction-closed-border);
 }
+.badge--rejected {
+  color: var(--treatment-rejected-text);
+  background: var(--treatment-rejected-bg);
+  border-color: var(--treatment-rejected-border);
+}
+.badge--approved {
+  color: var(--treatment-approved-text);
+  background: var(--treatment-approved-bg);
+  border-color: var(--treatment-approved-border);
+}
 .txt-center {
   text-align: center;
 }
