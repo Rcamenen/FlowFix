@@ -38,6 +38,8 @@ class FrictionService{
      */
     public function getFrictionData(int $frictionId,int $teamId, int $userId):array{
 
+        // RETRIEVE FRICTION DATA
+
         $currentCycleId = $this->cycleModel->getCurrentCycleId($teamId);
 
         $frictionDataWithStatus = $this->frictionModel->getByIdWithStatus($frictionId);
@@ -55,9 +57,12 @@ class FrictionService{
         
         $frictionVotes =  $this->frictionVoteModel->getVotesCounter($currentCycleId,$frictionId);
         $authorUsername = $this->frictionModel->getAuthorUsername($frictionId);
-        $isAlreadyVoted = $this->frictionVoteModel->findBy(["id"],["cycle_id"=>$currentCycleId,"member_id"=>$memberId,"friction_id"=>$frictionId]);
+        $hasVotedFriction = $this->frictionVoteModel->findBy(["id"],["cycle_id"=>$currentCycleId,"member_id"=>$memberId,"friction_id"=>$frictionId]);
 
-        $response["friction"]=[
+        $canVoteFriction = (empty($hasVotedFriction) && $frictionDataWithStatus["status_label"] == "Non traité");
+
+        $response["frictionData"]=[
+            "friction"=>[
                 "id"=>$frictionDataWithStatus["id"],
                 "title"=>$frictionDataWithStatus["title"],
                 "description"=>$frictionDataWithStatus["description"],
@@ -65,33 +70,58 @@ class FrictionService{
                 "author"=>$authorUsername,
                 "votes"=>$frictionVotes,
                 "created_at"=>$frictionDataWithStatus["created_at"],
-                "updated_at"=>$frictionDataWithStatus["updated_at"],
-                "isAlreadyVoted"=> !empty($isAlreadyVoted) ? true : false
-            ];
+                "updated_at"=>$frictionDataWithStatus["updated_at"]
+            ],
+            "user"=>[
+                "canVoteFriction"=>$canVoteFriction,
+                "hasVotedFriction"=>$hasVotedFriction
+            ]
+        ];
+
+
+        // RETRIEVE TREATMENTS DATA
 
         $treatmentsDataWithStatus = $this->treatmentModel->findLastsByFrictionWithStatus($frictionId, 5);
+
         if(!empty($treatmentsDataWithStatus)){
 
-            $response["treatments"] = [];
+            $response["treatmentsData"] = [];
 
             foreach($treatmentsDataWithStatus as $treatment){
 
+                //Retrieve Votes Data
                 $treatmentVotes = $this->treatmentVotesModel->findVotesByTreatmentAndCycle($treatment["id"], $currentCycleId);
                 $treatmentVotesCount = array_count_values($treatmentVotes);
 
+                //Retrieve Pilot Username
                 $pilotUsername = $this->treatmentModel->getPilotUsername($treatment["id"]);
 
-                $response["treatments"][] = [
-                    "id"=>$treatment["id"],
-                    "solution"=>$treatment["solution"],
-                    "created_at"=>$treatment["created_at"],
-                    "updated_at"=>$treatment["updated_at"],
-                    "statusLabel"=>$treatment["label"],
-                    "cycleId"=>$treatment["cycle_id"],
-                    "pilot"=>$pilotUsername,
-                    "pilotId"=>$treatment["pilot_id"],
-                    "forVotes" => $treatmentVotesCount[1] ?? 0,
-                    "againstVotes" => $treatmentVotesCount[0] ?? 0
+                //Retrieve the member vote, if exists
+                $memberDecision = $this->treatmentVotesModel->findBy(["vote"],["member_id"=>$memberId,"treatment_id"=>$treatment["id"]],"oneassoc");
+
+                //Business logic for view
+                $canVoteTreatment = $treatment["status_id"] == 3 && empty($memberDecision);
+                $canUpdateSolution = $treatment["pilot_id"]==$memberId && $treatment["status_id"]==2;
+                $hasApprovedSolution = !empty($memberDecision["vote"]) && $memberDecision["vote"]==true;
+
+                $response["treatmentsData"][] = [
+                    "treatment"=>[
+                        "id"=>$treatment["id"],
+                        "solution"=>$treatment["solution"],
+                        "created_at"=>$treatment["created_at"],
+                        "updated_at"=>$treatment["updated_at"],
+                        "statusLabel"=>$treatment["label"],
+                        "cycleId"=>$treatment["cycle_id"],
+                        "pilot"=>$pilotUsername,
+                        "pilotId"=>$treatment["pilot_id"],
+                        "forVotes" => $treatmentVotesCount[1] ?? 0,
+                        "againstVotes" => $treatmentVotesCount[0] ?? 0,
+                    ],
+                    "user"=>[
+                        "canVoteTreatment"=>$canVoteTreatment,
+                        "canUpdateSolution"=>$canUpdateSolution,
+                        "hasApprovedSolution"=>$hasApprovedSolution
+                    ]
                 ];
             }
         }
@@ -166,7 +196,7 @@ class FrictionService{
         return $response["success"]="Vote envoyé !";
     }
 
-    public function voteTreatment($userId,$teamId,$treatmentId){
+    public function voteTreatment($userId,$teamId,$treatmentId,$voteResult){
 
         echo "<br> FrictionService->voteFriction : <br><br>";
 
@@ -186,8 +216,10 @@ class FrictionService{
     
         if(!empty($isVoteExist)) throw new Exception("Vous avez déjà voté pour cet irritant");
 
+        !((int)$voteResult === 1 || (int)$voteResult=== 0) ?? throw new Exception("Le vote doit être un entier compris entre 0 et 1");
+
         $this->treatmentVotesModel->create([
-            "vote"=>1,
+            "vote"=>(int)$voteResult,
             "voted_at"=> (new DateTime())->format("Y-m-d H:i:s"),
             "member_id"=> $memberId,
             "treatment_id"=> $treatmentId

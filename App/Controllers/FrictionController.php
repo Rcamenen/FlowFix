@@ -81,7 +81,8 @@ class FrictionController extends BaseController{
         $frictionId = $params["frictionId"];
 
         $this->frictionService->voteFriction($userId,$teamId,$frictionId);
-        //team/id/friction/id/unvote
+
+        header("Location: /team/".$teamId."/friction/".$frictionId);
 
     }
 
@@ -96,8 +97,9 @@ class FrictionController extends BaseController{
         $teamId = $params["teamId"];
         $treatmentId = $params["treatmentId"];
         $frictionId = $params["frictionId"];
+        $voteResult = $params["voteResult"];
 
-        $this->frictionService->voteTreatment($userId,$teamId,$treatmentId);
+        $this->frictionService->voteTreatment($userId,$teamId,$treatmentId,$voteResult);
 
         header("Location: /team/".$teamId."/friction/".$frictionId);
 

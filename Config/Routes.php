@@ -49,7 +49,10 @@ use App\Controllers\AuthController;
             "/team/{teamId}/friction/create"=>["controller"=>FrictionController::class,"method"=>"createFriction"],
             "/team/{teamId}/friction/{frictionId}/treatment/{treatmentId}/updatesolution"=>["controller"=>FrictionController::class,"method"=>"addSolution"],
             "/team/{teamId}/friction/{frictionId}/vote"=>["controller"=>FrictionController::class,"method"=>"voteFriction"],
-            "/team/{teamId}/friction/{frictionId}/treatment/{treatmentId}/vote"=>["controller"=>FrictionController::class,"method"=>"voteTreatment"],
+
+            "/team/{teamId}/friction/{frictionId}/treatment/{treatmentId}/vote/{voteResult}"=>["controller"=>FrictionController::class,"method"=>"voteTreatment"],
+            // "/team/{teamId}/friction/{frictionId}/treatment/{treatmentId}/v"=>["controller"=>FrictionController::class,"method"=>"rejectTreatment"],
+            
             "/team/{teamId}/member/add"=>["controller"=>TeamController::class,"method"=>"addMember"],
 
             "/admin/login"=>["controller"=>AuthController::class,"method"=>"connectAdmin"],
