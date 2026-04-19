@@ -147,7 +147,7 @@ class UserService{
         $response=[
             "teamsId" => $teamsId,
             "moderateTeamsId" => $moderateTeamsId,
-            "userId" =>$userIdAndHash["id"]
+            "userId" =>$userIdAndHash["id"],
         ];
 
         return $response;
@@ -163,6 +163,7 @@ class UserService{
     public function showGroupsPanel($userId) :array|false {
 
         $userTeams = $this->teamModel->getTeamsByUser($userId);
+        $username = $this->userModel->findBy(["username"],["id"=>$userId],"onecolumn");
 
         foreach($userTeams as $userTeam){
             
@@ -177,6 +178,7 @@ class UserService{
         }
 
         $response=["userTeams"=>$userTeamsData ?? null]; // ?? null si le user n'a aucune team
+        $response["username"]= $username;
 
         return $response ?? false;
 

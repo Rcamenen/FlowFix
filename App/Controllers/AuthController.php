@@ -38,6 +38,7 @@ class AuthController extends BaseController{
         $_SESSION['userId'] = $sessionData["userId"];
         $_SESSION['teamsId'] = $sessionData["teamsId"];
         $_SESSION['moderateTeamsId'] = $sessionData["moderateTeamsId"];
+        $_SESSION['username'] = $sessionData["username"];
 
         // ================== REDIRECTION TO THE TEAMS PANEL =================== //
 

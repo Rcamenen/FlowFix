@@ -1,6 +1,6 @@
 <aside class="main__nav">
     <nav class="subnav">
-        <p class="section-label"><?= htmlspecialchars($userName ?? "") ?></p>
+        <p class="section-label"><?= htmlspecialchars($_SESSION["username"] ?? "") ?></p>
         <ul class="subnav__list">
 
             <li class="subnav__item <?= $activeTab === 'teams' ? 'btn-tab btn-tab--active' : 'btn-tab' ?>">

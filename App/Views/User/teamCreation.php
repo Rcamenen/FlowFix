@@ -6,21 +6,11 @@
 
     <div class="page__panel">
 
-        <aside class="main__nav">
-            <nav class="subnav">
-                <!-- <p class="section-label">Vos groupes</p> -->
-                <ul class="subnav__list">
-                    <li class="subnav__item btn-tab btn-tab--active">Groupes</li>
-                    <!-- <li class="subnav__item btn-tab">Invitations</li> -->
-                    <li class="subnav__item btn-primary--sm"><a href="/team/create">Créer un groupe</a></li>
-                </ul>
-            </nav>
-        </aside>
+        <?php include 'Partials/_nav.php' ?>
 
         <div class="page__content panelContent">
 
             <div class="panelContent__header">
-                <p class="section-label">Créer un groupe</p>
                 <h2 class="section__title title-lg">Veuillez renseigner les informations suivantes :</h2>
             </div>
 
