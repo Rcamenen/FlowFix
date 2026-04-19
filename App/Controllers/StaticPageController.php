@@ -13,6 +13,11 @@ class StaticPageController extends BaseController{
      */
     public function showHomePage(){
         
+        if(!empty($_SESSION["adminId"])){
+            header("Location: /admin");
+            exit();
+        }
+        
         $this->renderView("home",$response ?? null);
 
     }
