@@ -51,7 +51,7 @@ class UserController extends BaseController{
         $userId = $_SESSION["userId"] ?? null;
         $data = $this->userService->getAccountData($userId);
 
-        $this->renderView("Profil/profil",$data);
+        $this->renderView("User/profil",$data);
 
     }
 
