@@ -1,7 +1,5 @@
 
 <main id="home" class="main">
-
-    <div class="main__content">
             
         <!--------------------------------------------------
 
@@ -21,11 +19,11 @@
                         <p>FlowFix permet à chaque membre de l'équipe de signaler les frictions du quotidien, de voter collectivement pour les prioriser, et de les traiter cycle par cycle.</p>
                     </div>
                     <div class="section__bottom flex-col">
-                        <a class="btn-primary" href="/register">Créer un groupe</a>
+                        <a class="btn-primary" href="/register">Améliorer la vie de mon équipe !</a>
                         <a class="btn-secondary mt-16" href="#comment-ca-marche">Découvrir</a>
                     </div>
 
-                    </div>
+                </div>
 
                 <div class="right">
 
@@ -46,7 +44,7 @@
 
          -------------------------------------------------->
 
-        <div class="wrapper--alt">
+        <div class="wrapper wrapper--alt">
 
             <section id=comment-ca-marche class="main__section section container">
 
@@ -118,7 +116,7 @@
 
          -------------------------------------------------->
 
-        <div class="wrapper--alt">
+        <div class="wrapper wrapper--alt">
 
             <section id="pret-a-commencer" class="main__section section container">
 
@@ -136,7 +134,6 @@
             </section>
 
         </div>
-    </div>
     
 
 </main>

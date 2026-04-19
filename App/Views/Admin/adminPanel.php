@@ -6,7 +6,7 @@
 
     <?php include(dirname(__DIR__)."/Admin/Partials/_nav.php");?>
 
-        <div class="main__content">
+        <!-- <div class="main__content"> -->
 
             <section data-tab-content="users" class="main__section section main__section--first">
 
@@ -30,7 +30,7 @@
 
             </section>
 
-        </div>
+        <!-- </div> -->
     </div>
 </main>
 

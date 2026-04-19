@@ -4,8 +4,6 @@
 
     <h1 class="title-md mb-32">ADMINISTRATION</h1>
 
-    <div class="main__container">
-
         <?php include dirname(__DIR__) . '/Admin/Partials/_nav.php' ?>
 
         <div class="main__content">
@@ -65,6 +63,4 @@
 
             </section>
         </div>
-
-    </div>
 </main>

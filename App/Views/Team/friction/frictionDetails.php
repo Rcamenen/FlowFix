@@ -20,8 +20,6 @@ $labelClassMap = [
 
         <?php include dirname(__DIR__).'/Partials/_nav.php' ?>
 
-        <div class="main__content">
-
             <!-- AFFICHAGE DE L'IRRITANT -->
 
             <section class="main__section section main__section--first">
@@ -129,8 +127,6 @@ $labelClassMap = [
                 </div>
 
             </section>
-
-        </div>
 
     </div>
 </main>

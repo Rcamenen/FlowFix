@@ -15,7 +15,6 @@ $activeTab = 'dashboard';
     <div class="main__container">
         <?php include 'Partials/_nav.php' ?>
 
-        <div class="main__content">
             <section class="main__section section main__section--first">
 
                 <div class="section__top">
@@ -86,7 +85,7 @@ $activeTab = 'dashboard';
                 </div>
 
             </section>
-        </div>
+
 
     </div>
 </main>

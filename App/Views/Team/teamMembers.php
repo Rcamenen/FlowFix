@@ -8,7 +8,6 @@
 
         <?php include 'Partials/_nav.php' ?>
 
-        <div class="main__content">
             <section class="main__section section main__section--first">
 
                 <div class="section__top">
@@ -41,7 +40,6 @@
                 </div>
 
             </section>
-        </div>
 
     </div>
 </main>
