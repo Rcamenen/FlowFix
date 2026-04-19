@@ -1,21 +1,23 @@
 <?php $activeTab = 'frictions'; ?>
 
-<main class="main container">
+<main id="teamPanel" class="main container">
 
-    <h1 class="title-md mb-32">GROUPE</h1>
+    <div class="page__header">
+        <h1 class="title-md mb-32">GROUPE</h1>
+    </div>
 
-    <div class="main__container">
+    <div class="page__panel">
 
         <?php include dirname(__DIR__).'/Partials/_nav.php' ?>
+        <div class="page__content panelContent">
 
-            <section class="main__section section main__section--first">
+            <div class="panelContent__header">
+                <h2 class="section__title title-lg">Ajouter une solution</h2>
+                <a class="btn-secondary--sm" href="/team/<?= $teamId ?>/friction/<?= $frictionId ?>">Retour</a>
+            </div>
 
-                <div class="section__top">
-                    <h2 class="section__title title-lg">Ajouter une solution</h2>
-                    <a class="btn-secondary--sm" href="/team/<?= $teamId ?>/friction/<?= $frictionId ?>">Retour</a>
-                </div>
-
-                <div class="section__content">
+            <div class="panelContent__sections">
+                <section class="panelContent__section">
 
                     <?php if (isset($_SESSION["error"])): ?>
                         <p class="notice--error"><?= $_SESSION["error"] ?></p>
@@ -33,9 +35,10 @@
 
                     </form>
 
-                </div>
+                </section>
+            </div>
 
-            </section>
+        </div>
 
     </div>
 </main>

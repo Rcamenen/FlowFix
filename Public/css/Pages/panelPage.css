@@ -160,19 +160,31 @@ select {
   border: 0;
 }
 
-#home {
+#teamPanel, #adminPanel, #teamsPanel {
   padding-top: 32px;
   padding-bottom: 32px;
+}
+#teamPanel .page__header, #adminPanel .page__header, #teamsPanel .page__header {
+  width: 100%;
+}
+#teamPanel .page__panel, #adminPanel .page__panel, #teamsPanel .page__panel {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  align-items: center;
-  gap: 64px;
+  align-items: flex-start;
+  gap: 32px;
 }
-#home .page__header {
-  width: 100%;
+@media screen and (min-width: 850px) {
+  #teamPanel .page__panel, #adminPanel .page__panel, #teamsPanel .page__panel {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-wrap: nowrap;
+    gap: 5%;
+  }
 }
-#home .page__content {
+#teamPanel .panelContent, #adminPanel .panelContent, #teamsPanel .panelContent {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -180,62 +192,16 @@ select {
   gap: 32px;
   width: 100%;
 }
-#home {
-  padding-bottom: 0px;
-}
-#home .wrapper {
-  width: 100%;
-}
-#home .wrapper--alt {
-  background: var(--bg-surface);
-}
-#home .section {
-  padding-top: 64px;
-  padding-bottom: 64px;
+#teamPanel .panelContent .panelContent__sections, #adminPanel .panelContent .panelContent__sections, #teamsPanel .panelContent .panelContent__sections {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  gap: 48px;
-}
-#home .section__top {
   width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: stretch;
-  gap: 8px;
-}
-#home .section__content {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
   gap: 16px;
+}
+#teamPanel .panelContent .panelContent__section, #adminPanel .panelContent .panelContent__section, #teamsPanel .panelContent .panelContent__section {
   width: 100%;
-}
-#home #heroSection .right {
-  display: none;
-}
-@media screen and (min-width: 850px) {
-  #home #heroSection {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: nowrap;
-  }
-  #home #heroSection .left {
-    width: 50%;
-  }
-  #home #heroSection .right {
-    display: block;
-    width: 50%;
-    background-color: white;
-  }
-}
-#home #pret-a-commencer {
-  margin: auto;
 }
 
-/*# sourceMappingURL=home.css.map */
+/*# sourceMappingURL=panelPage.css.map */

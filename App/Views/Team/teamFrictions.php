@@ -8,21 +8,23 @@ $labelClassMap = [
 $activeTab = 'frictions';
 ?>
 
-<main class="main container">
+<main id="teamPanel" class="main container">
 
-    <h1 class="title-md mb-32">GROUPE</h1>
+    <div class="page__header">
+        <h1 class="title-md mb-32">GROUPE</h1>
+    </div>
 
-    <div class="main__container">
+    <div class="page__panel">
 
         <?php include 'Partials/_nav.php' ?>
+        <div class="page__content panelContent">
 
-            <section class="main__section section main__section--first">
+            <div class="panelContent__header">
+                <h2 class="section__title title-lg">Liste des irritants</h2>
+            </div>
 
-                <div class="section__top">
-                    <h2 class="section__title title-lg">Liste des irritants</h2>
-                </div>
-
-                <div class="section__content">
+            <div class="panelContent__sections">
+                <section class="panelContent__section">
 
                     <?php if (!$frictions): ?>
 
@@ -77,9 +79,10 @@ $activeTab = 'frictions';
 
                     <?php endif ?>
 
-                </div>
+                </section>
+            </div>
 
-            </section>
+        </div>
 
     </div>
 </main>

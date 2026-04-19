@@ -448,13 +448,6 @@ p {
   font-weight: 900;
   src: url("../fonts/inter-v20-latin-900italic.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
 }
-.container {
-  margin: 0 auto;
-  padding-left: 5vw;
-  padding-right: 5vw;
-  max-width: 1200px;
-}
-
 body {
   display: flex;
   flex-direction: column;
@@ -462,63 +455,15 @@ body {
   align-items: center;
 }
 
-.main {
-  padding-top: 40px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
+header, main, footer {
   width: 100%;
-}
-.main__section {
-  padding-top: 32px;
-  padding-bottom: 32px;
-  width: 100%;
-}
-.main__section--first {
-  padding-top: 0px;
-}
-.main__container {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-  gap: 32px;
-  width: 100%;
-}
-@media screen and (min-width: 850px) {
-  .main__container {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: flex-start;
-    flex-wrap: nowrap;
-    gap: 86px;
-  }
 }
 
-.section {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  gap: 48px;
-}
-.section__top {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: stretch;
-  gap: 8px;
-}
-.section__content {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-  gap: 16px;
-  width: 100%;
+.container {
+  margin: 0 auto;
+  padding-left: 5vw;
+  padding-right: 5vw;
+  max-width: 1200px;
 }
 
 .grid {
@@ -1218,15 +1163,59 @@ body {
   border-color: var(--treatment-toreview-border);
 }
 
-#home section {
-  padding-top: 64px;
-  padding-bottom: 64px;
+#home {
+  padding-top: 32px;
+  padding-bottom: 32px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 64px;
+}
+#home .page__header {
+  width: 100%;
+}
+#home .page__content {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 32px;
+  width: 100%;
+}
+#home {
+  padding-bottom: 0px;
 }
 #home .wrapper {
   width: 100%;
 }
 #home .wrapper--alt {
   background: var(--bg-surface);
+}
+#home .section {
+  padding-top: 64px;
+  padding-bottom: 64px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 48px;
+}
+#home .section__top {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  gap: 8px;
+}
+#home .section__content {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 16px;
+  width: 100%;
 }
 #home #heroSection .right {
   display: none;
@@ -1252,31 +1241,72 @@ body {
   margin: auto;
 }
 
-#teamDashboard #formHolidayCheck .form__input {
-  background-color: var(--bg-base);
+#teamPanel, #adminPanel, #teamsPanel {
+  padding-top: 32px;
+  padding-bottom: 32px;
+}
+#teamPanel .page__header, #adminPanel .page__header, #teamsPanel .page__header {
+  width: 100%;
+}
+#teamPanel .page__panel, #adminPanel .page__panel, #teamsPanel .page__panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 32px;
+}
+@media screen and (min-width: 850px) {
+  #teamPanel .page__panel, #adminPanel .page__panel, #teamsPanel .page__panel {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-wrap: nowrap;
+    gap: 5%;
+  }
+}
+#teamPanel .panelContent, #adminPanel .panelContent, #teamsPanel .panelContent {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 32px;
+  width: 100%;
+}
+#teamPanel .panelContent .panelContent__sections, #adminPanel .panelContent .panelContent__sections, #teamsPanel .panelContent .panelContent__sections {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%;
+  gap: 16px;
+}
+#teamPanel .panelContent .panelContent__section, #adminPanel .panelContent .panelContent__section, #teamsPanel .panelContent .panelContent__section {
+  width: 100%;
 }
 
-#admin .userList {
-  display: grid;
+#legal {
+  padding-top: 32px;
+  padding-bottom: 32px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 64px;
+}
+#legal .page__header {
   width: 100%;
-  grid-template-columns: 1fr;
-  gap: 16px;
 }
-@media (min-width: 768px) {
-  #admin .userList {
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  }
-}
-#admin .teamList {
-  display: grid;
+#legal .page__content {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 32px;
   width: 100%;
-  grid-template-columns: 1fr;
-  gap: 16px;
 }
-@media (min-width: 768px) {
-  #admin .teamList {
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  }
+#legal .section {
+  width: 100%;
 }
 
 /*# sourceMappingURL=main.css.map */

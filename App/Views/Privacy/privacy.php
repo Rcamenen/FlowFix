@@ -1,7 +1,5 @@
 <main id="privacy" class="main">
 
-    <div class="main__content">
-
         <section class="main__section main__section--first section container">
 
             <div class="section__top">
@@ -201,7 +199,5 @@
         <section class="main__section section container">
             <p class="text--sm text--muted">Dernière mise à jour : <?php echo date('d/m/Y'); ?></p>
         </section>
-
-    </div>
 
 </main>

@@ -8,20 +8,23 @@ $labelClassMap = [
 $activeTab = 'dashboard';
 ?>
 
-<main class="main container">
+<main id="teamPanel" class="main container">
 
-    <h1 class="title-md mb-32">GROUPE</h1>
+    <div class="page__header">
+        <h1 class="title-md mb-32">GROUPE</h1>
+    </div>
 
-    <div class="main__container">
+    <div class="page__panel">
+
         <?php include 'Partials/_nav.php' ?>
+        <div class="page__content panelContent">
 
-            <section class="main__section section main__section--first">
+            <div class="panelContent__header">
+                <h2 class="section__title title-lg">Tableau de bord</h2>
+            </div>
 
-                <div class="section__top">
-                    <h2 class="section__title title-lg">Tableau de bord</h2>
-                </div>
-
-                <div class="section__content">
+            <div class="panelContent__sections">
+                <section class="panelContent__section">
 
                     <h3 class="title-md">Frictions que vous pilotez :</h3>
 
@@ -36,9 +39,9 @@ $activeTab = 'dashboard';
                         <p class="notice--info">Vous n'avez pas d'irritant à piloter !</p>
                     <?php endif ?>
 
-                </div>
+                </section>
 
-                <div class="section__content">
+                <section class="panelContent__section">
 
                     <h3 class="title-md">Irritants en cours :</h3>
 
@@ -53,9 +56,9 @@ $activeTab = 'dashboard';
                         <p class="notice--info">Il n'y a pas d'irritant en cours de traitement !</p>
                     <?php endif ?>
 
-                </div>
+                </section>
 
-                <div class="section__content">
+                <section class="panelContent__section">
 
                     <h3 class="title-md">Irritants que vous avez votés :</h3>
 
@@ -82,10 +85,11 @@ $activeTab = 'dashboard';
                         <p class="notice--info">Vous n'avez voté pour aucun irritant !</p>
                     <?php endif ?>
 
-                </div>
+                </section>
 
-            </section>
+            </div>
 
+        </div>
 
     </div>
 </main>

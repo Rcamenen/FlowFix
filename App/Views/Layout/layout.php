@@ -74,10 +74,6 @@
 
                             <?php endif ?>
 
-                            <li class="navbar__item navbar__item--active">
-                                <a class="navbar__link" href="/contact">Contact</a>
-                            </li>
-
                         <?php else: ?>
 
                             <li class="navbar__item">

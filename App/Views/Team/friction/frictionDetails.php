@@ -12,28 +12,31 @@ $labelClassMap = [
 ];
 ?>
 
-<main class="main container">
+<main id="teamPanel" class="main container">
 
-    <h1 class="title-md mb-32">GROUPE</h1>
+    <div class="page__header">
+        <h1 class="title-md mb-32">GROUPE</h1>
+    </div>
 
-    <div class="main__container">
+    <div class="page__panel">
 
         <?php include dirname(__DIR__).'/Partials/_nav.php' ?>
+        <div class="page__content panelContent">
 
-            <!-- AFFICHAGE DE L'IRRITANT -->
+            <div class="panelContent__header">
+                <h2 class="section__title title-lg">Détails de l'irritant</h2>
+            </div>
 
-            <section class="main__section section main__section--first">
+            <div class="panelContent__sections">
 
-                <?php
-                    $friction = $frictionData["friction"];
-                    $user     = $frictionData["user"];
-                ?>
+                <!-- AFFICHAGE DE L'IRRITANT -->
 
-                <div class="section__top">
-                    <h2 class="section__title title-lg">Détails de l'irritant</h2>
-                </div>
+                <section class="panelContent__section">
 
-                <div class="section__content">
+                    <?php
+                        $friction = $frictionData["friction"];
+                        $user     = $frictionData["user"];
+                    ?>
 
                     <div class="card">
 
@@ -55,24 +58,18 @@ $labelClassMap = [
 
                     </div>
 
-                </div>
+                </section>
 
-            </section>
+                <!-- AFFICHAGE DES TRAITEMENTS -->
 
-            <!-- AFFICHAGE DES TRAITEMENTS -->
+                <section class="panelContent__section">
 
-            <section class="main__section section">
-
-                <div class="section__top">
                     <?php if (isset($treatmentsData)): ?>
-                        <h2 class="section__title title-lg">Détails du traitement</h2>
+                        <h3 class="title-md">Détails du traitement</h3>
                     <?php else: ?>
-                        <h2 class="section__title title-lg">Aucun traitement</h2>
+                        <h3 class="title-md">Aucun traitement</h3>
                         <p class="text--xs">L'irritant n'a jamais été traité</p>
                     <?php endif ?>
-                </div>
-
-                <div class="section__content">
 
                     <?php if (isset($treatmentsData)): ?>
 
@@ -124,9 +121,11 @@ $labelClassMap = [
 
                     <?php endif ?>
 
-                </div>
+                </section>
 
-            </section>
+            </div>
+
+        </div>
 
     </div>
 </main>

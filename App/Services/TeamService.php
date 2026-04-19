@@ -73,10 +73,10 @@ class TeamService extends BaseService{
 
         $frictionsVotedId = $this->frictionVotesModel->findBy(["friction_id"],["cycle_id"=>$currentCycle["id"],"member_id"=>$teamMemberId],"column");
 
+        
         $response["frictionsVoted"]=[];
 
         foreach($frictionsVotedId as $friction){
-            
             $response["frictionsVoted"][] = $this->frictionModel->getByIdWithStatus($friction);
         }
 

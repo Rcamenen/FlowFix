@@ -1,13 +1,14 @@
+<main id="home" class="page">
 
-<main id="home" class="main">
-            
-        <!--------------------------------------------------
+    <!--------------------------------------------------
 
             HERO
 
          -------------------------------------------------->
-    
+    <div class="page__content">
+
         <div class="wrapper">
+
             <section id="heroSection" class="main__section main__section--first section container">
 
                 <div class="left flex-col g-24">
@@ -28,15 +29,17 @@
                 <div class="right">
 
                     <div class="media">
-                        <center><p>video</p></center>
+                        <center>
+                            <p>video</p>
+                        </center>
                     </div>
 
                 </div>
 
-
             </section>
-
         </div>
+
+
 
         <!--------------------------------------------------
 
@@ -68,7 +71,7 @@
                         <h3 class="title-sm">3 - Améliorez, cycle après cycle</h3>
                         <p class="text--xs">Les irritants les plus votés sont traités sur la durée du cycle. Les compteurs se remettent à zéro et un nouveau cycle commence.</p>
                     </li>
-                </ul>
+                    </ul>
 
             </section>
 
@@ -134,7 +137,7 @@
             </section>
 
         </div>
-    
+
+    </div>
 
 </main>
-
