@@ -96,5 +96,22 @@
 
     </header>
     <?php include($contentPath); ?>
+    <footer class="footer">
+
+        <div class="footer__inner container">
+            
+            <div class="footer__brand">FlowFix</div>
+                    <div class="footer__nav">
+                        <ul>
+                            <li><a href="/contact">Contact</a></li>
+                            <li><a href="/legal">Mentions légales</a></li>
+                            <li><a href="/privacy">Politiques de confidentialité</a></li>
+                        </ul>
+                    </div>
+            <div class="footer__copyright">&copy; FlowFix 2026</div>
+
+        </div>
+        
+    </footer>
 </body>
 </html>

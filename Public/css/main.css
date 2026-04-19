@@ -1,35 +1,37 @@
 @charset "UTF-8";
 :root {
   /* Couleurs de surface */
-  --bg-base: #F7F6F3;
-  --bg-surface: #ffffff;
+  --bg-base:#F7F6F3;
+  --bg-surface:#ffffff;
+  --bg-surface-inverse: #121212;
   /* Bordures */
   --border: #e5e5e5;
   /* Texte */
-  --text-primary: #222222;
-  --text-muted: #555555;
-  --text-inverse: #ffffff;
+  --text-primary:#222222;
+  --text-primary-inverse:#ffffff;
+  --text-secondary-inverse:#818181;
+  --text-muted:#555555;
   /* Marque / accent */
-  --brand: #2563EB;
-  --brand-hover: #1F54CA;
+  --brand:#2563EB;
+  --brand-hover:#1F54CA;
   /* Feedback */
-  --success-text: #14532D;
-  --success-bg: #DCFCE7;
-  --success-border: #22C55E;
-  --error-text: #7F1D1D;
-  --error-bg: #FEE2E2;
-  --error-border: #EF4444;
+  --success-text:#14532D;
+  --success-bg:#DCFCE7;
+  --success-border:#22C55E;
+  --error-text:#7F1D1D;
+  --error-bg:#FEE2E2;
+  --error-border:#EF4444;
   /* ════════════════════════════════════════════
   STATUS FRICTION
   ════════════════════════════════════════════ */
   /* À traiter — bleu (en attente d'action) */
-  --friction-totreat-text: #1E40AF;
-  --friction-totreat-bg: #DBEAFE;
-  --friction-totreat-border: #3B82F6;
+  --friction-totreat-text:#1E40AF;
+  --friction-totreat-bg:#DBEAFE;
+  --friction-totreat-border:#3B82F6;
   /* En cours — orange (en cours de traitement) */
-  --friction-inprogress-text: #92400E;
+  --friction-inprogress-text:#92400E;
   --friction-inprogress-bg: #FEF3C7;
-  --friction-inprogress-border: #F59E0B;
+  --friction-inprogress-border:#F59E0B;
   /* En vote — violet (délibération collective) */
   --friction-invote-text: #5B21B6;
   --friction-invote-bg: #EDE9FE;
@@ -447,7 +449,7 @@ p {
   src: url("../fonts/inter-v20-latin-900italic.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
 }
 .container {
-  margin: auto;
+  margin: 0 auto;
   padding-left: 5vw;
   padding-right: 5vw;
   max-width: 1200px;
@@ -524,6 +526,41 @@ p {
   .grid {
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   }
+}
+
+.footer {
+  background-color: var(--bg-surface-inverse);
+  color: var(--text-primary-inverse);
+  border: 1px solid white;
+}
+.footer__inner {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  padding-top: 40px;
+  padding-bottom: 40px;
+}
+@media screen and (min-width: 570px) {
+  .footer__inner {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: nowrap;
+  }
+}
+.footer__brand {
+  width: fit-content;
+}
+.footer__nav {
+  width: fit-content;
+  color: var(--text-secondary-inverse);
+}
+.footer__copyright {
+  width: fit-content;
+  color: var(--text-secondary-inverse);
 }
 
 .badge {
@@ -1085,7 +1122,7 @@ p {
 
 .btn-primary, .btn-primary--sm {
   background: var(--brand);
-  color: var(--text-inverse);
+  color: var(--text-primary-inverse);
 }
 .btn-primary:hover, .btn-primary--sm:hover {
   background: var(--brand-hover);
