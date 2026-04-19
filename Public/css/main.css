@@ -528,6 +528,16 @@ p {
   }
 }
 
+.pagination {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 32px;
+}
+
 .footer {
   background-color: var(--bg-surface-inverse);
   color: var(--text-primary-inverse);
@@ -1018,13 +1028,17 @@ p {
 }
 
 .navbar {
+  box-shadow: 0 1px 2px hsla(0, 0%, 0%, 0.1);
+  padding-top: 16px;
+  padding-bottom: 16px;
+}
+.navbar__inner {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  padding: 8px 16px;
-  box-shadow: 0 1px 2px hsla(0, 0%, 0%, 0.1);
+  align-items: center;
 }
-.navbar__logo {
+.navbar__brand {
   width: 50px;
   height: 50px;
 }
@@ -1032,6 +1046,15 @@ p {
   background-color: var(--bg-base);
   display: none;
   gap: 16px;
+}
+@media screen and (min-width: 850px) {
+  .navbar__menu {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: nowrap;
+  }
 }
 .navbar__menu--open {
   position: absolute;
@@ -1050,22 +1073,12 @@ p {
 .navbar .burger {
   font-size: 32px;
 }
-
 @media screen and (min-width: 850px) {
-  .navbar {
-    max-width: 1400px;
-  }
-  .navbar__burger {
+  .navbar .burger {
     display: none;
   }
-  .navbar__menu {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: nowrap;
-  }
 }
+
 .subnav {
   background-color: transparent;
   display: flex;
@@ -1073,6 +1086,11 @@ p {
   justify-content: flex-start;
   align-items: flex-start;
   gap: 32px;
+}
+@media screen and (min-width: 850px) {
+  .subnav {
+    width: fit-content;
+  }
 }
 .subnav__item {
   display: block;
@@ -1085,11 +1103,7 @@ p {
   flex-wrap: wrap;
   gap: 8px;
 }
-
 @media screen and (min-width: 850px) {
-  .subnav {
-    width: fit-content;
-  }
   .subnav__list {
     display: flex;
     flex-direction: column;
@@ -1097,15 +1111,6 @@ p {
     align-items: flex-start;
     gap: 8px;
   }
-}
-.pagination {
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: nowrap;
-  gap: 32px;
 }
 
 .btn, .btn-secondary, .btn-secondary--sm, .btn-primary, .btn-primary--sm {
