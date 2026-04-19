@@ -77,6 +77,30 @@ class StaticPageController extends BaseController{
 
     }
 
+    /** showLegalPage()
+     * Render the legal page view.
+     * 
+     * @param void
+     * @return void Render legal page view
+     */
+    public function showLegalPage(){
+
+        $this->renderView("Legal/legal",$data ?? null);
+
+    }
+
+    /** showPrivacyPage()
+     * Render the privacy page view.
+     * 
+     * @param void
+     * @return void Render privacy page view
+     */
+    public function showPrivacyPage(){
+
+        $this->renderView("Privacy/privacy",$data ?? null);
+
+    }
+
     /** showNotMember()
      * Render the not-member error page view.
      * 

@@ -15,10 +15,11 @@ use App\Controllers\AuthController;
             "/"=>["controller"=>StaticPageController::class,"method"=>"showHomePage"],
             "/404"=>["controller"=>StaticPageController::class,"method"=>"showPageNotFound"],
             "/notMember"=>["controller"=>StaticPageController::class,"method"=>"showNotMember"],
-            "/about"=>["controller"=>StaticPageController::class,"method"=>"showAboutPage"],
             "/contact"=>["controller"=>StaticPageController::class,"method"=>"showContactPage"],
             "/register"=>["controller"=>StaticPageController::class,"method"=>"showRegisterPage"],
             "/login"=>["controller"=>StaticPageController::class,"method"=>"showLoginPage"],
+            "/legal"=>["controller"=>StaticPageController::class,"method"=>"showLegalPage"],
+            "/privacy"=>["controller"=>StaticPageController::class,"method"=>"showPrivacyPage"],
 
             "/teams"=>["controller"=>UserController::class,"method"=>"showTeamsPage"],
             "/account"=>["controller"=>UserController::class,"method"=>"showAccountPage"],
