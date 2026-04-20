@@ -42,7 +42,7 @@ class AuthController extends BaseController{
 
         // ================== REDIRECTION TO THE TEAMS PANEL =================== //
 
-        header("Location: /teams?connected=true");
+        header("Location: ".BASE_URL."/teams?connected=true");
         exit();
 
 
