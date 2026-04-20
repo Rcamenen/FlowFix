@@ -49,7 +49,7 @@ $labelClassMap = [
                         <p><?= $friction["description"] ?></p>
 
                         <?php if ($user["canVoteFriction"]): ?>
-                            <form action="/team/<?= $teamId ?>/friction/<?= $friction["id"] ?>/vote" method="POST">
+                            <form action="team/<?= $teamId ?>/friction/<?= $friction["id"] ?>/vote" method="POST">
                                 <button type="submit">Voter</button>
                             </form>
                         <?php endif ?>
@@ -101,11 +101,11 @@ $labelClassMap = [
 
                                 <?php if ($user["canVoteTreatment"]): ?>
 
-                                    <form class="mt-8" action="/team/<?= $teamId ?>/friction/<?= $friction["id"] ?>/treatment/<?= $treatment["id"] ?>/vote/1" method="POST">
+                                    <form class="mt-8" action="team/<?= $teamId ?>/friction/<?= $friction["id"] ?>/treatment/<?= $treatment["id"] ?>/vote/1" method="POST">
                                         <button class="btn-primary--sm" type="submit">Approuver</button>
                                     </form>
 
-                                    <form class="mt-8" action="/team/<?= $teamId ?>/friction/<?= $friction["id"] ?>/treatment/<?= $treatment["id"] ?>/vote/0" method="POST">
+                                    <form class="mt-8" action="team/<?= $teamId ?>/friction/<?= $friction["id"] ?>/treatment/<?= $treatment["id"] ?>/vote/0" method="POST">
                                         <button class="btn-primary--sm" type="submit">Rejeter</button>
                                     </form>
 

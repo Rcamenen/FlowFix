@@ -27,7 +27,7 @@
             <div class="section__content">
 
 
-                <form class="form" action="/register" method="post">
+                <form class="form" action="register" method="post">
 
                     <?php if(isset($validationErrors["firstname"])){ ?>
                     <p class="text--error"><?= $validationErrors["firstname"] ?></p>

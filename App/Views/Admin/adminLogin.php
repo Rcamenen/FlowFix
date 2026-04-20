@@ -17,7 +17,7 @@
             <?php unset($_SESSION['error']) ;} ?>
 
             <div class="section__content">
-                <form class="form" action="/adminLogin" method="post">
+                <form class="form" action="adminLogin" method="post">
 
                     <input class="form__input" name="email" type="text" placeholder="Email" required>
                     <input class="form__input" name="password" type="password" placeholder="Mot de passe" required>

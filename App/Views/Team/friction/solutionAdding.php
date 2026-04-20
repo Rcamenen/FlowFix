@@ -24,7 +24,7 @@
                         <?php unset($_SESSION["error"]) ?>
                     <?php endif ?>
 
-                    <form class="form" action="/team/<?= $teamId ?>/friction/<?= $frictionId ?>/treatment/<?= $treatmentId ?>/updatesolution" method="POST">
+                    <form class="form" action="team/<?= $teamId ?>/friction/<?= $frictionId ?>/treatment/<?= $treatmentId ?>/updatesolution" method="POST">
 
                         <?php if (isset($validationErrors["solution"])): ?>
                             <p class="form__error-msg"><?= $validationErrors["solution"] ?></p>

@@ -27,7 +27,7 @@
                         <p class="notice--success"><?= htmlspecialchars($formSuccess) ?></p>
                     <?php endif ?>
 
-                    <form class="form" action="/team/<?= $teamId ?>/member/add" method="POST">
+                    <form class="form" action="team/<?= $teamId ?>/member/add" method="POST">
                         <input
                             class="form__input <?= !empty($formError) ? 'form__input--error' : '' ?>"
                             name="email"

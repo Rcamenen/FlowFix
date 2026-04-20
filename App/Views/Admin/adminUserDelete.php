@@ -29,7 +29,7 @@
 
                     <p class="notice--error">Cette action est irréversible. L'utilisateur sera supprimé définitivement.</p>
 
-                    <form action="/admin/user/<?= $user["id"] ?>/delete" method="POST">
+                    <form action="admin/user/<?= $user["id"] ?>/delete" method="POST">
                         <button class="btn-danger" type="submit">Confirmer la suppression</button>
                     </form>
 

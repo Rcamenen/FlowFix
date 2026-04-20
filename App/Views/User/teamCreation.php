@@ -27,7 +27,7 @@
 
                     <?php unset($_SESSION['error']) ;} ?>
 
-                    <form class="form" action="/team/create" method="post">
+                    <form class="form" action="team/create" method="post">
                         <div class="form__row">
                             <label class="text--xs" for="name">Nom du groupe</label>
                             <input class="form__input" id="name" name="name" type="text">

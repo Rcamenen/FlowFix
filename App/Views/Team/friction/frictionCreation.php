@@ -23,7 +23,7 @@
                         <?php unset($_SESSION["error"]) ?>
                     <?php endif ?>
 
-                    <form class="form" action="/team/<?= $teamId ?>/friction/create" method="POST">
+                    <form class="form" action="team/<?= $teamId ?>/friction/create" method="POST">
 
                         <?php if (isset($validationErrors["title"])): ?>
                             <p class="form__error-msg"><?= $validationErrors["title"] ?></p>
