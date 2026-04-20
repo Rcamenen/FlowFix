@@ -24,36 +24,38 @@ $activeTab = 'frictions';
             </div>
 
             <div class="panelContent__sections">
-                <section class="panelContent__section">
+                <section class="panelContent__section section">
 
                     <?php if (!$frictions): ?>
 
                         <p class="notice--info">Aucun irritant sur le groupe !</p>
 
                     <?php else: ?>
+                        <div class="section__content">
+                            <?php foreach ($frictions as $f): ?>
+                                <article class="frictionCard frictionCard--<?= $labelClassMap[$f["status_label"]] ?>">
 
-                        <?php foreach ($frictions as $f): ?>
-                            <article class="frictionCard frictionCard--<?= $labelClassMap[$f["status_label"]] ?>">
+                                    <header class="frictionCard__header">
+                                        <h3><?= htmlspecialchars($f["title"]) ?></h3>
+                                        <span class="badge badge--<?= $labelClassMap[$f["status_label"]] ?>">
+                                            <?= htmlspecialchars($f["status_label"]) ?>
+                                        </span>
+                                    </header>
 
-                                <header class="frictionCard__header">
-                                    <h3><?= htmlspecialchars($f["title"]) ?></h3>
-                                    <span class="badge badge--<?= $labelClassMap[$f["status_label"]] ?>">
-                                        <?= htmlspecialchars($f["status_label"]) ?>
-                                    </span>
-                                </header>
+                                    <p><?= htmlspecialchars($f["description"]) ?></p>
 
-                                <p><?= htmlspecialchars($f["description"]) ?></p>
+                                    <?php if ($f["status_label"] === "Non traité"): ?>
+                                        <p><?= $f["votes"] ?> votes</p>
+                                    <?php endif ?>
 
-                                <?php if ($f["status_label"] === "Non traité"): ?>
-                                    <p><?= $f["votes"] ?> votes</p>
-                                <?php endif ?>
+                                    <a class="btn-secondary--sm" href="/team/<?= $teamId ?>/friction/<?= $f["id"] ?>">
+                                        Consulter l'irritant
+                                    </a>
 
-                                <a class="btn-secondary--sm" href="/team/<?= $teamId ?>/friction/<?= $f["id"] ?>">
-                                    Consulter l'irritant
-                                </a>
+                                </article>
+                            <?php endforeach ?>
+                        </div>
 
-                            </article>
-                        <?php endforeach ?>
 
                         <nav class="pagination">
 

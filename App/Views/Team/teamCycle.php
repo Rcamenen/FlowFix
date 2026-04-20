@@ -16,33 +16,40 @@
             </div>
 
             <div class="panelContent__sections">
+
                 <section class="panelContent__section">
-
-                    <div class="card--cycle">
-
+                    <div class="section__header">
                         <h3 class="title-md">Dates</h3>
-
-                        <div class="flex-col g-8">
-                            <p class="text--xs">Début :</p>
-                            <span class="badge badge--inprogress">
-                                <?= (new DateTime($cycle["start_date"]))->format('d-m-Y') ?>
-                            </span>
-                        </div>
-
-                        <div class="flex-col g-8">
-                            <p class="text--xs">Fin :</p>
-                            <span class="badge badge--closed">
-                                <?= (new DateTime($cycle["end_date"]))->format('d-m-Y') ?>
-                            </span>
-                        </div>
-
-                        <p class="text--xs">Les cycles se terminent le jour indiqué à 23h59</p>
-
                     </div>
 
+                    <div class="section__content">
+                        <div class="card--cycle">
+
+                            <div class="flex-col g-8">
+                                <p class="text--xs">Début :</p>
+                                <span class="badge badge--inprogress">
+                                    <?= (new DateTime($cycle["start_date"]))->format('d-m-Y') ?>
+                                </span>
+                            </div>
+
+                            <div class="flex-col g-8">
+                                <p class="text--xs">Fin :</p>
+                                <span class="badge badge--closed">
+                                    <?= (new DateTime($cycle["end_date"]))->format('d-m-Y') ?>
+                                </span>
+                            </div>
+
+                            <p class="text--xs">Les cycles se terminent le jour indiqué à 23h59</p>
+
+                        </div>
+                    </div>
+
+                </section>
+
+                <section>
+                    <h3 class="title-md">Consultation des jours fériés</h3>
                     <div class="card--cycle">
 
-                        <h3 class="title-md">Consultation des jours fériés</h3>
                         <p class="text--xs">Renseigner une date afin de savoir s'il s'agit d'un jour férié.</p>
 
                         <form class="form" id="formHolidayCheck">

@@ -8,7 +8,7 @@ $labelClassMap = [
 $activeTab = 'dashboard';
 ?>
 
-<main id="teamPanel" class="main container">
+<main id="teamDashboard" class="main container">
 
     <div class="page__header">
         <h1 class="title-md mb-32">GROUPE</h1>
@@ -24,62 +24,76 @@ $activeTab = 'dashboard';
             </div>
 
             <div class="panelContent__sections">
-                <section class="panelContent__section">
 
-                    <h3 class="title-md">Frictions que vous pilotez :</h3>
+                <section class="panelContent__section section">
 
-                    <?php foreach ($frictionsToPilot as $f): ?>
-                        <article class="frictionCard">
-                            <h3><?= htmlspecialchars($f["title"]) ?></h3>
-                            <a class="btn-secondary--sm" href="/team/<?= $teamId ?>/friction/<?= $f["id"] ?>">Voir</a>
-                        </article>
-                    <?php endforeach ?>
+                    <div class="section__header">
+                        <h3 class="title-md">Frictions que vous pilotez :</h3>
+                    </div>
+                    <div class="section__content">
 
-                    <?php if (!$frictionsToPilot): ?>
-                        <p class="notice--info">Vous n'avez pas d'irritant à piloter !</p>
-                    <?php endif ?>
-
-                </section>
-
-                <section class="panelContent__section">
-
-                    <h3 class="title-md">Irritants en cours :</h3>
-
-                    <?php foreach ($frictionsInProgress as $f): ?>
-                        <article class="frictionCard">
-                            <h3><?= htmlspecialchars($f["title"]) ?></h3>
-                            <a class="btn-secondary--sm" href="/team/<?= $teamId ?>/friction/<?= $f["id"] ?>">Voir</a>
-                        </article>
-                    <?php endforeach ?>
-
-                    <?php if (!$frictionsInProgress): ?>
-                        <p class="notice--info">Il n'y a pas d'irritant en cours de traitement !</p>
-                    <?php endif ?>
-
-                </section>
-
-                <section class="panelContent__section">
-
-                    <h3 class="title-md">Irritants que vous avez votés :</h3>
-
-                    <?php foreach ($frictionsVoted as $f): ?>
-                        <article class="frictionCard frictionCard--<?= $labelClassMap[$f["status_label"]] ?>">
-
-                            <header class="frictionCard__header">
+                        <?php foreach ($frictionsToPilot as $f): ?>
+                            <article class="frictionCard">
                                 <h3><?= htmlspecialchars($f["title"]) ?></h3>
-                                <span class="badge badge--<?= $labelClassMap[$f["status_label"]] ?>">
-                                    <?= htmlspecialchars($f["status_label"]) ?>
-                                </span>
-                            </header>
+                                <a class="btn-secondary--sm" href="/team/<?= $teamId ?>/friction/<?= $f["id"] ?>">Voir</a>
+                            </article>
+                        <?php endforeach ?>
 
-                            <p><?= htmlspecialchars($f["description"]) ?></p>
+                        <?php if (!$frictionsToPilot): ?>
+                            <p class="notice--info">Vous n'avez pas d'irritant à piloter !</p>
+                        <?php endif ?>
+                    </div>
 
-                            <a class="btn-secondary--sm" href="/team/<?= $teamId ?>/friction/<?= $f["id"] ?>">
-                                Consulter l'irritant
-                            </a>
+                </section>
 
-                        </article>
-                    <?php endforeach ?>
+                <section class="panelContent__section section">
+
+                    <div class="section__header">
+                        <h3 class="title-md">Irritants en cours :</h3>
+                    </div>
+
+                    <div class="section__content">
+
+                        <?php foreach ($frictionsInProgress as $f): ?>
+                            <article class="frictionCard">
+                                <h3><?= htmlspecialchars($f["title"]) ?></h3>
+                                <a class="btn-secondary--sm" href="/team/<?= $teamId ?>/friction/<?= $f["id"] ?>">Voir</a>
+                            </article>
+                        <?php endforeach ?>
+
+                        <?php if (!$frictionsInProgress): ?>
+                            <p class="notice--info">Il n'y a pas d'irritant en cours de traitement !</p>
+                        <?php endif ?>
+
+                    </div>
+
+                </section>
+
+                <section class="panelContent__section section">
+                    <div class="section__header">
+                        <h3 class="title-md">Irritants que vous avez votés :</h3>
+                    </div>
+
+                    <div class="section__content">
+                        <?php foreach ($frictionsVoted as $f): ?>
+                            <article class="frictionCard frictionCard--<?= $labelClassMap[$f["status_label"]] ?>">
+
+                                <header class="frictionCard__header">
+                                    <h3><?= htmlspecialchars($f["title"]) ?></h3>
+                                    <span class="badge badge--<?= $labelClassMap[$f["status_label"]] ?>">
+                                        <?= htmlspecialchars($f["status_label"]) ?>
+                                    </span>
+                                </header>
+
+                                <p><?= htmlspecialchars($f["description"]) ?></p>
+
+                                <a class="btn-secondary--sm" href="/team/<?= $teamId ?>/friction/<?= $f["id"] ?>">
+                                    Consulter l'irritant
+                                </a>
+
+                            </article>
+                        <?php endforeach ?>
+                    </div>
 
                     <?php if (!$frictionsVoted): ?>
                         <p class="notice--info">Vous n'avez voté pour aucun irritant !</p>

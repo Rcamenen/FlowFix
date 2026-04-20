@@ -204,4 +204,74 @@ select {
   width: 100%;
 }
 
+#teamPanel .section {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 32px;
+}
+#teamPanel .section__content {
+  display: grid;
+  width: 100%;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+@media (min-width: 850px) {
+  #teamPanel .section__content {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  }
+}
+
+#teamDashboard {
+  padding-top: 32px;
+  padding-bottom: 32px;
+}
+#teamDashboard .page__header {
+  width: 100%;
+}
+#teamDashboard .page__panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 32px;
+}
+@media screen and (min-width: 850px) {
+  #teamDashboard .page__panel {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-wrap: nowrap;
+    gap: 5%;
+  }
+}
+#teamDashboard .panelContent {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 32px;
+  width: 100%;
+}
+#teamDashboard .panelContent .panelContent__sections {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%;
+  gap: 16px;
+}
+#teamDashboard .panelContent .panelContent__section {
+  width: 100%;
+}
+#teamDashboard .section {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 16px;
+}
+
 /*# sourceMappingURL=panelPage.css.map */
