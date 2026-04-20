@@ -93,9 +93,10 @@ class Router{
         $uri = $_SERVER['REQUEST_URI'];
 
         //Récupération du chemon demandé
-        $requestedPath = parse_url($uri,PHP_URL_PATH);
+        // $requestedPath = parse_url($uri,PHP_URL_PATH);
+        $requestedPath = !empty($_GET['url']) ? $_GET['url'] : "/";
         $requestedPath = explode("/",trim($requestedPath,"/"));
-        
+
         //Chargement des routes dispos
         $AVAILABLES_ROUTES = $this->AVAILABLES_ROUTES[$requestMethod];
 

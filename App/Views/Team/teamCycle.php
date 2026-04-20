@@ -68,4 +68,4 @@
     </div>
 </main>
 
-<script src="/js/nagerRequest.js" defer></script>
+<script src="Public/js/nagerRequest.js" defer></script>
