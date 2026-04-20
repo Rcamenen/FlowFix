@@ -87,7 +87,7 @@
                             </li>
 
                             <li class="navbar__item navbar__item--active">
-                                <form action="admin/logout" method="post">
+                                <form action="<?= FULL_URL ?>admin/logout" method="post">
                                     <button class="navbar__link" type="submit">Déconnexion</button>
                                 </form>
                             </li>
