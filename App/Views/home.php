@@ -29,9 +29,9 @@
                 <div class="right">
 
                     <div class="media">
-                        <center>
-                            <p>video</p>
-                        </center>
+                        <video style="width: 100%; height: auto;" controls>
+                            <source src="Public/videos/video_1.webm" type="video/webm">
+                        </video>
                     </div>
 
                 </div>
