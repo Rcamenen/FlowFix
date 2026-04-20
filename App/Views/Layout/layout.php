@@ -60,7 +60,7 @@
                                     <a class="navbar__link" href="account">Profil</a>
                                 </li>
 
-                                <form action="/logout" method="post">
+                                <form action="logout" method="post">
                                     <button type="submit">Déconnexion</button>
                                 </form>
 
@@ -87,7 +87,7 @@
                             </li>
 
                             <li class="navbar__item navbar__item--active">
-                                <form action="<?= FULL_URL ?>admin/logout" method="post">
+                                <form action="admin/logout" method="post">
                                     <button class="navbar__link" type="submit">Déconnexion</button>
                                 </form>
                             </li>
