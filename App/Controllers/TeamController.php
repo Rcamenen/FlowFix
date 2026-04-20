@@ -180,7 +180,7 @@ class TeamController extends BaseController{
         $data["teamName"]    = $this->teamService->getTeamName($params["teamId"]);
         $data["isModerator"] = (in_array($params["teamId"],$_SESSION["moderateTeamsId"])) ? true : false;
 
-        $this->renderView("team/teamMembers",$data);
+        $this->renderView("Team/teamMembers",$data);
 
     }
 
