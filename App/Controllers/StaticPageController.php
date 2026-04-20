@@ -14,7 +14,7 @@ class StaticPageController extends BaseController{
     public function showHomePage(){
         
         if(!empty($_SESSION["adminId"])){
-            header("Location: /admin");
+            header("Location:".BASE_URL."/admin");
             exit();
         }
         
@@ -42,7 +42,7 @@ class StaticPageController extends BaseController{
      */
     public function showRegisterPage(){
 
-        if($this->isUserConnected()) header("Location: /");
+        if($this->isUserConnected()) header("Location:".BASE_URL);
         $this->renderView("Auth/register");
 
     }
@@ -57,7 +57,7 @@ class StaticPageController extends BaseController{
      */
     public function showLoginPage(){
 
-        if($this->isUserConnected()) header("Location: /");
+        if($this->isUserConnected()) header("Location:".BASE_URL);
 
         (!empty($_GET["registered"]) && $_GET["registered"]) ? $data["successMessage"]="Votre compte a bien été créé, vous pouvez dès à présent vous connecter !" : null;
         
@@ -74,7 +74,7 @@ class StaticPageController extends BaseController{
     public function showAdminLoginPage(){
 
         if(!empty($_SESSION["adminId"])){
-            header("Location: /admin");
+            header("Location:".BASE_URL."/admin");
             exit();
         }
 

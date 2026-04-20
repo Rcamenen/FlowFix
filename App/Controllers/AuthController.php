@@ -58,7 +58,7 @@ class AuthController extends BaseController{
 
         session_unset();
         $_SESSION["disconnect"]=true;
-        header("Location: /");
+        header("Location: ".BASE_URL);
         exit();
 
     }
@@ -86,7 +86,7 @@ class AuthController extends BaseController{
 
         // ================== REDIRECTION TO THE ADMIN PANEL =================== //
 
-        header("Location: /admin/users");
+        header("Location:".BASE_URL."/admin/users");
         exit();
 
     }
@@ -101,7 +101,7 @@ class AuthController extends BaseController{
 
         session_destroy();
         $_SESSION["disconnect"]=true;
-        header("Location: /");
+        header("Location: ".BASE_URL."");
         exit();
 
     }

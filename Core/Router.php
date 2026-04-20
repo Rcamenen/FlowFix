@@ -44,13 +44,13 @@ class Router{
                 
                 $_SESSION["formErrorMessage"]=$e->getMessage();
                 $_SESSION["formErrors"]=$e->getErrors();
-                header("Location: /".$e->getView());
+                header("Location:".BASE_URL."/".$e->getView());
                 exit;
 
             }catch(RoleException $e){
 
                 $_SESSION["error"]=$e->getMessage();
-                header("Location: /".$e->getView());
+                header("Location:".BASE_URL."/".$e->getView());
                 exit;
 
             }catch(PDOException $e){
@@ -68,7 +68,7 @@ class Router{
 
         }else{
 
-            header("Location: /404");
+            header("Location:".BASE_URL."/404");
 
         }
         

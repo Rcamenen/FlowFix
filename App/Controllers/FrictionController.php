@@ -63,7 +63,7 @@ class FrictionController extends BaseController{
         // Appel au service
         $frictionCreatedId = $this->frictionService->createFriction($createFrictionData);
 
-        header("Location: /team/".$createFrictionData["teamId"]."/friction/".$frictionCreatedId["id"]);
+        header("Location:".BASE_URL."/team/".$createFrictionData["teamId"]."/friction/".$frictionCreatedId["id"]);
         
     }
 
@@ -87,7 +87,7 @@ class FrictionController extends BaseController{
 
         $this->frictionService->voteFriction($userId,$teamId,$frictionId);
 
-        header("Location: /team/".$teamId."/friction/".$frictionId);
+        header("Location:".BASE_URL."/team/".$teamId."/friction/".$frictionId);
 
     }
 
@@ -113,7 +113,7 @@ class FrictionController extends BaseController{
 
         $this->frictionService->voteTreatment($userId,$teamId,$treatmentId,$voteResult);
 
-        header("Location: /team/".$teamId."/friction/".$frictionId);
+        header("Location:".BASE_URL."/team/".$teamId."/friction/".$frictionId);
 
     }
     
@@ -179,7 +179,7 @@ class FrictionController extends BaseController{
 
         $this->frictionService->addSolution($data["solution"],$params["treatmentId"]);
         
-        header("Location: /team/".$params["teamId"]."/friction/".$params["frictionId"]);
+        header("Location:".BASE_URL."/team/".$params["teamId"]."/friction/".$params["frictionId"]);
         
         exit();
 
