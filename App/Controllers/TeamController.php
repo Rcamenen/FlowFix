@@ -60,7 +60,7 @@ class TeamController extends BaseController{
         $data["teamName"]    = $this->teamService->getTeamName($params["teamId"]);
         $data["isModerator"] = (in_array($params["teamId"],$_SESSION["moderateTeamsId"])) ? true : false;
  
-        $this->renderView("team/teamFrictions",$data);
+        $this->renderView("Team/teamFrictions",$data);
  
     }
 
@@ -83,7 +83,7 @@ class TeamController extends BaseController{
         $data["teamName"]    = $this->teamService->getTeamName($params["teamId"]);
         $data["isModerator"] = (in_array($params["teamId"],$_SESSION["moderateTeamsId"])) ? true : false;
  
-        $this->renderView("team/teamCycle",$data);
+        $this->renderView("Team/teamCycle",$data);
  
     }
     
@@ -144,7 +144,7 @@ class TeamController extends BaseController{
         $data["teamName"]    = $this->teamService->getTeamName($teamId);
         $data["isModerator"] = true;
  
-        $this->renderView("team/teamMemberAdd",$data); //header
+        $this->renderView("Team/teamMemberAdd",$data); //header
  
     }
 
@@ -158,7 +158,7 @@ class TeamController extends BaseController{
 
         $this->checkRole("user");
 
-        $this->renderView("/User/teamCreation");
+        $this->renderView("User/teamCreation");
 
     }
 

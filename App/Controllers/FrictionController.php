@@ -37,7 +37,7 @@ class FrictionController extends BaseController{
         $data = $this->frictionService->getFrictionData($frictionId,$currentTeamId,$userId);
         $data["teamId"] = (string) $currentTeamId;
 
-        $this->renderView("/team/friction/frictionDetails",$data);
+        $this->renderView("Team/friction/frictionDetails",$data);
 
     }
 
@@ -132,7 +132,7 @@ class FrictionController extends BaseController{
 
         $data=["teamId"=>$currentTeamId];
 
-        $this->renderView("/team/friction/frictionCreation",$data);
+        $this->renderView("Team/friction/frictionCreation",$data);
 
     }
 
@@ -155,7 +155,7 @@ class FrictionController extends BaseController{
         $data["teamId"] = $params["teamId"];
         $data["treatmentId"] = $params["treatmentId"];
 
-        $this->renderView("/Team/friction/solutionAdding",$data ?? null);
+        $this->renderView("Team/friction/solutionAdding",$data ?? null);
 
     }
 
