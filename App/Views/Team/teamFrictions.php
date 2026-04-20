@@ -48,7 +48,7 @@ $activeTab = 'frictions';
                                         <p><?= $f["votes"] ?> votes</p>
                                     <?php endif ?>
 
-                                    <a class="btn-secondary--sm" href="/team/<?= $teamId ?>/friction/<?= $f["id"] ?>">
+                                    <a class="btn-secondary--sm" href="team/<?= $teamId ?>/friction/<?= $f["id"] ?>">
                                         Consulter l'irritant
                                     </a>
 
@@ -60,7 +60,7 @@ $activeTab = 'frictions';
                         <nav class="pagination">
 
                             <?php if ($currentPage > 1): ?>
-                                <a class="btn-secondary--sm" href="/team/<?= $teamId ?>/frictions?page=<?= $currentPage - 1 ?>">
+                                <a class="btn-secondary--sm" href="team/<?= $teamId ?>/frictions?page=<?= $currentPage - 1 ?>">
                                     Précédent
                                 </a>
                             <?php else: ?>
@@ -70,7 +70,7 @@ $activeTab = 'frictions';
                             <span><?= $currentPage ?> / <?= $totalPages ?></span>
 
                             <?php if ($currentPage < $totalPages): ?>
-                                <a class="btn-secondary--sm" href="/team/<?= $teamId ?>/frictions?page=<?= $currentPage + 1 ?>">
+                                <a class="btn-secondary--sm" href="team/<?= $teamId ?>/frictions?page=<?= $currentPage + 1 ?>">
                                     Suivant
                                 </a>
                             <?php else: ?>

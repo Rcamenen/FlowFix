@@ -15,7 +15,7 @@
                 <h2 class="section__title title-lg">Membres</h2>
 
                 <?php if ($isModerator): ?>
-                    <a class="btn-primary--sm" href="/team/<?= $teamId ?>/member/add">Ajouter un membre</a>
+                    <a class="btn-primary--sm" href="team/<?= $teamId ?>/member/add">Ajouter un membre</a>
                 <?php endif ?>
             </div>
 

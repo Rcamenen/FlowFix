@@ -4,11 +4,11 @@
         <ul class="subnav__list">
 
             <li class="subnav__item <?= $activeTab === 'users' ? 'btn-tab btn-tab--active' : 'btn-tab' ?>">
-                <a href="/admin/users">Utilisateurs</a>
+                <a href="admin/users">Utilisateurs</a>
             </li>
 
             <li class="subnav__item <?= $activeTab === 'teams' ? 'btn-tab btn-tab--active' : 'btn-tab' ?>">
-                <a href="/admin/teams">Groupes</a>
+                <a href="admin/teams">Groupes</a>
             </li>
 
         </ul>

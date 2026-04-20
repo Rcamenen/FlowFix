@@ -31,7 +31,7 @@
                             <h3 class="title-md"><?= htmlspecialchars($team["name"]) ?></h3>
                             <p><?= htmlspecialchars($team["description"]) ?></p>
 
-                            <a class="btn-secondary--sm" href="/team/<?= $team["id"] ?>">Accéder au groupe</a>
+                            <a class="btn-secondary--sm" href="team/<?= $team["id"] ?>">Accéder au groupe</a>
 
                         </div>
 

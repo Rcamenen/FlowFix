@@ -10,8 +10,8 @@
             <nav class="subnav">
                 <p class="section-label"><?= htmlspecialchars($_SESSION["username"] ?? "") ?></p>
                 <ul class="subnav__list">
-                    <li class="subnav__item btn-tab btn-tab--active"><a href="/account">Mes informations</a></li>
-                    <li class="subnav__item btn-tab"><a href="/account/delete">Supprimer mon compte</a></li>
+                    <li class="subnav__item btn-tab btn-tab--active"><a href="account">Mes informations</a></li>
+                    <li class="subnav__item btn-tab"><a href="account/delete">Supprimer mon compte</a></li>
                 </ul>
             </nav>
         </aside>

@@ -21,7 +21,7 @@
                         <li><strong>SIRET :</strong> [Numéro SIRET]</li>
                         <li><strong>RCS :</strong> [Numéro RCS]</li>
                         <li><strong>Directeur de la publication :</strong> [Nom du directeur]</li>
-                        <li><strong>Contact :</strong> <a href="/contact">Formulaire de contact</a></li>
+                        <li><strong>Contact :</strong> <a href="contact">Formulaire de contact</a></li>
                     </ul>
                 </div>
 
@@ -64,7 +64,7 @@
                 </div>
                 <div class="section__content">
                     <p>FlowFix collecte et traite des données à caractère personnel dans le cadre de la gestion des comptes utilisateurs et du fonctionnement de la plateforme. Ces traitements sont effectués dans le respect du Règlement Général sur la Protection des Données (RGPD) et de la loi Informatique et Libertés.</p>
-                    <p>Pour en savoir plus sur la manière dont nous collectons, utilisons et protégeons vos données, veuillez consulter notre <a href="/privacy">Politique de confidentialité</a>.</p>
+                    <p>Pour en savoir plus sur la manière dont nous collectons, utilisons et protégeons vos données, veuillez consulter notre <a href="privacy">Politique de confidentialité</a>.</p>
                 </div>
 
             </section>
@@ -76,7 +76,7 @@
                 </div>
                 <div class="section__content">
                     <p>Le site FlowFix utilise des cookies techniques strictement nécessaires au bon fonctionnement de la plateforme (gestion de session, authentification). Ces cookies ne collectent aucune donnée à des fins publicitaires ou analytiques.</p>
-                    <p>En continuant à naviguer sur le site, vous acceptez l'utilisation de ces cookies. Pour plus d'informations, consultez notre <a href="/privacy">Politique de confidentialité</a>.</p>
+                    <p>En continuant à naviguer sur le site, vous acceptez l'utilisation de ces cookies. Pour plus d'informations, consultez notre <a href="privacy">Politique de confidentialité</a>.</p>
                 </div>
 
             </section>
@@ -101,7 +101,7 @@
                 </div>
                 <div class="section__content">
                     <p>Les présentes mentions légales sont soumises au droit français. En cas de litige, et après tentative de résolution amiable, les tribunaux français seront seuls compétents.</p>
-                    <p>Pour toute question relative aux présentes mentions légales, vous pouvez nous contacter via notre <a href="/contact">formulaire de contact</a>.</p>
+                    <p>Pour toute question relative aux présentes mentions légales, vous pouvez nous contacter via notre <a href="contact">formulaire de contact</a>.</p>
                 </div>
 
             </section>

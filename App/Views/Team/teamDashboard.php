@@ -35,7 +35,7 @@ $activeTab = 'dashboard';
                         <?php foreach ($frictionsToPilot as $f): ?>
                             <article class="frictionCard">
                                 <h3><?= htmlspecialchars($f["title"]) ?></h3>
-                                <a class="btn-secondary--sm" href="/team/<?= $teamId ?>/friction/<?= $f["id"] ?>">Voir</a>
+                                <a class="btn-secondary--sm" href="team/<?= $teamId ?>/friction/<?= $f["id"] ?>">Voir</a>
                             </article>
                         <?php endforeach ?>
 
@@ -57,7 +57,7 @@ $activeTab = 'dashboard';
                         <?php foreach ($frictionsInProgress as $f): ?>
                             <article class="frictionCard">
                                 <h3><?= htmlspecialchars($f["title"]) ?></h3>
-                                <a class="btn-secondary--sm" href="/team/<?= $teamId ?>/friction/<?= $f["id"] ?>">Voir</a>
+                                <a class="btn-secondary--sm" href="team/<?= $teamId ?>/friction/<?= $f["id"] ?>">Voir</a>
                             </article>
                         <?php endforeach ?>
 
@@ -87,7 +87,7 @@ $activeTab = 'dashboard';
 
                                 <p><?= htmlspecialchars($f["description"]) ?></p>
 
-                                <a class="btn-secondary--sm" href="/team/<?= $teamId ?>/friction/<?= $f["id"] ?>">
+                                <a class="btn-secondary--sm" href="team/<?= $teamId ?>/friction/<?= $f["id"] ?>">
                                     Consulter l'irritant
                                 </a>
 

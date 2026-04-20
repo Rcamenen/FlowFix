@@ -13,7 +13,7 @@
                     
             <?php unset($_SESSION['error']) ;} ?>
 
-            <a class="btn-secondary--sm" href="/teams">Voir vos groupes</a>
+            <a class="btn-secondary--sm" href="teams">Voir vos groupes</a>
 
         </section>
 

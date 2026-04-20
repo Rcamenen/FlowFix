@@ -32,7 +32,7 @@
                                         <span class="teamCard__id">#<?= $team["id"] ?></span>
                                     </div>
                                     <div class="teamCard__footer">
-                                        <a class="btn-secondary--sm" href="/team/<?= $team["id"] ?>">Voir</a>
+                                        <a class="btn-secondary--sm" href="team/<?= $team["id"] ?>">Voir</a>
                                     </div>
                                 </div>
                             <?php endforeach ?>
@@ -42,7 +42,7 @@
                             <nav class="pagination">
 
                                 <?php if ($currentPage > 1): ?>
-                                    <a class="btn-secondary--sm" href="/admin/teams?page=<?= $currentPage - 1 ?>">Précédent</a>
+                                    <a class="btn-secondary--sm" href="admin/teams?page=<?= $currentPage - 1 ?>">Précédent</a>
                                 <?php else: ?>
                                     <a class="btn-secondary--sm btn--inactive">Précédent</a>
                                 <?php endif ?>
@@ -50,7 +50,7 @@
                                 <span><?= $currentPage ?> / <?= $totalPages ?></span>
 
                                 <?php if ($currentPage < $totalPages): ?>
-                                    <a class="btn-secondary--sm" href="/admin/teams?page=<?= $currentPage + 1 ?>">Suivant</a>
+                                    <a class="btn-secondary--sm" href="admin/teams?page=<?= $currentPage + 1 ?>">Suivant</a>
                                 <?php else: ?>
                                     <a class="btn-secondary--sm btn--inactive">Suivant</a>
                                 <?php endif ?>

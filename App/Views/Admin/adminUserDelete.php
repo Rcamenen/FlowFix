@@ -13,7 +13,7 @@
 
             <div class="panelContent__header">
                 <h2 class="section__title title-lg">Supprimer un utilisateur</h2>
-                <a class="btn-secondary--sm" href="/admin/users">Retour</a>
+                <a class="btn-secondary--sm" href="admin/users">Retour</a>
             </div>
 
             <div class="panelContent__sections">

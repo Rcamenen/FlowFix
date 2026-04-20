@@ -45,7 +45,7 @@
                     <ul class="navbar__menu">
 
                         <li class="navbar__item">
-                            <a class="navbar__link" href="/">Accueil</a>
+                            <a class="navbar__link" href="">Accueil</a>
                         </li>
 
                         <?php if (empty($_SESSION["adminId"])): ?>
@@ -114,9 +114,9 @@
             <div class="footer__brand">FlowFix</div>
             <div class="footer__nav">
                 <ul>
-                    <li><a href="/contact">Contact</a></li>
-                    <li><a href="/legal">Mentions légales</a></li>
-                    <li><a href="/privacy">Politiques de confidentialité</a></li>
+                    <li><a href="contact">Contact</a></li>
+                    <li><a href="legal">Mentions légales</a></li>
+                    <li><a href="privacy">Politiques de confidentialité</a></li>
                 </ul>
             </div>
             <div class="footer__copyright">&copy; FlowFix 2026</div>

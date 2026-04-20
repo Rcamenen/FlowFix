@@ -13,7 +13,7 @@
 
             <div class="panelContent__header">
                 <h2 class="section__title title-lg">Ajouter une solution</h2>
-                <a class="btn-secondary--sm" href="/team/<?= $teamId ?>/friction/<?= $frictionId ?>">Retour</a>
+                <a class="btn-secondary--sm" href="team/<?= $teamId ?>/friction/<?= $frictionId ?>">Retour</a>
             </div>
 
             <div class="panelContent__sections">

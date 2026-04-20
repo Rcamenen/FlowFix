@@ -20,7 +20,7 @@
                 <ul class="list list--legal">
                     <li><strong>Société :</strong> [Nom de la société]</li>
                     <li><strong>Siège social :</strong> [Adresse complète]</li>
-                    <li><strong>Contact :</strong> <a href="/contact">Formulaire de contact</a></li>
+                    <li><strong>Contact :</strong> <a href="contact">Formulaire de contact</a></li>
                 </ul>
             </div>
 
@@ -178,7 +178,7 @@
                     <li><strong>Droit d'opposition :</strong> vous opposer au traitement de vos données pour des raisons tenant à votre situation particulière.</li>
                 </ul>
                 <p>Vous pouvez exercer directement certains de ces droits depuis votre espace profil (modification, suppression du compte).</p>
-                <p>Pour les autres demandes, contactez-nous via notre <a href="/contact">formulaire de contact</a>. Nous nous engageons à répondre dans un délai d'un mois.</p>
+                <p>Pour les autres demandes, contactez-nous via notre <a href="contact">formulaire de contact</a>. Nous nous engageons à répondre dans un délai d'un mois.</p>
                 <p>Si vous estimez que le traitement de vos données n'est pas conforme à la réglementation, vous avez également le droit d'introduire une réclamation auprès de la <strong>CNIL</strong> (Commission Nationale de l'Informatique et des Libertés) : <a href="https://www.cnil.fr" target="_blank" rel="noopener noreferrer">www.cnil.fr</a>.</p>
             </div>
 

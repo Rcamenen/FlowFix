@@ -34,7 +34,7 @@
                                     <div class="userCard__email"><?= htmlspecialchars($user["email"]) ?></div>
                                     <div class="userCard__footer">
                                         <span class="userCard__date"><?= (new DateTime($user["registered_at"]))->format('d-m-Y') ?></span>
-                                        <a class="btn-danger--sm" href="/admin/user/<?= $user["id"] ?>/delete">Supprimer</a>
+                                        <a class="btn-danger--sm" href="admin/user/<?= $user["id"] ?>/delete">Supprimer</a>
                                     </div>
                                 </div>
                             <?php endforeach ?>
@@ -44,7 +44,7 @@
                             <nav class="pagination">
 
                                 <?php if ($currentPage > 1): ?>
-                                    <a class="btn-secondary--sm" href="/admin/users?page=<?= $currentPage - 1 ?>">Précédent</a>
+                                    <a class="btn-secondary--sm" href="admin/users?page=<?= $currentPage - 1 ?>">Précédent</a>
                                 <?php else: ?>
                                     <a class="btn-secondary--sm btn--inactive">Précédent</a>
                                 <?php endif ?>
@@ -52,7 +52,7 @@
                                 <span><?= $currentPage ?> / <?= $totalPages ?></span>
 
                                 <?php if ($currentPage < $totalPages): ?>
-                                    <a class="btn-secondary--sm" href="/admin/users?page=<?= $currentPage + 1 ?>">Suivant</a>
+                                    <a class="btn-secondary--sm" href="admin/users?page=<?= $currentPage + 1 ?>">Suivant</a>
                                 <?php else: ?>
                                     <a class="btn-secondary--sm btn--inactive">Suivant</a>
                                 <?php endif ?>

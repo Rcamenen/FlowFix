@@ -91,7 +91,7 @@ $labelClassMap = [
                                 <p><?= $treatment["solution"] ?></p>
 
                                 <?php if ($user["canUpdateSolution"]): ?>
-                                    <a class="btn-primary--sm mt-8" href="/team/<?= $teamId ?>/friction/<?= $friction["id"] ?>/treatment/<?= $treatment["id"] ?>/updatesolution">Ajouter une solution</a>
+                                    <a class="btn-primary--sm mt-8" href="team/<?= $teamId ?>/friction/<?= $friction["id"] ?>/treatment/<?= $treatment["id"] ?>/updatesolution">Ajouter une solution</a>
                                 <?php endif ?>
 
                                 <p><?= $treatment["created_at"] ?></p>
