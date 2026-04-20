@@ -99,7 +99,7 @@ class TeamMemberModel extends BaseModel{
         $stmt = $this->connection->prepare("
             SELECT tm.id, tm.joined_at, tm.promoted_at, u.username
             FROM " . $this->tableName . " tm
-            JOIN users u ON u.id = tm.user_id
+            JOIN USERS u ON u.id = tm.user_id
             WHERE tm.team_id = :teamId
             ORDER BY tm.joined_at ASC
         ");
