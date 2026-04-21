@@ -35,6 +35,9 @@ class AuthController extends BaseController{
         // ================== CONNEXION =================== //
 
         $sessionData = $this->userService->connectUser($connectUserData);
+
+        $_SESSION = [];
+        session_regenerate_id(true);
         $_SESSION['userId'] = $sessionData["userId"];
         $_SESSION['teamsId'] = $sessionData["teamsId"];
         $_SESSION['moderateTeamsId'] = $sessionData["moderateTeamsId"];
@@ -81,7 +84,8 @@ class AuthController extends BaseController{
         // ================== CONNEXION =================== //
 
         $sessionData = $this->adminService->connectAdmin($connectAdminData);
-        
+        $_SESSION = [];
+        session_regenerate_id(true);
         $_SESSION['adminId'] = $sessionData["adminId"];
 
         // ================== REDIRECTION TO THE ADMIN PANEL =================== //
