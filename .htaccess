@@ -1,14 +1,16 @@
+# Interdire le listing des repertoires
+Options -Indexes
 
 RewriteEngine On
 
-# Si le fichier ou dossier existe physiquement, on le sert normalement
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
-
-# Interdire le listing des repertoires
-Options -Indexes
+#Interdire le listing des fichiers cachés (précédés par un .)
+RewriteRule "(^|/)\." - [F,L]
 
 # Rediriger vers HTTPS
 #RewriteCond %{HTTPS} != on
 #RewriteRule ^(.*)$ http://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+
+# Réécriture d'URL
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
