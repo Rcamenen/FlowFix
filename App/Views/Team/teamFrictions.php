@@ -8,7 +8,7 @@ $labelClassMap = [
 $activeTab = 'frictions';
 ?>
 
-<div class="teamPanel container">
+<div class="teamPanel container page page--panel">
 
     <div class="page__header">
         <h1 class="title-md mb-32">GROUPE</h1>

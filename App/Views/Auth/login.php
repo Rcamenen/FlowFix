@@ -1,11 +1,11 @@
-<div class="login page container">
-    <div class="page__content">
-        <section class="main__section section">
+<div class="login page page--static container">
 
-            <div class="section__top">
-                <p class="section-label">Connexion</p>
-                <h2 class="section__title title-xl">Veuillez renseigner vos informations</h2>
-            </div>
+    <div class="page__header">
+        <h1 class="page__label page__title">Connexion utilisateur</h1>
+        <p class="title-lg">Veuillez renseigner vos informations</p>
+    </div>
+
+    <div class="page__content">
 
             <!-- message d'erreur -->
 
@@ -15,8 +15,7 @@
                 <p><?= $_SESSION["error"] ?></p>
             </div>
                     
-            <?php unset($_SESSION['error']) ;} ?>
-
+            <?php unset($_SESSION['error']); } ?>
 
             <div class="section__content">
                 <form class="form" action="login" method="post">
@@ -28,9 +27,6 @@
 
                 </form>
             </div>
-
-        </section>
-
     </div>
         
 </div>

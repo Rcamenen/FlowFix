@@ -1,6 +1,6 @@
 <?php $activeTab = 'teams'; ?>
 
-<div class="adminPanel main container">
+<div class="page page--panel adminPanel main container">
 
     <div class="page__header">
         <h1 class="title-md mb-32">ADMINISTRATION</h1>
@@ -23,8 +23,6 @@
                         <p class="notice--info">Aucun groupe trouvé.</p>
 
                     <?php else: ?>
-
-                        <div class="grid">
                             <?php foreach ($teams as $team): ?>
                                 <div class="teamCard">
                                     <div class="teamCard__header">
@@ -36,8 +34,7 @@
                                     </div>
                                 </div>
                             <?php endforeach ?>
-                        </div>
-
+                            
                         <?php if ($totalPages > 1): ?>
                             <nav class="pagination">
 

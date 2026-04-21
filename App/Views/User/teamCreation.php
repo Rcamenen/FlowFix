@@ -1,4 +1,4 @@
-<div class="teamsPanel container">
+<div class="teamsPanel page page--panel container">
 
     <div class="page__header">
         <h1 class="title-md mb-32">Création d'un groupe</h1>

@@ -8,7 +8,7 @@ $labelClassMap = [
 $activeTab = 'dashboard';
 ?>
 
-<div class="teamDashboard container">
+<div class="teamPanel page page--panel container">
 
     <div class="page__header">
         <h1 class="title-md mb-32">GROUPE</h1>

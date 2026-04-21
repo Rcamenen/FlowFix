@@ -1,4 +1,4 @@
-<div class="adminPanel container">
+<div class="page page--static adminPanel container">
 
     <div class="page__header">
         <h1 class="title-md mb-32">ADMINISTRATION</h1>

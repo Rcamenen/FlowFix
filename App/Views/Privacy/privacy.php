@@ -1,4 +1,4 @@
-<class class="privacy">
+<class class="privacy page page--static">
 
         <section class="main__section main__section--first section container">
 

@@ -1,10 +1,11 @@
-<div class="legal page">
+<div class="legal page page--static">
 
         <div class="page__header container">
             <p class="section-label">Informations légales</p>
             <h1 class="title-xl">Mentions légales</h1>
             <p class="text--sm">Conformément aux dispositions de la loi n° 2004-575 du 21 juin 2004 pour la confiance en l'économie numérique, voici les informations légales relatives au site FlowFix.</p>
         </div>
+        
         <div class="page__content">
             <section class="main__section section container">
 

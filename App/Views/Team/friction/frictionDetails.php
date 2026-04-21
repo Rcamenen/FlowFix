@@ -12,7 +12,7 @@ $labelClassMap = [
 ];
 ?>
 
-<div class="teamPanel container">
+<div class="page page--panel teamPanel container">
 
     <div class="page__header">
         <h1 class="title-md mb-32">GROUPE</h1>

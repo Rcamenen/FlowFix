@@ -1,6 +1,6 @@
 <?php $activeTab = 'teams'; ?>
 
-<div class="teamsPanel container">
+<div class="page page--panel teamsPanel container">
 
     <div class="page__header">
         <h1 class="title-md mb-32">Groupes</h1>
