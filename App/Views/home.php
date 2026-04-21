@@ -1,4 +1,4 @@
-<main id="home" class="page">
+<div class="home">
 
     <!--------------------------------------------------
 
@@ -58,20 +58,20 @@
                 </div>
 
 
-                <ol class="list grid">
-                    <li class="grid__item">
+                <ul class="section__content">
+                    <li>
                         <h3 class="title-sm">1 - Signalez vos irritants</h3>
                         <p class="text--xs">Chaque membre peut ajouter un irritant au vivier du groupe à tout moment — une friction dans un processus, l'organisation ou la vie d'équipe.</p>
                     </li>
-                    <li class="grid__item">
+                    <li>
                         <h3 class="title-sm">2 - Votez collectivement</h3>
                         <p class="text--xs">Au début de chaque cycle, tous les membres disposent d'un nombre limité de voix pour prioriser ensemble les irritants à traiter en premier.</p>
                     </li>
-                    <li class="grid__item">
+                    <li>
                         <h3 class="title-sm">3 - Améliorez, cycle après cycle</h3>
                         <p class="text--xs">Les irritants les plus votés sont traités sur la durée du cycle. Les compteurs se remettent à zéro et un nouveau cycle commence.</p>
                     </li>
-                    </ul>
+                </ul>
 
             </section>
 
@@ -85,7 +85,7 @@
 
         <div class="wrapper">
 
-            <section id="comment-ca-marche" class="main__section section container">
+            <section id="fonctionnalite" class="main__section section container">
 
                 <div class="section__top">
                     <p class="section-label mb-16">Fonctionnalités</p>
@@ -93,16 +93,16 @@
                     <p class="text--sm">FlowFix est conçu pour aller à l'essentiel : faciliter la parole, structurer l'action.</p>
                 </div>
 
-                <ul class="grid">
-                    <li class="grid__item">
+                <ul class="section__content">
+                    <li>
                         <h3 class="title-sm">Groupes multi-membres</h3>
                         <p class="text--xs">Chaque membre peut ajouter un irritant au vivier du groupe à tout moment — une friction dans un processus, l'organisation ou la vie d'équipe.</p>
                     </li>
-                    <li class="grid__item">
+                    <li>
                         <h3 class="title-sm">Système de vote par cycle</h3>
                         <p class="text--xs">Au début de chaque cycle, tous les membres disposent d'un nombre limité de voix pour prioriser ensemble les irritants à traiter en premier.</p>
                     </li>
-                    <li class="grid__item">
+                    <li>
                         <h3 class="title-sm">Modération intégrée</h3>
                         <p class="text--xs">Les irritants les plus votés sont traités sur la durée du cycle. Les compteurs se remettent à zéro et un nouveau cycle commence.
                         </p>
@@ -140,4 +140,4 @@
 
     </div>
 
-</main>
+</div>
