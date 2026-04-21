@@ -1,3 +1,24 @@
-<h1>LA PAGE DEMANDÉE N'EXISTE PAS...</h1>
 
-<a href="">Revenir vers à l'accueil</a>
+<div class="notFound page container">
+
+    <div class="page__header">
+        <h1 class="title-xl">PROBLÈME RENCONTRÉ</h1>
+    </div>
+
+    <div class="page__content">
+
+        <section class="main__section section">
+
+            <div class="section__top">
+                <h2 class="section__title title-xl">La page demandée n'existe pas</h2>
+            </div>
+
+            <div class="section__content">
+                <a href="">Revenir à l'accueil</a>
+            </div>
+
+        </section>
+
+    </div>
+        
+</div>
