@@ -43,7 +43,10 @@
             <?php if (isset($validationErrors["password"])) { ?>
                 <p class="text--error"><?= $validationErrors["password"] ?></p>
             <?php } ?>
-            <input class="form__input" name="password" type="password" placeholder="Choisir un mot de passe" required>
+            <input class="form__input" name="password" type="password" placeholder="Choisir un mot de passe" required><label class="form__checkbox">
+                <input type="checkbox" name="privacy" value="1" <?= !empty($val["privacy"]) ? 'checked' : '' ?> required>
+                <span>J'accepte la <a href="privacy" target="_blank">politique de confidentialité</a></span>
+            </label>
 
             <button class="form__btn btn-primary" type="submit">Créer un compte</button>
 
