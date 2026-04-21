@@ -8,7 +8,7 @@ $labelClassMap = [
 $activeTab = 'frictions';
 ?>
 
-<main id="teamPanel" class="main container">
+<div class="teamPanel container">
 
     <div class="page__header">
         <h1 class="title-md mb-32">GROUPE</h1>
@@ -33,26 +33,7 @@ $activeTab = 'frictions';
                     <?php else: ?>
                         <div class="section__content">
                             <?php foreach ($frictions as $f): ?>
-                                <article class="frictionCard frictionCard--<?= $labelClassMap[$f["status_label"]] ?>">
-
-                                    <header class="frictionCard__header">
-                                        <h3><?= htmlspecialchars($f["title"]) ?></h3>
-                                        <span class="badge badge--<?= $labelClassMap[$f["status_label"]] ?>">
-                                            <?= htmlspecialchars($f["status_label"]) ?>
-                                        </span>
-                                    </header>
-
-                                    <p><?= htmlspecialchars($f["description"]) ?></p>
-
-                                    <?php if ($f["status_label"] === "Non traité"): ?>
-                                        <p><?= $f["votes"] ?> votes</p>
-                                    <?php endif ?>
-
-                                    <a class="btn-secondary--sm" href="team/<?= $teamId ?>/friction/<?= $f["id"] ?>">
-                                        Consulter l'irritant
-                                    </a>
-
-                                </article>
+                                <?php include 'Partials/_friction.php' ?>
                             <?php endforeach ?>
                         </div>
 
@@ -87,4 +68,4 @@ $activeTab = 'frictions';
         </div>
 
     </div>
-</main>
+</div>

@@ -1,6 +1,6 @@
 <?php $activeTab = 'frictions'; ?>
 
-<main id="teamPanel" class="main container">
+<div class="teamPanel container">
 
     <div class="page__header">
         <h1 class="title-md mb-32">GROUPE</h1>
@@ -29,7 +29,7 @@
                         <?php if (isset($validationErrors["solution"])): ?>
                             <p class="form__error-msg"><?= $validationErrors["solution"] ?></p>
                         <?php endif ?>
-                        <textarea class="form__input <?= isset($validationErrors["solution"]) ? 'form__input--error' : '' ?>" name="solution" placeholder="Description de la solution" required><?= $val["solution"] ?? null ?></textarea>
+                        <textarea class="form__input <?= isset($validationErrors["solution"]) ? 'form__input--error' : '' ?>" name="solution" placeholder="Description de la solution" required><?= htmlspecialchars($val["solution"]) ?? null ?></textarea>
 
                         <button class="form__btn btn-primary" type="submit">Soumettre</button>
 
@@ -41,4 +41,4 @@
         </div>
 
     </div>
-</main>
+</div>

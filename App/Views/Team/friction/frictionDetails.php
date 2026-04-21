@@ -12,7 +12,7 @@ $labelClassMap = [
 ];
 ?>
 
-<main id="teamPanel" class="main container">
+<div class="teamPanel container">
 
     <div class="page__header">
         <h1 class="title-md mb-32">GROUPE</h1>
@@ -38,23 +38,31 @@ $labelClassMap = [
                         $user     = $frictionData["user"];
                     ?>
 
-                    <div class="card">
+                    <div class="frictionCard">
 
-                        <div class="card__header">
-                            <h3><?= $friction["title"] ?></h3>
-                            <p class="text--xs">Ajouté le <?= (new DateTime($friction["created_at"]))->format("d-m-Y") ?> par <?= $friction["author"] ?></p>
+                        <div class="frictionCard__top">
+                            <h3><?= htmlspecialchars($friction["title"]) ?></h3>
                             <span class="badge badge--<?= $labelClassMap[$friction["statusLabel"]] ?>"><?= $friction["statusLabel"] ?></span>
                         </div>
+                        <div class="frictionCard__description">
 
-                        <p><?= $friction["description"] ?></p>
+                            <p><?= htmlspecialchars($friction["description"]) ?></p>
 
+                        </div>
+                        
+                        <div>
+                        <p class="text--xs">Ajouté le <?= (new DateTime($friction["created_at"]))->format("d-m-Y") ?> par <?= $friction["author"] ?></p>
                         <?php if ($user["canVoteFriction"]): ?>
                             <form action="team/<?= $teamId ?>/friction/<?= $friction["id"] ?>/vote" method="POST">
                                 <button type="submit">Voter</button>
                             </form>
+                        <?php else: ?>
+                            <p class="text--xs">Vous ne pouvez plus voter</p>
                         <?php endif ?>
 
-                        <p><?= $user["hasVotedFriction"] ? "Vous avez voté pour cet irritant !" : "Vous n'avez pas voté cet irritant" ?></p>
+                        <p class="text--xs"><?= $user["hasVotedFriction"] ? "Vous avez voté pour cet irritant !" : "Vous n'avez pas voté cet irritant" ?></p>
+                        </div>
+                        
 
                     </div>
 
@@ -88,7 +96,7 @@ $labelClassMap = [
                                     <h3>Traitement du cycle <?= $treatment["cycleId"] ?></h3>
                                 <?php endif ?>
 
-                                <p><?= $treatment["solution"] ?></p>
+                                <p><?= htmlspecialchars($treatment["solution"]) ?></p>
 
                                 <?php if ($user["canUpdateSolution"]): ?>
                                     <a class="btn-primary--sm mt-8" href="team/<?= $teamId ?>/friction/<?= $friction["id"] ?>/treatment/<?= $treatment["id"] ?>/updatesolution">Ajouter une solution</a>
@@ -96,7 +104,7 @@ $labelClassMap = [
 
                                 <p><?= $treatment["created_at"] ?></p>
                                 <p><?= $treatment["updated_at"] ?? "Pas d'update" ?></p>
-                                <p><?= $treatment["pilot"] ?></p>
+                                <p><?= htmlspecialchars($treatment["pilot"]) ?></p>
                                 <span class="badge badge--<?= $labelClassMap[$treatment["statusLabel"]] ?>"><?= $treatment["statusLabel"] ?></span>
 
                                 <?php if ($user["canVoteTreatment"]): ?>
@@ -128,4 +136,4 @@ $labelClassMap = [
         </div>
 
     </div>
-</main>
+</div>

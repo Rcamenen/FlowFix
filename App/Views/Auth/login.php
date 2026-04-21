@@ -1,7 +1,6 @@
-<main>
-    <div class="wrapper">
-
-        <section class="main__section section container">
+<div class="login page container">
+    <div class="page__content">
+        <section class="main__section section">
 
             <div class="section__top">
                 <p class="section-label">Connexion</p>
@@ -19,7 +18,6 @@
             <?php unset($_SESSION['error']) ;} ?>
 
 
-
             <div class="section__content">
                 <form class="form" action="login" method="post">
 
@@ -34,5 +32,5 @@
         </section>
 
     </div>
-
-</main>
+        
+</div>

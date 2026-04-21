@@ -8,6 +8,7 @@
   --border: #e5e5e5;
   /* Texte */
   --text-primary:#222222;
+  --text-secondary:#565656;
   --text-primary-inverse:#ffffff;
   --text-secondary-inverse:#818181;
   --text-muted:#555555;
@@ -160,25 +161,25 @@ select {
   border: 0;
 }
 
-#admin .userList {
+.admin .userList {
   display: grid;
   width: 100%;
   grid-template-columns: 1fr;
   gap: 16px;
 }
 @media (min-width: 768px) {
-  #admin .userList {
+  .admin .userList {
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   }
 }
-#admin .teamList {
+.admin .teamList {
   display: grid;
   width: 100%;
   grid-template-columns: 1fr;
   gap: 16px;
 }
 @media (min-width: 768px) {
-  #admin .teamList {
+  .admin .teamList {
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   }
 }

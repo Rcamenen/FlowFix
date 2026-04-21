@@ -1,4 +1,4 @@
-<main id="accountPanel" class="main container">
+<div class="accountPanel container">
 
     <div class="page__header">
         <h1 class="title-md mb-32">Mon compte</h1>
@@ -25,7 +25,7 @@
             <div class="panelContent__sections">
                 <section class="panelContent__section">
 
-                    <p>Bonjour <?= $user["firstname"] ?></p>
+                    <p>Bonjour <?= htmlspecialchars($user["firstname"]) ?></p>
 
                 </section>
             </div>
@@ -33,4 +33,4 @@
         </div>
 
     </div>
-</main>
+</div>

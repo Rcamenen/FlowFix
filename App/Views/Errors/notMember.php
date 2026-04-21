@@ -1,5 +1,4 @@
-<main>
-    <div class="wrapper">
+<div class="notMember">
 
         <section class="main__section section container">
 
@@ -17,6 +16,4 @@
 
         </section>
 
-    </div>
-
-</main>
+</div>

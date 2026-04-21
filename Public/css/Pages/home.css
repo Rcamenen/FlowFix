@@ -8,6 +8,7 @@
   --border: #e5e5e5;
   /* Texte */
   --text-primary:#222222;
+  --text-secondary:#565656;
   --text-primary-inverse:#ffffff;
   --text-secondary-inverse:#818181;
   --text-muted:#555555;
@@ -160,7 +161,7 @@ select {
   border: 0;
 }
 
-#home {
+.home {
   padding-top: 32px;
   padding-bottom: 32px;
   display: flex;
@@ -169,10 +170,10 @@ select {
   align-items: center;
   gap: 64px;
 }
-#home .page__header {
+.home .page__header {
   width: 100%;
 }
-#home .page__content {
+.home .page__content {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -180,16 +181,16 @@ select {
   gap: 32px;
   width: 100%;
 }
-#home {
+.home {
   padding-bottom: 0px;
 }
-#home .wrapper {
+.home .wrapper {
   width: 100%;
 }
-#home .wrapper--alt {
+.home .wrapper--alt {
   background: var(--bg-surface);
 }
-#home .section {
+.home .section {
   padding-top: 64px;
   padding-bottom: 64px;
   display: flex;
@@ -198,7 +199,7 @@ select {
   align-items: flex-start;
   gap: 48px;
 }
-#home .section__top {
+.home .section__top {
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -206,7 +207,7 @@ select {
   align-items: stretch;
   gap: 8px;
 }
-#home .section__content {
+.home .section__content {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -214,27 +215,45 @@ select {
   gap: 16px;
   width: 100%;
 }
-#home #heroSection .right {
+@media screen and (min-width: 850px) {
+  .home .section__content {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: nowrap;
+  }
+}
+.home #pret-a-commencer .section__bottom {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 16px;
+}
+.home #heroSection .right {
   display: none;
 }
 @media screen and (min-width: 850px) {
-  #home #heroSection {
+  .home #heroSection {
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
     flex-wrap: nowrap;
   }
-  #home #heroSection .left {
+  .home #heroSection .left {
     width: 50%;
   }
-  #home #heroSection .right {
+  .home #heroSection .right {
     display: block;
     width: 50%;
     background-color: white;
   }
 }
-#home #pret-a-commencer {
+.home #pret-a-commencer {
   margin: auto;
 }
 

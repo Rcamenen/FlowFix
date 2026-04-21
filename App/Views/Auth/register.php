@@ -1,8 +1,8 @@
-<main class="main">
+<div class="register page container">
 
     <div class="wrapper">
 
-        <section class="main__section section container">
+        <section class="main__section section">
 
             <div class="section__top">
                 <p class="section-label">Inscription</p>
@@ -32,29 +32,29 @@
                     <?php if(isset($validationErrors["firstname"])){ ?>
                     <p class="text--error"><?= $validationErrors["firstname"] ?></p>
                     <?php } ?>
-                    <input class="form__input" name="firstname" type="text" placeholder="Votre prénom" <?= $val["firstname"] ?? null ?> required>
+                    <input class="form__input" name="firstname" type="text" placeholder="Votre prénom" value="<?= htmlspecialchars($val["firstname"] ?? '') ?>" required>
 
                     <?php if(isset($validationErrors["lastname"])){ ?>
                     <p class="text--error"><?= $validationErrors["lastname"] ?></p>
                     <?php } ?>
-                    <input class="form__input" name="lastname" type="text" placeholder="Votre nom" <?= $val["lastname"] ?? null ?> required>
+                    <input class="form__input" name="lastname" type="text" placeholder="Votre nom" value="<?= htmlspecialchars($val["lastname"] ?? '') ?>" required>
 
                     <?php if(isset($validationErrors["username"])){ ?>
                     <p class="text--error"><?= $validationErrors["username"] ?></p>
                     <?php } ?>
-                    <input class="form__input" name="username" type="text" placeholder="Votre pseudo" <?= $val["username"] ?? null ?> required>
+                    <input class="form__input" name="username" type="text" placeholder="Votre pseudo" value="<?= htmlspecialchars($val["username"] ?? '') ?>" required>
 
                     <?php if(isset($validationErrors["email"])){ ?>
                     <p class="text--error"><?= $validationErrors["email"] ?></p>
                     <?php } ?>
-                    <input class="form__input" name="email" type="email" placeholder="Votre email" <?= $val["email"] ?? null ?> required>
+                    <input class="form__input" name="email" type="email" placeholder="Votre email" value="<?= htmlspecialchars($val["email"] ?? '') ?>" required>
 
                     <?php if(isset($validationErrors["password"])){ ?>
                     <p class="text--error"><?= $validationErrors["password"] ?></p>
                     <?php } ?>
-                    <input class="form__input" name="password" type="password" placeholder="Choisir un mot de passe" <?= $val["password"] ?? null ?> required>
+                    <input class="form__input" name="password" type="password" placeholder="Choisir un mot de passe" required>
 
-                    <button class="form__btn btn-primary" type="submit" >Créer un compte</button>
+                    <button class="form__btn btn-primary" type="submit">Créer un compte</button>
 
                 </form>
 
@@ -64,5 +64,5 @@
 
     </div>
 
-</main>
+</div>
 

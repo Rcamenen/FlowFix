@@ -1,6 +1,6 @@
 <?php $activeTab = 'members'; ?>
 
-<main id="teamPanel" class="main container">
+<div class="teamPanel container">
 
     <div class="page__header">
         <h1 class="title-md mb-32">GROUPE</h1>
@@ -21,23 +21,21 @@
 
             <div class="panelContent__sections">
                 <section class="panelContent__section">
+                        <div class="section__content">
 
-                    <?php if (!$members): ?>
+                            <?php if (!$members): ?>
 
-                        <p class="notice--info">Aucun membre dans ce groupe.</p>
+                                <p class="notice--info">Aucun membre dans ce groupe.</p>
 
-                    <?php else: ?>
+                            <?php else: ?>
 
-                        <?php foreach ($members as $member): ?>
-                            <div class="memberCard">
-                                <p><?= htmlspecialchars($member["username"]) ?></p>
-                                <?php if ($member["promoted_at"]): ?>
-                                    <span class="badge">Modérateur</span>
-                                <?php endif ?>
-                            </div>
-                        <?php endforeach ?>
+                                <?php foreach ($members as $member): ?>
+                                    <?php include 'Partials/_member.php' ?>
+                                <?php endforeach ?>
 
-                    <?php endif ?>
+                            <?php endif ?>
+
+                        </div>
 
                 </section>
             </div>
@@ -45,4 +43,4 @@
         </div>
 
     </div>
-</main>
+</div>

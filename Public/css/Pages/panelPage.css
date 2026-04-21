@@ -8,6 +8,7 @@
   --border: #e5e5e5;
   /* Texte */
   --text-primary:#222222;
+  --text-secondary:#565656;
   --text-primary-inverse:#ffffff;
   --text-secondary-inverse:#818181;
   --text-muted:#555555;
@@ -160,14 +161,14 @@ select {
   border: 0;
 }
 
-#teamPanel, #adminPanel, #teamsPanel, #accountPanel {
+.teamPanel, .adminPanel, .teamsPanel, .accountPanel {
   padding-top: 32px;
   padding-bottom: 32px;
 }
-#teamPanel .page__header, #adminPanel .page__header, #teamsPanel .page__header, #accountPanel .page__header {
+.teamPanel .page__header, .adminPanel .page__header, .teamsPanel .page__header, .accountPanel .page__header {
   width: 100%;
 }
-#teamPanel .page__panel, #adminPanel .page__panel, #teamsPanel .page__panel, #accountPanel .page__panel {
+.teamPanel .page__panel, .adminPanel .page__panel, .teamsPanel .page__panel, .accountPanel .page__panel {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -175,7 +176,7 @@ select {
   gap: 32px;
 }
 @media screen and (min-width: 850px) {
-  #teamPanel .page__panel, #adminPanel .page__panel, #teamsPanel .page__panel, #accountPanel .page__panel {
+  .teamPanel .page__panel, .adminPanel .page__panel, .teamsPanel .page__panel, .accountPanel .page__panel {
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
@@ -184,7 +185,7 @@ select {
     gap: 5%;
   }
 }
-#teamPanel .panelContent, #adminPanel .panelContent, #teamsPanel .panelContent, #accountPanel .panelContent {
+.teamPanel .panelContent, .adminPanel .panelContent, .teamsPanel .panelContent, .accountPanel .panelContent {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -192,45 +193,52 @@ select {
   gap: 32px;
   width: 100%;
 }
-#teamPanel .panelContent .panelContent__sections, #adminPanel .panelContent .panelContent__sections, #teamsPanel .panelContent .panelContent__sections, #accountPanel .panelContent .panelContent__sections {
+.teamPanel .panelContent .panelContent__header, .adminPanel .panelContent .panelContent__header, .teamsPanel .panelContent .panelContent__header, .accountPanel .panelContent .panelContent__header {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 8px;
+}
+.teamPanel .panelContent .panelContent__sections, .adminPanel .panelContent .panelContent__sections, .teamsPanel .panelContent .panelContent__sections, .accountPanel .panelContent .panelContent__sections {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
   width: 100%;
-  gap: 16px;
+  gap: 48px;
 }
-#teamPanel .panelContent .panelContent__section, #adminPanel .panelContent .panelContent__section, #teamsPanel .panelContent .panelContent__section, #accountPanel .panelContent .panelContent__section {
+.teamPanel .panelContent .panelContent__section, .adminPanel .panelContent .panelContent__section, .teamsPanel .panelContent .panelContent__section, .accountPanel .panelContent .panelContent__section {
   width: 100%;
 }
 
-#teamPanel .section {
+.teamPanel .section {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
   gap: 32px;
 }
-#teamPanel .section__content {
+.teamPanel .section__content {
   display: grid;
   width: 100%;
   grid-template-columns: 1fr;
   gap: 16px;
 }
 @media (min-width: 850px) {
-  #teamPanel .section__content {
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  .teamPanel .section__content {
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
   }
 }
 
-#teamDashboard {
+.teamDashboard {
   padding-top: 32px;
   padding-bottom: 32px;
 }
-#teamDashboard .page__header {
+.teamDashboard .page__header {
   width: 100%;
 }
-#teamDashboard .page__panel {
+.teamDashboard .page__panel {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -238,7 +246,7 @@ select {
   gap: 32px;
 }
 @media screen and (min-width: 850px) {
-  #teamDashboard .page__panel {
+  .teamDashboard .page__panel {
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
@@ -247,7 +255,7 @@ select {
     gap: 5%;
   }
 }
-#teamDashboard .panelContent {
+.teamDashboard .panelContent {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -255,18 +263,25 @@ select {
   gap: 32px;
   width: 100%;
 }
-#teamDashboard .panelContent .panelContent__sections {
+.teamDashboard .panelContent .panelContent__header {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 8px;
+}
+.teamDashboard .panelContent .panelContent__sections {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
   width: 100%;
-  gap: 16px;
+  gap: 48px;
 }
-#teamDashboard .panelContent .panelContent__section {
+.teamDashboard .panelContent .panelContent__section {
   width: 100%;
 }
-#teamDashboard .section {
+.teamDashboard .section {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;

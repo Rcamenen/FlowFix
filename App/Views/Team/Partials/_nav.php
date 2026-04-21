@@ -1,6 +1,6 @@
 <aside class="main__nav">
+    <p class="section-label"><?= htmlspecialchars($teamName ?? "") ?></p>
     <nav class="subnav">
-        <p class="section-label"><?= htmlspecialchars($teamName ?? "") ?></p>
         <ul class="subnav__list">
 
             <li class="subnav__item <?= $activeTab === 'dashboard' ? 'btn-tab btn-tab--active' : 'btn-tab' ?>">

@@ -8,7 +8,7 @@ $labelClassMap = [
 $activeTab = 'dashboard';
 ?>
 
-<main id="teamDashboard" class="main container">
+<div class="teamDashboard container">
 
     <div class="page__header">
         <h1 class="title-md mb-32">GROUPE</h1>
@@ -33,10 +33,7 @@ $activeTab = 'dashboard';
                     <div class="section__content">
 
                         <?php foreach ($frictionsToPilot as $f): ?>
-                            <article class="frictionCard">
-                                <h3><?= htmlspecialchars($f["title"]) ?></h3>
-                                <a class="btn-secondary--sm" href="team/<?= $teamId ?>/friction/<?= $f["id"] ?>">Voir</a>
-                            </article>
+                                <?php include 'Partials/_friction.php' ?>
                         <?php endforeach ?>
 
                         <?php if (!$frictionsToPilot): ?>
@@ -55,10 +52,7 @@ $activeTab = 'dashboard';
                     <div class="section__content">
 
                         <?php foreach ($frictionsInProgress as $f): ?>
-                            <article class="frictionCard">
-                                <h3><?= htmlspecialchars($f["title"]) ?></h3>
-                                <a class="btn-secondary--sm" href="team/<?= $teamId ?>/friction/<?= $f["id"] ?>">Voir</a>
-                            </article>
+                                <?php include 'Partials/_friction.php' ?>
                         <?php endforeach ?>
 
                         <?php if (!$frictionsInProgress): ?>
@@ -76,22 +70,7 @@ $activeTab = 'dashboard';
 
                     <div class="section__content">
                         <?php foreach ($frictionsVoted as $f): ?>
-                            <article class="frictionCard frictionCard--<?= $labelClassMap[$f["status_label"]] ?>">
-
-                                <header class="frictionCard__header">
-                                    <h3><?= htmlspecialchars($f["title"]) ?></h3>
-                                    <span class="badge badge--<?= $labelClassMap[$f["status_label"]] ?>">
-                                        <?= htmlspecialchars($f["status_label"]) ?>
-                                    </span>
-                                </header>
-
-                                <p><?= htmlspecialchars($f["description"]) ?></p>
-
-                                <a class="btn-secondary--sm" href="team/<?= $teamId ?>/friction/<?= $f["id"] ?>">
-                                    Consulter l'irritant
-                                </a>
-
-                            </article>
+                                <?php include 'Partials/_friction.php' ?>
                         <?php endforeach ?>
                     </div>
 
@@ -106,6 +85,6 @@ $activeTab = 'dashboard';
         </div>
 
     </div>
-</main>
+</div>
 
 <script src="/js/nagerRequest.js" defer></script>

@@ -1,6 +1,6 @@
 <?php $activeTab = 'teams'; ?>
 
-<main id="teamsPanel" class="main container">
+<div class="teamsPanel container">
 
     <div class="page__header">
         <h1 class="title-md mb-32">Groupes</h1>
@@ -51,4 +51,4 @@
 
     </div>
 
-</main>
+</div>

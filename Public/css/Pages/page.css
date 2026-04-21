@@ -161,28 +161,23 @@ select {
   border: 0;
 }
 
-.legal {
+.page {
   padding-top: 32px;
   padding-bottom: 32px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  gap: 64px;
 }
-.legal .page__header {
-  width: 100%;
-}
-.legal .page__content {
+.page .section {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  gap: 32px;
-  width: 100%;
+  gap: 16px;
 }
-.legal .section {
-  width: 100%;
+.page .section__top {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 64px;
 }
 
-/*# sourceMappingURL=legal.css.map */
+/*# sourceMappingURL=page.css.map */

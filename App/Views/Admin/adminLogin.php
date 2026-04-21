@@ -1,4 +1,4 @@
-<main>
+<div class="adminlogin">
     <div class="wrapper">
 
         <section class="main__section section container">
@@ -31,4 +31,4 @@
 
     </div>
 
-</main>
+</div>

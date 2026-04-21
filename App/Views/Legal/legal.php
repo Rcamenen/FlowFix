@@ -1,4 +1,4 @@
-<main id="legal" class="main page">
+<div class="legal page">
 
         <div class="page__header container">
             <p class="section-label">Informations légales</p>
@@ -112,4 +112,4 @@
         </div>
         
 
-</main>
+</div>
