@@ -14,6 +14,7 @@ use App\Controllers\AuthController;
 
             "/"=>["controller"=>StaticPageController::class,"method"=>"showHomePage"],
             "/404"=>["controller"=>StaticPageController::class,"method"=>"showPageNotFound"],
+            "/error"=>["controller"=>StaticPageController::class,"method"=>"showErrorPage"],
             "/notMember"=>["controller"=>StaticPageController::class,"method"=>"showNotMember"],
             "/contact"=>["controller"=>StaticPageController::class,"method"=>"showContactPage"],
             "/register"=>["controller"=>StaticPageController::class,"method"=>"showRegisterPage"],
