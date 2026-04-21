@@ -75,6 +75,6 @@ L'application suit une architecture **MVCS** :
 
 Après l'import de la base, des comptes de démonstration sont disponibles pour tester les différents rôles (utilisateur standard, modérateur de groupe, administrateur). Voir les données insérées dans le fichier SQL. Mot de passe : "motdepasse".
 
-## Auteur
+## Contexte
 
 Projet réalisé dans le cadre de la certification **Développeur Web Full Stack (RNCP 37273)**.
