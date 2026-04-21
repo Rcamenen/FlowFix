@@ -55,13 +55,13 @@ class Router{
 
             }catch(PDOException $e){
 
-                header("Location: ");
+                header("Location: ".BASE_URL."error");
                 exit;
 
 
             }catch(Exception $e){
 
-                header("Location: ");
+                header("Location: ".BASE_URL."error");
                 exit;
 
             }
