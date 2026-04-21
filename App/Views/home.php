@@ -131,7 +131,6 @@
 
                 <div class="section__bottom txt-center">
                     <a class="btn-primary" href="register">Créer un groupe</a>
-                    <a class="btn-secondary" href="#comment-ca-marche">Découvrir</a>
                 </div>
 
             </section>
