@@ -101,7 +101,7 @@ class AuthController extends BaseController{
 
         session_destroy();
         $_SESSION["disconnect"]=true;
-        header("Location: ".BASE_URL."");
+        header("Location: ".BASE_URL);
         exit();
 
     }

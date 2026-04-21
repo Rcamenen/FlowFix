@@ -73,7 +73,7 @@ class UserController extends BaseController{
 
         // ================== REDIRECTION VERS LOGIN =================== //
 
-        header('Location: /login');
+        header("Location: ".BASE_URL."login");
         exit();
 
     }
