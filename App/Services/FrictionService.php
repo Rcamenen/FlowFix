@@ -62,7 +62,14 @@ class FrictionService{
         $authorUsername = $this->frictionModel->getAuthorUsername($frictionId);
         $hasVotedFriction = $this->frictionVoteModel->findBy(["id"],["cycle_id"=>$currentCycleId,"member_id"=>$memberId,"friction_id"=>$frictionId]);
 
-        $canVoteFriction = (empty($hasVotedFriction) && $frictionDataWithStatus["status_label"] == "Non traité");
+
+        $currentCycleId = $this->cycleModel->getCurrentCycle($teamId);
+        $maxTreatments = $this->cycleModel->findBy(["max_active_treatments"],["id"=>$currentCycleId],"onecolumn");
+        $memberNbVotes = $this->frictionVoteModel->getCounterByMemberAndTeam($currentCycleId,$memberId);
+
+        $canVoteFriction = (empty($hasVotedFriction) && $frictionDataWithStatus["status_label"] == "Non traité" && $memberNbVotes < $maxTreatments);
+
+        $response["memberNbVotes"]=$memberNbVotes;
 
         $response["frictionData"]=[
             "friction"=>[

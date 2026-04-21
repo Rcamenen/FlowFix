@@ -4,7 +4,6 @@ namespace App\Controllers;
 use App\Exceptions\RoleException;
 use Core\BaseController;
 
-use Exception;
 use App\Services\UserService;
 
 class UserController extends BaseController{
@@ -29,8 +28,6 @@ class UserController extends BaseController{
         $this->checkRole("user");
 
         $data = $this->userService->showGroupsPanel($userId); // userGroups / userInvitations /
-
-        if(!empty($_GET["connected"])) $data["successMessage"] = "Connexion réussie";
 
         $this->renderView("User/teamsPanel",$data);
 
@@ -76,7 +73,7 @@ class UserController extends BaseController{
 
         // ================== REDIRECTION VERS LOGIN =================== //
 
-        header('Location: /login?registered=true');
+        header('Location: /login');
         exit();
 
     }
@@ -96,8 +93,6 @@ class UserController extends BaseController{
         if($currentUserId!=$params["userId"]) throw new RoleException("/","Vous n'êtes pas aurotisé à effectuer cette action");
 
         $this->userService->delete($params["userId"]);
-
-        echo "utilisateur supprimé";
 
     }
 }

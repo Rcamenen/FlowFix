@@ -87,7 +87,7 @@ class FrictionController extends BaseController{
 
         $this->frictionService->voteFriction($userId,$teamId,$frictionId);
 
-        header("Location:".BASE_URL."/team/".$teamId."/friction/".$frictionId);
+        header("Location:".BASE_URL."team/".$teamId."/friction/".$frictionId);
 
     }
 

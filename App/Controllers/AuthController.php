@@ -86,7 +86,7 @@ class AuthController extends BaseController{
 
         // ================== REDIRECTION TO THE ADMIN PANEL =================== //
 
-        header("Location:".BASE_URL."/admin/users");
+        header("Location:".BASE_URL."admin/users");
         exit();
 
     }
