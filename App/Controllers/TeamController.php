@@ -144,7 +144,7 @@ class TeamController extends BaseController{
         $data["teamName"]    = $this->teamService->getTeamName($teamId);
         $data["isModerator"] = true;
  
-        $this->renderView("Team/teamMemberAdd",$data); //header
+        $this->renderView("Team/Member/addMember",$data); //header
  
     }
 

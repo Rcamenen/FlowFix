@@ -54,7 +54,7 @@ class Router{
                 exit;
 
             }catch(PDOException $e){
-
+                
                 header("Location: ".BASE_URL."error");
                 exit;
 
