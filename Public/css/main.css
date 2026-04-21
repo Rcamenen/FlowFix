@@ -519,6 +519,9 @@ header, main, footer {
 .navbar__link {
   font-size: 1rem;
 }
+.navbar__link:hover, .navbar__link--active {
+  color: var(--brand-hover);
+}
 .navbar .burger {
   font-size: 32px;
 }
