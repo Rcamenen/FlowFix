@@ -72,6 +72,7 @@ class UserController extends BaseController{
         $this->userService->createUser($createUserData);
 
         // ================== REDIRECTION VERS LOGIN =================== //
+        $_SESSION["registerSuccess"] = "Votre compte a été créé avec succès. Vous pouvez maintenant vous connecter.";
 
         header("Location: ".BASE_URL."login");
         exit();

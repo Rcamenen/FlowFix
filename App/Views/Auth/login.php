@@ -7,26 +7,24 @@
 
     <div class="page__content">
 
-            <!-- message d'erreur -->
+        <?php if(isset($_SESSION["error"])): ?>
+            <p class="notice--error"><?= $_SESSION["error"] ?></p>
+            <?php unset($_SESSION['error']);?>
+        <?php endif?>
 
-            <?php if(isset($_SESSION["error"])){ ?>
+        <?php if (isset($_SESSION["registerSuccess"])): ?>
+            <p class="notice--success"><?= htmlspecialchars($_SESSION["registerSuccess"]) ?></p>
+            <?php unset($_SESSION["registerSuccess"]); ?>
+        <?php endif ?>
+        <form class="form" action="login" method="post">
 
-            <div class="notice--error">
-                <p><?= $_SESSION["error"] ?></p>
-            </div>
-                    
-            <?php unset($_SESSION['error']); } ?>
+            <input class="form__input" name="email" type="text" placeholder="Email" required>
+            <input class="form__input" name="password" type="password" placeholder="Mot de passe" required>
 
-            <div class="section__content">
-                <form class="form" action="login" method="post">
+            <button class="form__btn btn-primary" type="submit">Se connecter</button>
 
-                    <input class="form__input" name="email" type="text" placeholder="Email" required>
-                    <input class="form__input" name="password" type="password" placeholder="Mot de passe" required>
-
-                    <button class="form__btn btn-primary" type="submit">Se connecter</button>
-
-                </form>
-            </div>
+        </form>
+         
     </div>
         
 </div>
