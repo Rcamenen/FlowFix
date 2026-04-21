@@ -114,7 +114,7 @@ class TeamController extends BaseController{
         $_SESSION["teamsId"][]=$teamId;
         $_SESSION["moderateTeamsId"][]=$teamId;
 
-        header("Location:".BASE_URL."/teams");
+        header("Location:".BASE_URL."teams");
 
     }
 

@@ -33,7 +33,7 @@ class AdminController extends BaseController{
         if(!empty($_GET["connected"])) $data["successMessage"] = "Connexion réussie";
 
         // $this->renderView("Admin/adminPanel",$data ?? null);
-        header("Location:".BASE_URL."/admin/users");
+        header("Location:".BASE_URL."admin/users");
         exit();
 
     }
@@ -102,7 +102,7 @@ class AdminController extends BaseController{
 
         $this->userService->delete($params["userId"]);
  
-        header("Location:".BASE_URL."/admin/users");
+        header("Location:".BASE_URL."admin/users");
         exit();
  
     }

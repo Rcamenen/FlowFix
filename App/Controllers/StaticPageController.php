@@ -30,7 +30,7 @@ class StaticPageController extends BaseController{
      */
     public function showPageNotFound(){
         
-        $this->renderView("Errors/404",$response ?? null);
+        $this->renderView("Errors/404");
 
     }
 
@@ -74,7 +74,7 @@ class StaticPageController extends BaseController{
     public function showAdminLoginPage(){
 
         if(!empty($_SESSION["adminId"])){
-            header("Location:".BASE_URL."/admin");
+            header("Location:".BASE_URL."admin");
             exit();
         }
 
