@@ -14,7 +14,7 @@ class StaticPageController extends BaseController{
     public function showHomePage(){
         
         if(!empty($_SESSION["adminId"])){
-            header("Location:".BASE_URL."/admin");
+            header("Location:".BASE_URL."admin");
             exit();
         }
         
@@ -79,6 +79,18 @@ class StaticPageController extends BaseController{
         }
 
         $this->renderView("Admin/adminLogin",$data ?? null);
+
+    }
+
+    /** showErrorPage()
+     * Redirect to the ErrorPage.
+     * 
+     * @param void
+     * @return void Render admin login view in case of success, redirect to /admin if already connected
+     */
+    public function showErrorPage(){
+
+        $this->renderView("Errors/technicalError");
 
     }
 
