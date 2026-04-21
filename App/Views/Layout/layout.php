@@ -27,7 +27,7 @@
             <div class="container">
                 <div class="navbar__inner">
 
-                    <a href="/" class="navbar__logo" aria-label="FlowFix — retour à l'accueil">
+                    <a href="" class="navbar__logo" aria-label="FlowFix — retour à l'accueil">
                         <span class="title-md">FlowFix</span>
                     </a>
 
@@ -42,7 +42,7 @@
                     <ul id="primary-menu" class="navbar__menu">
 
                         <li class="navbar__item">
-                            <a class="navbar__link" href="/">Accueil</a>
+                            <a class="navbar__link" href="">Accueil</a>
                         </li>
 
                         <?php if (empty($_SESSION["adminId"])): ?>
