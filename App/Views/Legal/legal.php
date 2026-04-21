@@ -1,13 +1,13 @@
-<div class="legal page page--static">
+<div class="legal page page--static container">
 
-        <div class="page__header container">
+        <div class="page__header">
             <p class="section-label">Informations légales</p>
             <h1 class="title-xl">Mentions légales</h1>
-            <p class="text--sm">Conformément aux dispositions de la loi n° 2004-575 du 21 juin 2004 pour la confiance en l'économie numérique, voici les informations légales relatives au site FlowFix.</p>
+            <p class="text--xs">Conformément aux dispositions de la loi n° 2004-575 du 21 juin 2004 pour la confiance en l'économie numérique, voici les informations légales relatives au site FlowFix.</p>
         </div>
         
         <div class="page__content">
-            <section class="main__section section container">
+            <section class="page__section section">
 
                 <div class="section__top">
                     <h2 class="title-lg">Éditeur du site</h2>
@@ -28,7 +28,7 @@
 
             </section>
 
-            <section class="main__section section container">
+            <section class="page__section section ">
 
                 <div class="section__top">
                     <h2 class="title-lg">Hébergement</h2>
@@ -45,7 +45,7 @@
 
             </section>
 
-            <section class="main__section section container">
+            <section class="page__section section ">
 
                 <div class="section__top">
                     <h2 class="title-lg">Propriété intellectuelle</h2>
@@ -58,7 +58,7 @@
 
             </section>
 
-            <section class="main__section section container">
+            <section class="page__section section">
 
                 <div class="section__top">
                     <h2 class="title-lg">Données personnelles</h2>
@@ -70,7 +70,7 @@
 
             </section>
 
-            <section class="main__section section container">
+            <section class="page__section section">
 
                 <div class="section__top">
                     <h2 class="title-lg">Cookies</h2>
@@ -82,7 +82,7 @@
 
             </section>
 
-            <section class="main__section section container">
+            <section class="page__section section">
 
                 <div class="section__top">
                     <h2 class="title-lg">Limitation de responsabilité</h2>
@@ -95,7 +95,7 @@
 
             </section>
 
-            <section class="main__section section container">
+            <section class="page__section section">
 
                 <div class="section__top">
                     <h2 class="title-lg">Droit applicable et juridiction</h2>
@@ -107,7 +107,7 @@
 
             </section>
 
-            <section class="main__section section container">
+            <section class="page__section section">
                 <p class="text--sm text--muted">Dernière mise à jour : <?php echo date('d/m/Y'); ?></p>
             </section>
         </div>

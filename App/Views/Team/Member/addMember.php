@@ -17,7 +17,7 @@
             </div>
 
             <div class="panelContent__sections">
-                <section class="panelContent__section">
+                <section class="panelContent__section section">
 
                     <?php if (!empty($formError)): ?>
                         <p class="notice--error"><?= htmlspecialchars($formError) ?></p>

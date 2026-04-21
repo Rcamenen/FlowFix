@@ -1,16 +1,12 @@
-<class class="privacy page page--static">
+<class class="privacy page page--static container">
 
-        <section class="main__section main__section--first section container">
+        <div class="page__header">
+            <h1 class="section-label page__title">Politique de confidentialité</h1>
+            <p class="title-lg">Protection des données</p>
+            <p class="text--sm">FlowFix s'engage à protéger votre vie privée. Cette politique explique quelles données nous collectons, pourquoi nous les collectons et comment vous pouvez exercer vos droits.</p>
+        </div>
 
-            <div class="section__top">
-                <p class="section-label">Protection des données</p>
-                <h1 class="title-xl">Politique de confidentialité</h1>
-                <p class="text--sm">FlowFix s'engage à protéger votre vie privée. Cette politique explique quelles données nous collectons, pourquoi nous les collectons et comment vous pouvez exercer vos droits.</p>
-            </div>
-
-        </section>
-
-        <section class="main__section section container">
+        <section class="page__section section">
 
             <div class="section__top">
                 <h2 class="title-lg">1. Responsable du traitement</h2>
@@ -26,7 +22,7 @@
 
         </section>
 
-        <section class="main__section section container">
+        <section class="page__section section">
 
             <div class="section__top">
                 <h2 class="title-lg">2. Données collectées</h2>
@@ -61,7 +57,7 @@
 
         </section>
 
-        <section class="main__section section container">
+        <section class="page__section section">
 
             <div class="section__top">
                 <h2 class="title-lg">3. Finalités du traitement</h2>
@@ -80,7 +76,7 @@
 
         </section>
 
-        <section class="main__section section container">
+        <section class="page__section section">
 
             <div class="section__top">
                 <h2 class="title-lg">4. Base légale des traitements</h2>
@@ -95,7 +91,7 @@
 
         </section>
 
-        <section class="main__section section container">
+        <section class="page__section section">
 
             <div class="section__top">
                 <h2 class="title-lg">5. Durée de conservation</h2>
@@ -111,7 +107,7 @@
 
         </section>
 
-        <section class="main__section section container">
+        <section class="page__section section">
 
             <div class="section__top">
                 <h2 class="title-lg">6. Partage des données</h2>
@@ -127,7 +123,7 @@
 
         </section>
 
-        <section class="main__section section container">
+        <section class="page__section section">
 
             <div class="section__top">
                 <h2 class="title-lg">7. Sécurité des données</h2>
@@ -146,7 +142,7 @@
 
         </section>
 
-        <section class="main__section section container">
+        <section class="page__section section">
 
             <div class="section__top">
                 <h2 class="title-lg">8. Cookies</h2>
@@ -162,7 +158,7 @@
 
         </section>
 
-        <section class="main__section section container">
+        <section class="page__section section">
 
             <div class="section__top">
                 <h2 class="title-lg">9. Vos droits</h2>
@@ -184,7 +180,7 @@
 
         </section>
 
-        <section class="main__section section container">
+        <section class="page__section section">
 
             <div class="section__top">
                 <h2 class="title-lg">10. Modifications de la politique</h2>
@@ -196,7 +192,7 @@
 
         </section>
 
-        <section class="main__section section container">
+        <section class="page__section section">
             <p class="text--sm text--muted">Dernière mise à jour : <?php echo date('d/m/Y'); ?></p>
         </section>
 
