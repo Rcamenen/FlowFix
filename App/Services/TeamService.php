@@ -45,44 +45,33 @@ class TeamService extends BaseService{
      */
     public function getDashboardData($userId,$teamId){
 
-        // ======================================== Retrieve teamMemberId
+        // RETRIEVE DATA
 
         $teamMemberId = $this->teamMemberModel->findMemberId($userId,$teamId);
-
-        // ======================================== Retrieve teamMemberId
 
         $teamName = $this->teamModel->findBy(["name"],["id"=>$teamId],"onecolumn");
         $response["teamName"]=$teamName ?? null;
 
-        // ======================================== Retrieve friction to pilot if exists
-
         $currentCycle = $this->cycleModel->getCurrentCycle($teamId);
         $response["cycle"]=$currentCycle ?? null;
-
-        // ======================================== Retrieve friction to pilot if exists
 
         $frictionsToPilot = $this->frictionModel->findByPilotAndCycle($teamMemberId,$currentCycle["id"]);
         $response["frictionsToPilot"] = $frictionsToPilot ?? null;
 
-        // ======================================== Retrieve friction in progress if exists
-
         $frictionsInProgress = $this->frictionModel->findByGroupAndStatus($teamId,2);
         $response["frictionsInProgress"] = $frictionsInProgress ?? null;
 
-        // ======================================== Retrieve given's votes number
-
         $frictionsVotedId = $this->frictionVotesModel->findBy(["friction_id"],["cycle_id"=>$currentCycle["id"],"member_id"=>$teamMemberId],"column");
-
         
+        // PREPARE DATA
+
         $response["frictionsVoted"]=[];
 
         foreach($frictionsVotedId as $friction){
             $response["frictionsVoted"][] = $this->frictionModel->getByIdWithStatus($friction);
         }
 
-        // $votes = $this->frictionVotesModel->getCounterByMemberAndTeam($currentCycle["id"],$teamMemberId);
-
-        // echo "<br>Nombre de votes : $votes <br>";
+        // SEND DATA TO THE CONTROLLER
 
         return $response;
 
@@ -98,11 +87,13 @@ class TeamService extends BaseService{
      */
     public function create($createTeamData){
 
+        // CHECK DATA FROM USER
+
         $errors = $this->createTeamDataCheck($createTeamData);
 
         if($errors) throw new FormException($errors,"team/create","Au moins un champs du formulaire est incorrecte");
 
-        // Adding new team to DB
+        // ADD TEAM TO DB
         $teamId = $this->teamModel->create([
             "created_at" => new DateTime()->format("Y-m-d H:i:s"),
             "name" => $createTeamData["name"],
@@ -113,7 +104,7 @@ class TeamService extends BaseService{
             "creator_id" => $createTeamData["creatorId"]
         ]);
 
-        // Adding new cycle to DB
+        // ADD TEAM'S CYCLE TO DB
         $this->cycleModel->create([
             "start_date" => new DateTime()->setTime(0, 0, 0)->format("Y-m-d H:i:s"),
             "end_date" => new DateTime()->setTime(23, 59, 0)->modify("+".$createTeamData["duration"]." days")->format("Y-m-d H:i:s"),
@@ -122,7 +113,7 @@ class TeamService extends BaseService{
             "team_id" => $teamId
         ]);
 
-        // Adding new teamMember to DB
+        // ADD CREATOR TO THE TEAM AS MEMBER MODERATOR
         $this->teamMemberModel->create([
             "joined_at"=> new DateTime()->format("Y-m-d H:i:s"),
             "promoted_at"=> new DateTime()->format("Y-m-d H:i:s"),
@@ -132,8 +123,7 @@ class TeamService extends BaseService{
 
         $this->teamModel->getById($teamId);
 
-        echo "Nouveau cycle créé";
-
+        // SEND NEW TEAM ID CREATED TO THE CONTROLLER
         return $teamId;
 
     }
@@ -149,22 +139,20 @@ class TeamService extends BaseService{
      * @return array Array containing success or error message in case of success, throw exception if not
      */
     public function addMember($newMemberEmail,$teamId,$userId){
-
-
         
-        // Recherche dans la table teamMember du champs promoted_at pour voir si le user est membre et modérateur
+        // CHECK IF MODERATOR ROLE
         $memberPromotedAt = $this->teamMemberModel->findBy(["promoted_at"],["user_id"=>$userId,"team_id"=>$teamId],"onecolumn");
-
         if(!$memberPromotedAt) $error = true;
 
-        //Check si l'email correspond à un user
+        // CHECK IF THE EMAIL MATCH WITH USER
         $newMemberUserId = $this->userModel->findBy(["id"],["email"=>$newMemberEmail],"onecolumn");
         if(!$newMemberUserId) $error = "L'email saisi ne correspond à aucun utilisateur";
 
-        //check si le user ne fait pas déjà partie du groupe
+        // CHECK IF THE MEMBER IS NOT ALREADY BE PART OF THE TEAM
         $newMemberMemberId = $this->teamMemberModel->findBy(["id"],["user_id"=>$newMemberUserId,"team_id"=>$teamId],"onecolumn");
         if($newMemberMemberId) $error = "Cet utilisateur fait déjà partie du groupe";
 
+        // CREATE TEAM MEMBER
         $response=[];
 
         if(!isset($error)){
