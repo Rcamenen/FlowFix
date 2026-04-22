@@ -17,9 +17,16 @@
             <?php unset($_SESSION["registerSuccess"]); ?>
         <?php endif ?>
         <form class="form" action="login" method="post">
+            
+            <div class="form__field">
+                <label class="form__label" for="email">Adresse e-mail</label>
+                <input id="email" class="form__input" name="email" type="text" required>
+            </div>
 
-            <input class="form__input" name="email" type="text" placeholder="Email" required>
-            <input class="form__input" name="password" type="password" placeholder="Mot de passe" required>
+            <div class="form__field">
+                <label class="form__label" for="password">Mot de passe</label>
+                <input id=password class="form__input" name="password" type="password" required>
+            </div>
 
             <button class="form__btn btn-primary" type="submit">Se connecter</button>
 
