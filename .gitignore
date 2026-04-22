@@ -2,7 +2,6 @@
 /vendor/
 
 # Dépendance pour Sass
-/Ressources
 /node_modules
 
 # Variables d'environnement
