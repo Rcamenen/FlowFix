@@ -28,7 +28,7 @@
                 <div class="navbar__inner">
 
                     <a href="<?= FULL_URL ?>" class="navbar__logo" aria-label="FlowFix - retour à l'accueil">
-                        <img src="/Public/images/flowfix_logo.webp" alt="Logo FlowFix">
+                        <img src="Public/images/flowfix_logo.webp" alt="Logo FlowFix">
                         <span class="title-md">FlowFix</span>
                     </a>
 
