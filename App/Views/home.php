@@ -16,7 +16,7 @@
                     </div>
                     <div class="section__bottom flex-col">
                         <a class="btn-primary" href="register">Améliorer la vie de mon équipe !</a>
-                        <a class="btn-secondary mt-16" href="#comment-ca-marche">Découvrir</a>
+                        <a class="btn-secondary mt-16" href="#howItWorks">Découvrir</a>
                     </div>
 
                 </div>
@@ -38,11 +38,11 @@
 
         <div class="wrapper wrapper--alt">
 
-            <section id=howItWork class="main__section section container" aria-labelledby="howItWorkTitle">
+            <section id=howItWorks class="main__section section container" aria-labelledby="howItWorksTitle">
 
                 <div class="section__top">
                     <p class="section-label mb-16">Comment ça marche ?</p>
-                    <h2 id="howItWorkTitle" class="section__title title-xl">Simple. Collectif. Efficace.</h2>
+                    <h2 id="howItWorksTitle" class="section__title title-xl">Simple. Collectif. Efficace.</h2>
                     <p class="text--sm">Un processus en trois étapes pour transformer les frustrations du quotidien en actions concrètes</p>
                 </div>
 
