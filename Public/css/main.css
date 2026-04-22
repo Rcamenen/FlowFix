@@ -458,6 +458,7 @@ header, main, footer {
   padding-left: 5vw;
   padding-right: 5vw;
   max-width: 1200px;
+  box-sizing: border-box;
 }
 
 .pagination {
@@ -474,6 +475,7 @@ header, main, footer {
   box-shadow: 0 1px 2px hsla(0, 0%, 0%, 0.1);
   padding-top: 16px;
   padding-bottom: 16px;
+  width: 100%;
 }
 .navbar__inner {
   display: flex;
@@ -502,7 +504,7 @@ header, main, footer {
 .navbar__menu--open {
   position: absolute;
   right: 0px;
-  top: 66px;
+  top: 76px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -523,6 +525,18 @@ header, main, footer {
   .navbar .burger {
     display: none;
   }
+}
+.navbar__logo {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+.navbar__logo img {
+  height: 40px;
+  width: auto;
+  display: inline-block;
 }
 
 .subnav {
@@ -583,7 +597,7 @@ header, main, footer {
 }
 
 :root {
-  --header-height: 66px;
+  --header-height: 76px;
 }
 
 .header {
@@ -592,6 +606,13 @@ header, main, footer {
   height: var(--header-height);
   z-index: 100;
   background-color: var(--bg-base);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: space-between;
+  flex-wrap: nowrap;
+  width: 100%;
 }
 
 .footer {

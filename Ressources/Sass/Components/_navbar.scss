@@ -7,6 +7,7 @@
     box-shadow: 0 1px 2px hsla(0, 0%, 0%, 0.1);
     padding-top: $navbar-padY;
     padding-bottom: $navbar-padY;
+    width: 100%;
 
     &__inner{
         display: flex;
@@ -52,6 +53,18 @@
         @media screen and (min-width:$breakpoint-md){
             display: none;
         }
+    }
+
+    &__logo{
+        @include flex-row(flex-start, center);
+    }
+
+    &__logo img{
+
+        height: 40px;
+        width: auto;
+        display: inline-block;
+
     }
 }
 
