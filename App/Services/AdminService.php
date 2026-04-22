@@ -8,6 +8,7 @@ use App\Models\TeamMemberModel;
 
 use Exception;
 use App\Exceptions\FormException;
+use App\Exceptions\RoleException;
 
 use DateTime;
 
@@ -57,12 +58,11 @@ class AdminService{
         // ================== MATCHING EMAIL/PASSWORD =================== //
 
         // $adminIdAndHash = $this->adminModel->getIdAndHash($connectAdminData["email"]);
+
+
         $adminIdAndHash = $this->adminModel->findBy(["password_hash","id"],["email"=>$connectAdminData["email"]],"oneassoc");
-        echo "<br> adminIdAndHash <br>";
 
-        var_dump($adminIdAndHash);
-
-        if(!$adminIdAndHash) throw new Exception("Couple nom d'utilisateur / mot de passse incorrecte");
+        if(!$adminIdAndHash) throw new RoleException("adminLogin","Couple nom d'utilisateur / mot de passse incorrecte");
 
         $passwordMatch = password_verify($connectAdminData["password"],$adminIdAndHash["password_hash"]);
         
