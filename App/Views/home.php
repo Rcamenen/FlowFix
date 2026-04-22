@@ -23,8 +23,8 @@
 
                 <div class="right">
 
-                    <div class="media">
-                        <video style="width: 100%; height: auto;" controls>
+                    <div class="heroSection__video">
+                        <video controls>
                             <source src="Public/videos/video_1.webm" type="video/webm">
                         </video>
                     </div>
