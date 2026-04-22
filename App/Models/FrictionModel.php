@@ -46,7 +46,7 @@ class FrictionModel extends BaseModel{
      */
     public function findByGroupAndStatus($teamId,$statusId){
 
-        $stmt = $this->connection->prepare("SELECT * FROM FRICTIONS WHERE team_id=:teamId AND status_id=:statusId");
+        $stmt = $this->connection->prepare("SELECT f.*,fs.label as status_label FROM FRICTIONS AS f JOIN FRICTION_STATUS AS fs ON f.status_id=fs.id WHERE f.team_id=:teamId AND f.status_id=:statusId");
         $stmt->execute(["teamId"=>$teamId,"statusId"=>$statusId]);
 
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -116,7 +116,7 @@ class FrictionModel extends BaseModel{
      */
     public function findByPilotAndCycle($memberId,$cycleId){
 
-        $stmt = $this->connection->prepare("SELECT f.* FROM FRICTIONS AS f JOIN TREATMENTS AS t ON f.id=t.friction_id WHERE t.pilot_id = :memberId AND t.cycle_id=:cycleId");
+        $stmt = $this->connection->prepare("SELECT f.*,fs.label as status_label FROM FRICTIONS AS f JOIN FRICTION_STATUS as fs ON f.status_id=fs.id JOIN TREATMENTS AS t ON f.id=t.friction_id WHERE t.pilot_id = :memberId AND t.cycle_id=:cycleId");
         $stmt->execute([":memberId"=>$memberId,":cycleId"=>$cycleId]);
 
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
