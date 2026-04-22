@@ -6,19 +6,17 @@
         <h1 class="title-md mb-32">Groupes</h1>
     </div>
 
-    <!-- SOUS MENU DE NAVIGATION -->
     <div class="page__panel">
 
         <?php include 'Partials/_nav.php' ?>
 
-        <!-- CONTENU DE LA PAGE -->
         <div class="page__content panelContent">
 
             <div class="panelContent__header">
                 <h2 class="section__title title-lg">Liste de vos groupes</h2>
             </div>
 
-            <div class="panelContent__sections">
+            <div class="panelContent__sections section">
                 <section class="panelContent__section">
 
                     <?php

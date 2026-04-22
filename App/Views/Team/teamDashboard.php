@@ -25,10 +25,10 @@ $activeTab = 'dashboard';
 
             <div class="panelContent__sections">
 
-                <section class="panelContent__section section">
+                <section class="panelContent__section section" aria-labelledby="frictionPilotTitle">
 
-                    <div class="section__header">
-                        <h3 class="title-md">Frictions que vous pilotez :</h3>
+                    <div class="section__header" >
+                        <h3 id="frictionPilotTitle" class="title-md">Frictions que vous pilotez :</h3>
                     </div>
                     <div class="section__content">
 
@@ -43,10 +43,10 @@ $activeTab = 'dashboard';
 
                 </section>
 
-                <section class="panelContent__section section">
+                <section class="panelContent__section section" aria-labelledby="inProgressFrictionTitle">
 
                     <div class="section__header">
-                        <h3 class="title-md">Irritants en cours :</h3>
+                        <h3 id="inProgressFrictionTitle" class="title-md">Irritants en cours :</h3>
                     </div>
 
                     <div class="section__content">
@@ -63,9 +63,9 @@ $activeTab = 'dashboard';
 
                 </section>
 
-                <section class="panelContent__section section">
+                <section class="panelContent__section section" aria-labelledby="votedFrictionsTitle">
                     <div class="section__header">
-                        <h3 class="title-md">Irritants que vous avez votés :</h3>
+                        <h3 id="votedFrictionsTitle" class="title-md">Irritants que vous avez votés :</h3>
                     </div>
 
                     <div class="section__content">

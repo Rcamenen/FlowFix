@@ -27,22 +27,18 @@
             <div class="container">
                 <div class="navbar__inner">
 
-                    <a href="" class="navbar__logo" aria-label="FlowFix — retour à l'accueil">
+                    <a href="<?= FULL_URL ?>" class="navbar__logo" aria-label="FlowFix - retour à l'accueil">
                         <span class="title-md">FlowFix</span>
                     </a>
 
-                    <button type="button"
-                            class="navbar__burger"
-                            aria-label="Menu de navigation"
-                            aria-expanded="false"
-                            aria-controls="primary-menu">
-                        <i class="fa-solid fa-bars burger" aria-hidden="true"></i>
+                    <button type="button" class="navbar__burger" aria-label="Menu de navigation" aria-expanded="false" aria-controls="primary-menu">
+                        <span class="fa-solid fa-bars burger" aria-hidden="true"></span>
                     </button>
 
                     <ul id="primary-menu" class="navbar__menu">
 
                         <li class="navbar__item">
-                            <a class="navbar__link" href="">Accueil</a>
+                            <a class="navbar__link link" href="<?= FULL_URL ?>">Accueil</a>
                         </li>
 
                         <?php if (empty($_SESSION["adminId"])): ?>
@@ -50,27 +46,27 @@
                             <?php if (!empty($_SESSION["userId"])): ?>
 
                                 <li class="navbar__item">
-                                    <a class="navbar__link" href="teams">Groupes</a>
+                                    <a class="navbar__link link" href="teams">Groupes</a>
                                 </li>
 
                                 <li class="navbar__item">
-                                    <a class="navbar__link" href="account">Profil</a>
+                                    <a class="navbar__link link" href="account">Profil</a>
                                 </li>
 
                                 <li class="navbar__item">
                                     <form action="logout" method="post">
-                                        <button class="navbar__link" type="submit">Déconnexion</button>
+                                        <button class="navbar__link link" type="submit">Déconnexion</button>
                                     </form>
                                 </li>
 
                             <?php else: ?>
 
                                 <li class="navbar__item">
-                                    <a class="navbar__link" href="register">Inscription</a>
+                                    <a class="navbar__link link" href="register">Inscription</a>
                                 </li>
 
                                 <li class="navbar__item">
-                                    <a class="navbar__link" href="login">Connexion</a>
+                                    <a class="navbar__link link" href="login">Connexion</a>
                                 </li>
 
                             <?php endif ?>
@@ -78,16 +74,16 @@
                         <?php else: ?>
 
                             <li class="navbar__item">
-                                <a class="navbar__link" href="admin/teams">Groupes</a>
+                                <a class="navbar__link link" href="admin/teams">Groupes</a>
                             </li>
 
                             <li class="navbar__item navbar__item--active">
-                                <a class="navbar__link" href="admin/users" aria-current="page">Utilisateurs</a>
+                                <a class="navbar__link link" href="admin/users" aria-current="page">Utilisateurs</a>
                             </li>
 
                             <li class="navbar__item">
                                 <form action="admin/logout" method="post">
-                                    <button class="navbar__link" type="submit">Déconnexion</button>
+                                    <button class="navbar__link link" type="submit">Déconnexion</button>
                                 </form>
                             </li>
 

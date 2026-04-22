@@ -17,13 +17,13 @@ $icon = ($f["votes"]>0) ? "fa-arrow-up-long" : "fa-minus";
     </div>
     <div class="frictionCard__bottom">
 
-        <?php if ($f["status_label"] === "Non traité"): ?>
-        <p class="upVote">
-            <i class="upVote__arrow fa-solid <?= $icon ?>" aria-hidden="true"></i>
-            <span class="upVote__count"><?= (int) $f["votes"] ?></span>
-            <span class="upVote__label">votes</span>
-        </p>
-        <?php endif ?>
+            <p class="upVote">
+            <?php if (isset($f["status_label"]) && $f["status_label"] === "Non traité"): ?>
+                    <i class="upVote__arrow fa-solid <?= $icon ?>" aria-hidden="true"></i>
+                    <span class="upVote__count"><?= (int) $f["votes"] ?></span>
+                    <span class="upVote__label">votes</span>
+            <?php endif ?>
+            </p>
 
         <a class="btn-secondary--sm" href="team/<?= $teamId ?>/friction/<?= $f["id"] ?>">
             Consulter l'irritant

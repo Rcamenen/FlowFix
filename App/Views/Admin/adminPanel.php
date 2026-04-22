@@ -1,11 +1,17 @@
-<div class="page page--static adminPanel container">
+<div class="page page--panel adminPanel container">
+
+    <!-- PAGE__HEADER -->
 
     <div class="page__header">
         <h1 class="title-md mb-32">ADMINISTRATION</h1>
     </div>
 
+    <!-- PAGE__PANEL -->
+
     <div class="page__panel">
 
+        <!-- SUB NAV -->
+         
         <?php include(dirname(__DIR__)."/Admin/Partials/_nav.php");?>
         <div class="page__content panelContent">
 
@@ -24,6 +30,7 @@
         </div>
 
     </div>
+
 </div>
 
 <script src="/js/adminDashboard.js" defer></script>

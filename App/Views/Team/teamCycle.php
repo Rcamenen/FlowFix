@@ -17,9 +17,10 @@
 
             <div class="panelContent__sections">
 
-                <section class="panelContent__section">
+                <section class="panelContent__section" aria-labelledby="cycleDateTitle">
+
                     <div class="section__header">
-                        <h3 class="title-md">Dates</h3>
+                        <h3 id="cycleDateTitle" class="title-md">Dates</h3>
                     </div>
 
                     <div class="section__content">
@@ -46,8 +47,12 @@
 
                 </section>
 
-                <section>
-                    <h3 class="title-md">Consultation des jours fériés</h3>
+                <section class="panelContent__section" aria-labelledby="holidayDateTitle">
+
+                    <div class="section__header">
+                        <h3 id="holidayDateTitle" class="title-md">Consultation des jours fériés</h3>
+                    </div>
+
                     <div class="card--cycle">
 
                         <p class="text--xs">Renseigner une date afin de savoir s'il s'agit d'un jour férié.</p>
@@ -61,6 +66,7 @@
                     </div>
 
                 </section>
+
             </div>
 
         </div>
