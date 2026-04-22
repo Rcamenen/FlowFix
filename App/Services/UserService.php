@@ -90,7 +90,10 @@ class UserService{
 
         $errors = $this->createUserDataCheck($createUserData);
 
-        if(!empty($errors)) throw new FormException($errors,"register","Champs incorrectes");
+        $formErrors["errors"] = $errors;
+        $formErrors["fieldsValue"] = $createUserData;
+
+        if(!empty($errors)) throw new FormException($formErrors,"register","Champs incorrectes");
         
         
         // ================== USER CREATION =================== //
