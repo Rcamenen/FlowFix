@@ -102,7 +102,7 @@ abstract class BaseController {
         foreach($postsName as $postName){
 
             $key = $postName;
-            $value = htmlspecialchars(trim($_POST[$postName]));
+            $value = trim($_POST[$postName]);
             $posts[$key] = $value;
 
         }
