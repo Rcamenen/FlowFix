@@ -68,7 +68,11 @@ class TeamService extends BaseService{
         $response["frictionsVoted"]=[];
 
         foreach($frictionsVotedId as $friction){
-            $response["frictionsVoted"][] = $this->frictionModel->getByIdWithStatus($friction);
+            
+            $frictionVoted = $this->frictionModel->getByIdWithStatus($friction);
+            $frictionVoted["votes"] = $this->frictionVotesModel->getVotesCounter($currentCycle["id"],$friction);
+            $response["frictionsVoted"][] = $frictionVoted;
+
         }
 
         // SEND DATA TO THE CONTROLLER
