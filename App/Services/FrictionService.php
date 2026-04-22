@@ -63,7 +63,6 @@ class FrictionService{
         $hasVotedFriction = $this->frictionVoteModel->findBy(["id"],["cycle_id"=>$currentCycleId,"member_id"=>$memberId,"friction_id"=>$frictionId]);
 
 
-        $currentCycleId = $this->cycleModel->getCurrentCycle($teamId);
         $maxTreatments = $this->cycleModel->findBy(["max_active_treatments"],["id"=>$currentCycleId],"onecolumn");
         $memberNbVotes = $this->frictionVoteModel->getCounterByMemberAndTeam($currentCycleId,$memberId);
 
@@ -98,7 +97,7 @@ class FrictionService{
             $response["treatmentsData"] = [];
 
             foreach($treatmentsDataWithStatus as $treatment){
-
+                
                 //Retrieve Votes Data
                 $treatmentVotes = $this->treatmentVotesModel->findVotesByTreatmentAndCycle($treatment["id"], $currentCycleId);
                 $treatmentVotesCount = array_count_values($treatmentVotes);
