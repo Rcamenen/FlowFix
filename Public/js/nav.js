@@ -1,6 +1,6 @@
 const burger = document.querySelector('.navbar__burger');
 const menu = document.querySelector('.navbar__menu');
-const icon = burger.querySelector('i');
+const icon = burger.querySelector('.navbar__burger .burger');
 
 function closeMenu() {
     menu.classList.remove('navbar__menu--open');
