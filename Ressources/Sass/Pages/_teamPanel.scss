@@ -1,0 +1,11 @@
+@use '../variables' as *;
+@use '../mixins' as *;
+
+.teamPanel {
+    .section {
+        @include flex-col(flex-start, flex-start);
+        gap: 32px;
+
+        &__content { @include grid(16px, $breakpoint-md); }
+    }
+}

@@ -1,0 +1,57 @@
+@use '../variables' as *;
+@use '../mixins' as *;
+
+.home {
+    padding-bottom: 0;
+
+    .wrapper {
+        width: 100%;
+        &--alt { background: var(--bg-surface); }
+    }
+
+    .section {
+        padding-top: 64px;
+        padding-bottom: 64px;
+        @include flex-col(flex-start, flex-start);
+        gap: 48px;
+
+        &__top {
+            width: 100%;
+            @include flex-col;
+            gap: 8px;
+        }
+
+        &__content {
+            @include flex-col(flex-start, flex-start);
+            gap: 16px;
+            width: 100%;
+
+            @media (min-width: $breakpoint-md) {
+                @include flex-row(space-between, center);
+            }
+        }
+    }
+
+    #heroSection {
+        .right { display: none; }
+
+        @media (min-width: $breakpoint-md) {
+            @include flex-row;
+            .left, .right { width: 50%; }
+            .right {
+                display: block;
+                background-color: white;
+            }
+        }
+    }
+
+    #pret-a-commencer {
+        margin: auto;
+
+        .section__bottom {
+            width: 100%;
+            @include flex-row(center, center);
+            gap: 16px;
+        }
+    }
+}

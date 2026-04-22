@@ -1,0 +1,37 @@
+@use '../variables' as *;
+@use '../mixins' as *;
+
+.page--panel {
+    .page__header { width: 100%; }
+
+    .page__panel {
+        @include flex-col(flex-start, flex-start);
+        gap: 32px;
+
+        @media (min-width: $breakpoint-md) {
+            @include flex-row(flex-start, flex-start);
+            gap: 5%;
+        }
+    }
+}
+
+.panelContent {
+    @include flex-col(flex-start, flex-start);
+    gap: 32px;
+    width: 100%;
+
+    &__header {
+        @include flex-col(flex-start, flex-start);
+        gap: 8px;
+    }
+
+    &__sections {
+        @include flex-col(flex-start, flex-start);
+        width: 100%;
+        gap: 48px;
+    }
+
+    &__section {
+        width: 100%;
+    }
+}

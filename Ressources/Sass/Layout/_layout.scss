@@ -1,0 +1,25 @@
+@use '../variables' as *;
+@use '../mixins' as *;
+
+body{
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    min-height: 100vh;
+}
+
+header,main,footer{
+    width: 100%;
+}
+
+.container{
+    margin : 0 auto;
+    padding-left: 5vw;
+    padding-right: 5vw;
+    max-width: 1200px;
+}
+
+.pagination{
+    width: 100%;
+    @include flex-row(center,center);
+    gap: 32px;
+}

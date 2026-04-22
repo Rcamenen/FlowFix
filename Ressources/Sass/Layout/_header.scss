@@ -1,0 +1,15 @@
+@use '../variables' as *;
+@use '../mixins' as *;
+@use '../Components/navbar' as *;
+
+:root {
+    --header-height: #{$header-H};
+}
+
+.header {
+    position: sticky;
+    top: 0;
+    height: var(--header-height);
+    z-index: 100;
+    background-color: var(--bg-base);
+}

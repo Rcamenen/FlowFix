@@ -1,0 +1,36 @@
+@use '../variables' as *;
+@use '../mixins' as *;
+
+.footer{
+
+    background-color: var(--bg-surface-inverse);
+    color: var(--text-primary-inverse);
+    border: 1px solid white;
+    width: 100%;
+    
+    &__inner{
+        @include flex-col(space-between,flex-start);
+        gap: 16px;
+        padding-top: 40px;
+        padding-bottom: 40px;
+        @media screen and (min-width:$breakpoint-sm){
+            @include flex-row(space-between,flex-start);
+        }
+    }
+
+    &__brand{
+        width: fit-content;
+    }
+
+    &__nav{
+        width: fit-content;
+        color: var(--text-secondary-inverse);
+
+    }
+
+    &__copyright{
+        width: fit-content;
+        color: var(--text-secondary-inverse);
+    }
+
+}

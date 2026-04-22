@@ -1,0 +1,173 @@
+@use '../variables' as *;
+@use '../utilities' as *;
+@use '../mixins' as *;
+
+.card{
+
+    @include card-frame();
+    @include flex-col();
+
+}
+
+.teamCard{
+
+    @include card-frame();
+    @include flex-col();
+    gap: 16px;
+
+}
+
+.memberCard{
+
+    @include card-frame();
+    @include flex-row(space-evenly,center);
+    gap: 16px;
+
+}
+
+.frictionCard{
+    @include card-frame();
+    @include flex-col(space-between,flex-start);
+    gap: 24px;
+
+    &__top{
+        @include flex-row(flex-start,center,wrap);
+        gap: 16px;
+    }
+    &__bottom{
+        width: 100%;
+        @include flex-row(space-between,center,wrap);
+        gap: 8px;
+    }
+    .upVote{
+        display: inline-block;
+        width: fit-content;
+        @include flex-row(flex-start,center);
+        gap: 8px;
+        &__count{
+            font-size: 1.5rem;
+            line-height: 1;
+            color: var(--brand);
+            font-weight: 600;
+        }
+        &__label{
+            color: var(--text-secondary);
+        }
+    }
+    &--totreat{ 
+        @include card-bordered(var(--friction-totreat-border));
+    }
+    &--inprogress{
+        @include card-bordered(var(--friction-inprogress-border));
+    }
+    &--invote{
+        @include card-bordered(var(--friction-invote-border));
+    }
+    &--closed{
+        @include card-bordered(var(--friction-closed-border));
+    }
+
+}
+
+.card--success{
+    @include card-frame();
+
+    color: var(--success-text);
+    background-color: var(--success-bg);
+    border-color: var(--success-border);
+
+}
+
+.card--friction-details{    
+    @include card-frame();
+    background-color: white;
+    @include flex-col();
+    gap: 16px;
+    &__header{
+        @include flex-row(flex-start,center,wrap);
+        gap: 16px;
+    }
+    &__description{
+
+    }
+    &__author{
+
+    }
+
+}
+
+.card--cycle{
+    @include card-frame();
+
+
+    @include flex-col(flex-start,flex-start);
+    gap: 16px;
+
+}
+
+.userCard {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 16px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    &__header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    &__username {
+        font-weight: bold;
+    }
+
+    &__id {
+        font-size: 0.75rem;
+        color: #999;
+    }
+
+    &__email {
+        @include truncate();
+    }
+
+    &__footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    &__date {
+        font-size: 0.75rem;
+        color: #999;
+    }
+}
+
+.teamCard {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 16px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+
+    &__header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    &__name {
+        font-weight: bold;
+    }
+
+    &__id {
+        font-size: 0.75rem;
+        color: #999;
+    }
+
+    &__footer {
+        display: flex;
+        justify-content: flex-end;
+    }
+}

@@ -1,0 +1,117 @@
+@use '../Sass/mixins' as *;
+@use '../Sass/variables' as *;
+
+.txt-center{
+    text-align: center;
+}
+
+.flex-col{
+    display: flex;
+    flex-direction: column;
+}
+
+/* ======================== MARGIN & GAP ======================== */
+
+/* ==== MARGIN TOP ======
+--mt-8 : margin-top: 8px
+--mt-16 : margin-top: 16px
+--etc...
+*/
+
+@for $i from 1 to 8 {
+    .mt-#{$i*8}{
+        margin-top: 8px*$i;
+    }
+}
+
+/* ==== MARGIN BOTTOM ======
+--mb-8 : margin-bottom: 8px
+--mb-16 : margin-bottom: 16px
+--etc...
+*/
+
+@for $i from 1 to 8 {
+    .mb-#{$i*8}{
+        margin-bottom: 8px*$i;
+    }
+}
+
+/* ==== GAP ======
+--g-8: gap: 8px
+--g-16 : gap: 16px
+--etc...
+*/
+
+@for $i from 1 to 8 {
+    .g-#{$i*8}{
+        gap: 8px*$i;
+    }
+}
+
+/* ==== WIDTH ======
+--w-5: width: 5%
+--w-10: width: 10%
+--etc...
+*/
+
+@for $i from 1 to 20 {
+    .w-#{$i * 5} {
+        width: 5% * $i;
+    }
+}
+
+.abs{
+    position: absolute;
+}
+
+.abs--center{
+    @extend .abs;
+    left:50%;
+    transform: translateX(-50%);
+}
+
+.dn{
+    display: none !important;
+}
+
+.w-fc {
+    white-space: nowrap;
+    width: 1%; // force la colonne au minimum
+}
+
+.truncate-1 {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.truncate-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.truncate-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.skip-link {
+    position: absolute;
+    top: -40px;
+    left: 0;
+    background: #000;
+    color: #fff;
+    padding: 8px 16px;
+    z-index: 100;
+    text-decoration: none;
+    transition: top 0.2s;
+}
+
+.skip-link:focus {
+    top: 0;
+}

@@ -1,0 +1,101 @@
+//Ressources/Sass/Components/_navbar.scss
+@use '../variables' as *;  // ← chemin relatif vers _variables.scss
+@use '../mixins' as *;
+@use '../base' as *;
+
+.navbar{
+    box-shadow: 0 1px 2px hsla(0, 0%, 0%, 0.1);
+    padding-top: $navbar-padY;
+    padding-bottom: $navbar-padY;
+
+    &__inner{
+        display: flex;
+        flex-direction: row;
+        justify-content:space-between;
+        align-items: center;
+    }
+
+    &__brand{
+        width: 50px;
+        height: 50px;
+    }
+
+    &__menu{
+        background-color: var(--bg-base);
+        display: none;
+        gap: 16px;
+
+        @media screen and (min-width:$breakpoint-md){
+            @include flex-row(center,center);
+        }
+    }
+
+    &__menu--open{
+        position: absolute;
+        right: 0px;
+        top: $header-H;
+        @include flex-col(center,end);
+        width: 100%;
+        padding: 32px 24px;
+    }
+
+    &__link{
+        font-size: 1rem;
+    }
+    &__link:hover, &__link--active{
+        color: var(--brand-hover);
+    }
+
+    .burger{
+        font-size: 32px;
+
+        @media screen and (min-width:$breakpoint-md){
+            display: none;
+        }
+    }
+}
+
+
+.subnav{
+
+    box-shadow: 0 2px 0px hsla(0, 0%, 0%, 0.15);
+    padding-bottom: 16px;
+    background-color: transparent;
+    @include flex-col(flex-start,flex-start);
+    width: 100%;
+    gap: 32px;
+    @media screen and (min-width:$breakpoint-md) {
+        width: fit-content;
+        box-shadow: none;
+    }
+
+    &__item{
+        display: block;
+    } 
+
+    &__list{
+        @include flex-row(flex-start,center,wrap);
+        gap:8px;
+
+        @media screen and (min-width:$breakpoint-md) {
+            @include flex-col(flex-start,flex-start);
+            gap:8px;
+        }
+    }
+
+}
+
+
+.main__nav {
+    position: sticky;
+    box-sizing: border-box;
+    width: 100%;
+    @include flex-col(flex-start, flex-start);
+    gap: 16px;
+    top: var(--header-height); // ajuste la valeur à ta hauteur réelle de header
+    background-color: var(--bg-base);
+    padding-top: 8px;
+    @media screen and (min-width:$breakpoint-md) {
+        width: fit-content;
+    }
+}

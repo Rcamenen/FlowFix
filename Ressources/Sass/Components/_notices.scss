@@ -1,0 +1,40 @@
+@use '../variables' as *;
+@use '../mixins' as *;
+
+// ── Base
+.notice {
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+// ── Variantes
+.notice--success {
+  @extend .notice;
+  background: var(--success-bg);
+  color: var(--success-text);
+  border-color: var(--success-border);
+}
+
+.notice--error {
+  @extend .notice;
+  background: var(--error-bg);
+  color: var(--error-text);
+  border-color: var(--error-border);
+}
+
+.notice--info {
+  @extend .notice;
+  background: var(--friction-totreat-bg);
+  color: var(--friction-totreat-text);
+  border-color: var(--friction-totreat-border);
+}
+
+.notice--warning {
+  @extend .notice;
+  background: var(--treatment-toreview-bg);
+  color: var(--treatment-toreview-text);
+  border-color: var(--treatment-toreview-border);
+}

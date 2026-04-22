@@ -1,0 +1,28 @@
+@use '../mixins' as *;
+
+.page--static {
+    @include flex-col(flex-start, center);
+    gap: 64px;
+
+    .page__header  {
+        width: 100%;
+        @include flex-col(flex-start,flex-start);
+        gap: 16px;
+    }
+
+    .page__content {
+        @include flex-col(flex-start, flex-start);
+        gap: 48px;
+        width: 100%;
+    }
+    .page__title{
+        margin-bottom: 16px;
+    }
+}
+
+.section{
+
+    @include flex-col(flex-start,flex-start);
+    gap:16px;
+
+}

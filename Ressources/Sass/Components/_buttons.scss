@@ -1,0 +1,82 @@
+// Buttons
+
+.btn {
+  display: inline-block;
+  font-family: var(--font-text);
+  font-size: 1rem;
+  font-weight: 300;
+  padding: 16px 16px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  width: max-content;
+}
+
+// ── Variantes
+.btn-primary {
+  @extend .btn;
+  background: var(--brand);
+  color: var(--text-primary-inverse);
+
+  &:hover {
+    background: var(--brand-hover);
+  }
+}
+
+.btn-primary--sm{
+
+  @extend .btn-primary;
+  padding: 0px 8px;
+
+}
+
+.btn-secondary {
+  @extend .btn;
+  background: transparent;
+  color: var(--brand-hover);
+  border-color: var(--brand);
+
+  &:hover {
+    border-color: var(--brand);
+  }
+}
+
+.btn-secondary--sm{
+
+  @extend .btn-secondary;
+  padding: 0px 8px;
+
+}
+
+.btn-tab{
+
+  background-color: blue;
+  padding: 0px 8px;
+  border-radius: 8px;
+  background-color: #F0F5FF;
+  color: #616161;
+  border: 1px solid #dddddd;
+  width: max-content;
+  &--active,&:hover{
+
+    background-color: #F0F5FF;
+    color: #2563EB;
+    border: 1px solid #2563EB;
+    cursor: pointer;
+
+  }
+}
+
+.btn--inactive{
+
+  display: none;
+
+}
+
+.btn--inactive:hover{
+
+  color: transparent;
+  border-color: var(--border);
+  cursor:default;
+
+}

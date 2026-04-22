@@ -1,0 +1,64 @@
+@use 'variables' as *;
+
+// ======================== FLEX ========================
+@mixin flex-row($justify: center, $align: center, $wrap: nowrap) {
+    display: flex;
+    flex-direction: row;
+    justify-content: $justify;
+    align-items: $align;
+    flex-wrap: $wrap;
+}
+
+@mixin flex-col($justify: flex-start, $align: stretch) {
+    display: flex;
+    flex-direction: column;
+    justify-content: $justify;
+    align-items: $align;
+}
+
+// ======================== GRID ========================
+@mixin grid($gap: 16px, $breakpoint: $breakpoint-md, $min-col: 350px) {
+    display: grid;
+    width: 100%;
+    grid-template-columns: 1fr;
+    gap: $gap;
+
+    @media (min-width: $breakpoint) {
+        grid-template-columns: repeat(auto-fill, minmax($min-col, 1fr));
+    }
+}
+
+// ======================== BACKGROUNDS ========================
+@mixin background($bg) {
+    @if $bg == dark1 {
+        background-color: var(--bg-dark-1);
+        color: var(--text-bg-dark-1);
+    } @else if $bg == dark2 {
+        background-color: var(--bg-dark-2);
+        color: var(--text-bg-dark-2);
+    } @else if $bg == light1 {
+        background-color: var(--bg-light-1);
+        color: var(--text-bg-light-1);
+    } @else if $bg == light2 {
+        background-color: var(--bg-light-2);
+        color: var(--text-bg-light-2);
+    }
+}
+
+// ======================== COMPOSANTS ========================
+@mixin card-frame($radius: 8px, $padding: 1.5rem) {
+    border-radius: $radius;
+    padding: $padding;
+    width: 100%;
+    background-color: var(--bg-surface);
+}
+
+@mixin card-bordered($color) {
+    border-top: 2px solid $color;
+}
+
+@mixin truncate {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

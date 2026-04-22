@@ -1,0 +1,7 @@
+@use "../base" as *;
+@use "../mixins" as *;
+@use '../variables' as *;
+
+.legal {
+    .section { width: 100%; }
+}

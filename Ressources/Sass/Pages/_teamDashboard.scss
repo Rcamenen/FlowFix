@@ -1,0 +1,8 @@
+@use '../mixins' as *;
+
+.teamDashboard {
+    .section {
+        @include flex-col(flex-start, flex-start);
+        gap: 16px;
+    }
+}

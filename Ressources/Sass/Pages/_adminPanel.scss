@@ -1,0 +1,9 @@
+@use '../variables' as *;
+@use '../mixins' as *;
+
+.admin {
+    .userList,
+    .teamList {
+        @include grid(16px, $breakpoint-md, 280px);
+    }
+}
