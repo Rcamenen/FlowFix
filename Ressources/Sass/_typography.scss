@@ -85,13 +85,9 @@ p {
 
 .link {
     color: var(--color-primary);
-
-    &:hover {
-      color: var(--brand-hover);
-    }
-    &:focus {
-      border: 1px solid var(--brand-hover);
-    }
+    // &:focus {
+    //   border: 1px solid var(--brand-hover);
+    // }
 }
 
 /* ======================== IMPORT POLICES ======================== */

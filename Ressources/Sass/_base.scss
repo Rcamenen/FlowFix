@@ -167,7 +167,6 @@ select {
     font-family: inherit;
     font-size: inherit;
     border: none;
-    outline: none;
     background: none;
 }
 
@@ -175,7 +174,7 @@ select {
 
 // Focus visible pour la navigation clavier (WCAG AA)
 :focus-visible {
-    outline: 2px solid var(--color-focus);
+    outline: 2px solid var(#1F54CA);
     outline-offset: 3px;
     border-radius: 4px;
 }
