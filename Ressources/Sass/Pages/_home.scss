@@ -12,7 +12,7 @@
     .section {
         padding-top: 64px;
         padding-bottom: 64px;
-        @include flex-col(flex-start, flex-start);
+        @include flex-col(center, flex-start);
         gap: 48px;
 
         &__top {
@@ -29,6 +29,10 @@
             @media (min-width: $breakpoint-md) {
                 @include flex-row(space-between, center);
             }
+        }
+
+        &__bottom {
+            width: 100%;
         }
     }
 
