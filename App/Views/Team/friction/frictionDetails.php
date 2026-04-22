@@ -96,7 +96,7 @@ $labelClassMap = [
                                     <h3>Traitement du cycle <?= $treatment["cycleId"] ?></h3>
                                 <?php endif ?>
 
-                                <p><?= htmlspecialchars($treatment["solution"]) ?></p>
+                                <p><?= !empty($treatment["solution"]) ? htmlspecialchars($treatment["solution"]) : "Aucune solution n'a été proposée pour le moment" ?> </p>
 
                                 <?php if ($user["canUpdateSolution"]): ?>
                                     <a class="btn-primary--sm mt-8" href="team/<?= $teamId ?>/friction/<?= $friction["id"] ?>/treatment/<?= $treatment["id"] ?>/updatesolution">Ajouter une solution</a>
