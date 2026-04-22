@@ -48,6 +48,20 @@
 
 }
 
+.btn-danger--sm{
+
+  @extend .btn;
+  background: var(--error-bg);
+  color: var(--error-text);
+  border-color: var(--error-border);
+  padding: 0px 8px;
+
+  &:hover {
+    border-color: var(--error-border);
+  }
+
+}
+
 .btn-tab{
 
   background-color: blue;

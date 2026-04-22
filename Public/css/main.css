@@ -241,11 +241,12 @@ p {
 /* ======================== LIENS ======================== */
 .link {
   color: var(--color-primary);
-  font-weight: 500;
-  transition: opacity 0.2s ease;
 }
 .link:hover {
-  opacity: 0.8;
+  color: var(--brand-hover);
+}
+.link:focus {
+  border: 1px solid var(--brand-hover);
 }
 
 /* ======================== IMPORT POLICES ======================== */
@@ -697,7 +698,7 @@ header, main, footer {
   border-color: var(--member-border);
 }
 
-.btn, .btn-secondary, .btn-secondary--sm, .btn-primary, .btn-primary--sm {
+.btn, .btn-danger--sm, .btn-secondary, .btn-secondary--sm, .btn-primary, .btn-primary--sm {
   display: inline-block;
   font-family: var(--font-text);
   font-size: 1rem;
@@ -732,6 +733,16 @@ header, main, footer {
 
 .btn-secondary--sm {
   padding: 0px 8px;
+}
+
+.btn-danger--sm {
+  background: var(--error-bg);
+  color: var(--error-text);
+  border-color: var(--error-border);
+  padding: 0px 8px;
+}
+.btn-danger--sm:hover {
+  border-color: var(--error-border);
 }
 
 .btn-tab {
