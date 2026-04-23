@@ -132,10 +132,15 @@ class AdminService{
         $teams      = $this->teamModel->findAllPaginated($limit, $offset);
         $totalCount = $this->teamModel->countAll();
         $totalPages = (int) ceil($totalCount / $limit);
+
+        //formatage pour la vue
+        foreach($teams as $team => $value){
+            $teams[$team]["created_at"] = (new DateTime($team['created_at']))->format('d-m-Y');
+        }
  
         return [
-            "teams"      => $teams,
-            "currentPage"       => $page,
+            "teams" => $teams,
+            "currentPage" => $page,
             "totalPages" => $totalPages,
         ];
     }
