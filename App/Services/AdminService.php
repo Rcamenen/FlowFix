@@ -53,7 +53,7 @@ class AdminService{
 
         $errors = $this->connectAdminDataCheck($connectAdminData);
 
-        if($errors) throw new FormException($errors,"login","Champs login incorrects");
+        if($errors) throw new FormException($errors,"adminLogin","Couple email / mot de passe incorrecte");
 
         // ================== MATCHING EMAIL/PASSWORD =================== //
 
