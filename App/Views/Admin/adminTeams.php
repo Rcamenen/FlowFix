@@ -27,6 +27,7 @@
                                 <div class="teamCard">
                                     <div class="teamCard__header">
                                         <span class="teamCard__name"><?= htmlspecialchars($team["name"]) ?></span>
+                                        <span class="teamCard__date text--xs">Créé le <?= htmlspecialchars(($team["created_at"])) ?></span>
                                         <span class="teamCard__id">#<?= $team["id"] ?></span>
                                     </div>
                                     <div class="teamCard__footer">
