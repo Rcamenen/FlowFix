@@ -9,7 +9,7 @@
 
         <?php if (isset($_SESSION["formErrorMessage"])) { ?>
             <p class="notice--error"><?= $_SESSION["formErrorMessage"] ?></p>
-        <?php unset($_SESSION['error']); } ?>
+        <?php unset($_SESSION['formErrorMessage']); } ?>
 
         <?php
             if (!empty($_SESSION["formErrors"])) {
