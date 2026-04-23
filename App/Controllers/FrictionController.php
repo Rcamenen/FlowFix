@@ -61,7 +61,7 @@ class FrictionController extends BaseController{
         $createFrictionData["teamId"]=$params["teamId"];
 
         // Appel au service
-        $frictionCreatedId = $this->frictionService->createFriction($createFrictionData);
+        $frictionCreatedId = $this->frictionService->createFriction($createFrictionData,$params["teamId"]);
 
         header("Location:".BASE_URL."team/".$createFrictionData["teamId"]."/friction/".$frictionCreatedId["id"]);
         

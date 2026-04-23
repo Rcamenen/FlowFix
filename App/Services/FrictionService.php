@@ -2,6 +2,7 @@
 namespace App\Services;
 
 use App\Exceptions\RoleException;
+use App\Exceptions\FormException;
 use App\Models\TeamMemberModel;
 use App\Models\FrictionModel;
 use App\Models\CycleModel;
@@ -147,9 +148,14 @@ class FrictionService{
      * @param {Array} $createFrictionData : Array which contain friction creation data (title, description, userId, teamId)
      * @return array Array containing the newly created friction id in case of success, throw exception if not
      */
-    public function createFriction($createFrictionData){
+    public function createFriction($createFrictionData,$teamId){
 
-        echo "<br> FrictionService->createFriction : <br><br>";
+        $errors = $this->createFrictionDataCheck($createFrictionData);
+
+        $formErrors["errors"] = $errors;
+        $formErrors["fieldsValue"] = $createFrictionData;
+
+        if($errors) throw new FormException($formErrors,"team/".$teamId."/friction/create","Au moins un champs du formulaire est incorrecte");
 
         //Vérification de la longueur
         $memberId = $this->teamMemberModel->findMemberId($createFrictionData["userId"],$createFrictionData["teamId"]);
@@ -168,6 +174,35 @@ class FrictionService{
         $frictionCreated = $this->frictionModel->getLastIdByAuthor($memberId);
 
         return $frictionCreated;
+
+    }
+
+    /** createFrictionDataCheck()
+     * Validate team creation form data by checking required fields,
+     * title and description length.
+     * 
+     * @param {Array} $createFrictionData : Array which contain friction creation data
+     * @return array|false Array of errors if any validation fails, false otherwise
+     */
+    public function createFrictionDataCheck($createFrictionData){
+
+
+        // Checking if each field is filled
+        foreach($createFrictionData as $data => $value){
+            if(empty($value)) $errors[$data]= "Le champs $data est manquant !";
+        }
+
+        // Checking the title length
+        if(strlen($createFrictionData["title"]) > 100 || strlen($createFrictionData["title"]) < 2){
+            $errors["title"]="Le nom doit contenir entre 2 et 100 caractères";
+        }        
+        
+        // Checking the description length
+        if(strlen($createFrictionData["description"]) > 1000 || strlen($createFrictionData["description"]) < 2){
+            $errors["description"]="Le nom doit contenir entre 2 et 1000 caractères";
+        }
+
+        return $errors ?? false;
 
     }
 
