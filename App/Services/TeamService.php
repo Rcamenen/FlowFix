@@ -95,7 +95,11 @@ class TeamService extends BaseService{
 
         $errors = $this->createTeamDataCheck($createTeamData);
 
-        if($errors) throw new FormException($errors,"team/create","Au moins un champs du formulaire est incorrecte");
+        $formErrors["errors"] = $errors;
+        $formErrors["fieldsValue"] = $createTeamData;
+
+        if($errors) throw new FormException($formErrors,"team/create","Au moins un champs du formulaire est incorrecte");
+
 
         // ADD TEAM TO DB
         $teamId = $this->teamModel->create([
@@ -209,17 +213,17 @@ class TeamService extends BaseService{
 
         // Checking the treatmentsMax
         if($createTeamData["duration"] < 1){
-            $errors["treatmentsMax"]="Le nombre de traitement à traiter par cycle doit supérieur à 0 !";
+            $errors["treatmentsMax"]="Le nombre de traitement par cycle doit supérieur à 0 !";
         }
 
         // Checking the treatmentsMax
         if($createTeamData["treatmentsMax"] < 1){
-            $errors["treatmentsMax"]="Le nombre de traitement à traiter par cycle doit supérieur à 0 !";
+            $errors["treatmentsMax"]="Le nombre de traitement par cycle doit supérieur à 0 !";
         }
 
         // Checking the treatmentsMax
         if($createTeamData["votingDelay"] < 2){
-            $errors["votingDelay"]="Le délais de vote d'un solution doit être d'au moins 1 jour !";
+            $errors["votingDelay"]="Le délais de vote d'une solution doit être d'au moins 2 jour !";
         }
 
         return $errors ?? false;

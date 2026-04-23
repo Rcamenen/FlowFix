@@ -8,7 +8,8 @@
 
     <div class="page__panel">
 
-        <?php include dirname(__DIR__).'/Partials/_nav.php' ?>
+        <?php include dirname(__DIR__) . '/Partials/_nav.php' ?>
+
         <div class="page__content panelContent">
 
             <div class="panelContent__header">
@@ -19,17 +20,28 @@
             <div class="panelContent__sections">
                 <section class="panelContent__section">
 
-                    <?php if (isset($_SESSION["error"])): ?>
-                        <p class="notice--error"><?= $_SESSION["error"] ?></p>
-                        <?php unset($_SESSION["error"]) ?>
-                    <?php endif ?>
+                    <?php if (isset($_SESSION["formErrorMessage"])) { ?>
+                        <p class="notice--error"><?= $_SESSION["formErrorMessage"] ?></p>
+                    <?php unset($_SESSION['error']);
+                    } ?>
 
-                    <form class="form" action="team/<?= $teamId ?>/friction/<?= $frictionId ?>/treatment/<?= $treatmentId ?>/updatesolution" method="POST">
+                    <?php
+                    if (!empty($_SESSION["formErrors"])) {
+                        $validationErrors = $_SESSION["formErrors"]["errors"];
+                        $fieldsValue = $_SESSION["formErrors"]["fieldsValue"];
+                        unset($_SESSION['formErrors']);
+                    }
+                    ?>
 
-                        <?php if (isset($validationErrors["solution"])): ?>
-                            <p class="form__error-msg"><?= $validationErrors["solution"] ?></p>
-                        <?php endif ?>
-                        <textarea class="form__input <?= isset($validationErrors["solution"]) ? 'form__input--error' : '' ?>" name="solution" placeholder="Description de la solution" required><?= htmlspecialchars($val["solution"]) ?? null ?></textarea>
+                    <form class="form" action="team/<?= $teamId ?>/friction/<?= $frictionId ?>/treatment/<?= $treatmentId ?>/updatesolution" method="post">
+
+                        <div class="form__field">
+                            <label class="form__label" for="treatment-solution">Description de la solution</label>
+                            <?php if (isset($validationErrors["solution"])) { ?>
+                                <p class="text--error" id="treatment-solution-error"><?= $validationErrors["solution"] ?></p>
+                            <?php } ?>
+                            <textarea class="form__input" id="treatment-solution" name="solution" <?= isset($validationErrors["solution"]) ? 'aria-invalid="true" aria-describedby="treatment-solution-error"' : '' ?> required><?= htmlspecialchars($fieldsValue["solution"] ?? '') ?></textarea>
+                        </div>
 
                         <button class="form__btn btn-primary" type="submit">Soumettre</button>
 

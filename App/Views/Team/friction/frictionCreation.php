@@ -16,30 +16,41 @@
             </div>
 
             <div class="panelContent__sections">
-                <section class="panelContent__section">
 
-                    <?php if (isset($_SESSION["error"])): ?>
-                        <p class="notice--error"><?= $_SESSION["error"] ?></p>
-                        <?php unset($_SESSION["error"]) ?>
-                    <?php endif ?>
+                <?php if (isset($_SESSION["formErrorMessage"])) { ?>
+                    <p class="notice--error"><?= $_SESSION["formErrorMessage"] ?></p>
+                <?php unset($_SESSION['formErrorMessage']); } ?>
 
-                    <form class="form" action="team/<?= $teamId ?>/friction/create" method="POST">
+                <?php
+                    if (!empty($_SESSION["formErrors"])) {
+                        $validationErrors = $_SESSION["formErrors"]["errors"];
+                        $fieldsValue = $_SESSION["formErrors"]["fieldsValue"];
+                        unset($_SESSION['formErrors']);
+                    }
+                ?>
 
-                        <?php if (isset($validationErrors["title"])): ?>
-                            <p class="form__error-msg"><?= $validationErrors["title"] ?></p>
-                        <?php endif ?>
-                        <input class="form__input <?= isset($validationErrors["title"]) ? 'form__input--error' : '' ?>" name="title" type="text" placeholder="Titre de l'irritant" <?= htmlspecialchars($val["title"]) ?? null ?> required>
+                    <form class="form" action="team/<?= $teamId ?>/friction/create" method="post">
 
-                        <?php if (isset($validationErrors["description"])): ?>
-                            <p class="form__error-msg"><?= $validationErrors["description"] ?></p>
-                        <?php endif ?>
-                        <textarea class="form__input <?= isset($validationErrors["description"]) ? 'form__input--error' : '' ?>" name="description" placeholder="Description du problème rencontré" required><?= htmlspecialchars($val["description"]) ?? null ?></textarea>
+                    <div class="form__field">
+                        <label class="form__label" for="friction-title">Titre de l'irritant</label>
+                        <?php if (isset($validationErrors["title"])) { ?>
+                            <p class="text--error" id="friction-title-error"><?= $validationErrors["title"] ?></p>
+                        <?php } ?>
+                        <input class="form__input" id="friction-title" name="title" type="text" value="<?= htmlspecialchars($fieldsValue["title"] ?? '') ?>" <?= isset($validationErrors["title"]) ? 'aria-invalid="true" aria-describedby="friction-title-error"' : '' ?> required>
+                    </div>
 
-                        <button class="form__btn btn-primary" type="submit">Soumettre</button>
+                    <div class="form__field">
+                        <label class="form__label" for="friction-description">Description du problème rencontré</label>
+                        <?php if (isset($validationErrors["description"])) { ?>
+                            <p class="text--error" id="friction-description-error"><?= $validationErrors["description"] ?></p>
+                        <?php } ?>
+                        <textarea class="form__input" id="friction-description" name="description" <?= isset($validationErrors["description"]) ? 'aria-invalid="true" aria-describedby="friction-description-error"' : '' ?> required><?= htmlspecialchars($fieldsValue["description"] ?? '') ?></textarea>
+                    </div>
 
-                    </form>
+                    <button class="form__btn btn-primary" type="submit">Soumettre</button>
 
-                </section>
+                </form>
+
             </div>
 
         </div>
