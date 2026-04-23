@@ -30,9 +30,6 @@
                                         <span class="teamCard__date text--xs">Créé le <?= htmlspecialchars(($team["created_at"])) ?></span>
                                         <span class="teamCard__id">#<?= $team["id"] ?></span>
                                     </div>
-                                    <div class="teamCard__footer">
-                                        <a class="btn-secondary--sm" href="team/<?= $team["id"] ?>">Voir</a>
-                                    </div>
                                 </div>
                             <?php endforeach ?>
                             
