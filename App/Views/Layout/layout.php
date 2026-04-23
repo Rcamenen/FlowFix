@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="FlowFix aide votre équipe à identifier, partager et prioriser collectivement les irritants du quotidien pour améliorer performance et engagement.">
-    <title><?= htmlspecialchars($pageTitle ?? 'Accueil', ENT_QUOTES, 'UTF-8') ?> — FlowFix</title>
+    
+    <title>FlowFix</title>
 
     <base href="<?= FULL_URL ?>">
 
